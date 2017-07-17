@@ -1,0 +1,131 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>新版网站在建设中...</title>
+    <link href='http://fonts.googleapis.com/css?family=Finger+Paint' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/css/BuildStyle")
+    @Scripts.Render("~/js/jquery", "~/js/building", "~/js/css_browser_selector", "~/js/plax", "~/js/jquery.spritely", "~/js/jquery-animate-css-rotate-scale", "~/js/script")
+</head>
+<body>
+    <div id="indicator"></div>
+    <div class="wrapper">
+        <div class="sky init">
+            <div id="clouds" class="clouds init"> </div>
+        </div>
+
+        <div class="convas init">
+            <div id="mountain" class="mountain"></div>
+            <div class="ground"></div>
+            <div class="holder">
+                <div class="rocks"></div>
+                <div class="work-sign"></div>
+                <div class="text-sign">
+                    <div class="text font">
+                        新版<br>网站在建设中...
+                    </div>
+                </div>
+                <div class="init hole">
+                    <div class="sweat"></div>
+                    <div class="worker swing "></div>
+                    <div class="ground-bottom">
+                        <div class="cleaner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div style="text-align: center;">
+    <p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a>
+    </p>
+</div>
+
+<script type="text/javascript">
+    var slider;
+    var images = [
+    "@(DomainUrlHelper.SourchPath)/images/ground.png",
+    "@(DomainUrlHelper.SourchPath)/images/clouds.png",
+    "@(DomainUrlHelper.SourchPath)/images/ground-bottom.png",
+    "@(DomainUrlHelper.SourchPath)/images/hole.png",
+    "@(DomainUrlHelper.SourchPath)/images/mountain.png",
+    "@(DomainUrlHelper.SourchPath)/images/rocks.png",
+    "@(DomainUrlHelper.SourchPath)/images/sky-bg.jpg",
+    "@(DomainUrlHelper.SourchPath)/images/sweat.png",
+    "@(DomainUrlHelper.SourchPath)/images/texty-sign.png",
+    "@(DomainUrlHelper.SourchPath)/images/worker.png",
+    "@(DomainUrlHelper.SourchPath)/images/working-sign.png"
+    ];
+
+    var index = 0;
+    var transitionSpeed = 500;
+    var imageIntervals = 5000;
+
+    var startIntervals;
+    var intervalSetTime;
+    var contentOpen = false;
+
+    $(document).ready(function () {
+        $(function () {
+            $.preload(images, {
+                init: function (loaded, total) {
+                },
+                loaded_all: function (loaded, total) {
+                    $('#indicator').fadeOut('slow', function () {
+                        function swing() {
+                            if ($('html').hasClass('ie')) {
+                                if (!$('.swing').hasClass('down')) {
+                                    $('.swing').animate({
+                                        rotate: '190deg',
+                                        left: 330,
+                                        top: 430
+                                    }, 1500, function () {
+                                        $('.swing').toggleClass('down');
+                                    });
+                                } else {
+                                    $('.swing').animate({
+                                        rotate: '40deg',
+                                        left: 190,
+                                        top: 35
+                                    }, 1500, function () {
+                                        $('.swing').toggleClass('down');
+                                    });
+                                }
+                            } else {
+                                $('.swing').toggleClass('right');
+                            }
+                            $('.sweat').toggleClass('show');
+                            setTimeout(swing, 1500);
+                        }
+                        swing();
+                        $('#clouds').pan({
+                            fps: 30,
+                            speed: 1.8,
+                            dir: 'left',
+                            depth: 300
+                        });
+                        $('.init').fadeIn(function () {
+                            $(this).removeClass('init');
+
+                            setTimeout(function () {
+                                $('.mountain').plaxify({
+                                    "xRange": 20,
+                                    "yRange": 0
+                                });
+                                $.plax.enable();
+
+                            }, 500);
+                        });
+                    });
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+
+</html>

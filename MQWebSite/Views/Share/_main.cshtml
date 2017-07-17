@@ -1,0 +1,162 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/css/style")
+    @Scripts.Render("~/js/jquery", "~/js/NSW_Index", "~/js/rollup.min")
+</head>
+<body>
+    <!--顶部-->
+    <div class="t_bg">
+        <div class="header">
+            <div class="h_top">
+                <i>欢迎来到大连麦斯奎尔服饰公司官网!</i>
+                <span>
+                    <a href="#" onclick="AddFavorite(window.location, document.title)">加入收藏</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="#" onclick="SetHome(this, window.location)">设为首页</a>
+                </span>
+            </div>
+            <div class="h_con">
+                <h1>
+                    <img src="@(DomainUrlHelper.SourchPath)/images/logo.jpg" alt="" width="400" height="66" />
+                </h1>
+                <div class="h_bt fl">流行服饰专卖店<span>注重品质 提高服务 服务至上</span></div>
+                <div class="h_pho fr">联系电话<span>400-000-0000</span></div>
+            </div>
+            <div class="h_nav">
+                <ul>
+                    <li><a href="index.html"><span>网站首页</span></a></li>
+                    <li><a href="about.html"><span>关于我们</span></a></li>
+                    <li><a href="product.html"><span>产品展示</span></a></li>
+                    <li><a href="news.html"><span>新闻中心</span></a></li>
+                    <li><a href="product.html"><span>成功案例</span></a></li>
+                    <li><a href=""><span>荣誉资质</span></a></li>
+                    <li><a href=""><span>人才招聘</span></a></li>
+                    <li><a href=""><span>客户留言</span></a></li>
+                    <li><a href="about.html"><span>联系我们</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--搜索-->
+    <div class="s_bg">
+        <div class="h_ser">
+            <p>
+                <b>热门关键词：</b>
+                <a href="">精品服装</a>
+                <a href="">精品服装哪家好</a>
+                <a href="">精品服装定制</a>
+            </p>
+            <div class="s_inp fr">
+                <input type="text" class="inp01" value="请输入关键字" id="seachkeywords" />
+                <input type="image" src="@(DomainUrlHelper.SourchPath)/images/s_ss.gif" class="fl" id="sousuo" />
+            </div>
+        </div>
+    </div>
+
+    @*不是首页*@
+    @if (ViewBag.isHead == null || ViewBag.isHead == false)
+    {
+    <!--ebanner-->
+        <div class="topadcs">
+            <img src="@(DomainUrlHelper.SourchPath)/images/ebanner.jpg" alt="" />
+        </div>
+
+        @RenderBody()
+
+        <div class="left">
+            <div class="leib2 news_">
+                <div class="tit">产品中心</div>
+                <div class="nr">
+                    <div class="clear"></div>
+                    <h3>
+                        <a href="">热销服装</a>
+                    </h3>
+                    <ul class="clearfix">
+                        <li><a href="">春季热销服装</a></li>
+                        <li><a href="">夏季季热销服装</a></li>
+                        <li><a href="">冬季热销服装</a></li>
+                    </ul>
+                    <h3>
+                        <a href="">新款晚礼服</a>
+                    </h3>
+                    <ul class="clearfix">
+                        <li><a href="">长款礼服</a></li>
+                        <li><a href="">旗袍</a></li>
+                        <li><a href="">裙装</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="leib2">
+                <div class="tit"> 联系我们</div>
+                <div class="leftlx">
+                    <div class="dianh">
+                        <img src="@(DomainUrlHelper.SourchPath)/images/CatactUs.jpg" alt="" width="208" height="98" />
+                        <h1>河北某某服装有限公司</h1>
+                        <p>电话：400-***-0000</p>
+                        <p>手机：12345123451</p>
+                        <p>联系人：王经理</p>
+                        <p>地址：河北省某某市某某开发区 </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    }
+    @*是首页*@
+    else
+    {
+        <!--banner-->
+        <div class="banner">
+            <ul class="slides">
+                <li style="background:url(@(DomainUrlHelper.SourchPath)/images/banner1.jpg) 50% 0 no-repeat;"></li>
+                <li style="background: url(@(DomainUrlHelper.SourchPath)/images/banner2.jpg) 50% 0 no-repeat;"></li>
+            </ul>
+        </div>
+        @RenderSection("FlexsliderSection", false)
+        <script>
+            $(function () {
+                $('.banner').flexslider({
+                    directionNav: true,
+                    pauseOnAction: false
+                });
+            });
+        </script>
+        @RenderBody()
+    }
+
+    <!--底部-->
+    <div class="f_bg">
+        <div class="footer">
+            <div class="f_pic01 fl">
+                <a href="">
+                    <img src="@(DomainUrlHelper.SourchPath)/images/f_pic01.gif" alt="" />
+                </a>
+                <span>
+                    <img src="@(DomainUrlHelper.SourchPath)/images/ewm.png" alt="" width="115" height="115" />
+                </span>
+            </div>
+            <div class="f_con fl">
+                <div class="f_nav">
+                    <a href="">网站首页</a> ·
+                    <a href="">关于我们</a> ·
+                    <a href="">产品展示</a> ·
+                    <a href="">新闻中心</a> ·
+                    <a href="">成功案例</a> ·
+                    <a href="">荣誉资质</a> ·
+                    <a href="">人才招聘</a> ·
+                    <a href="">客户留言</a> ·
+                    <a href="">联系我们</a>
+                </div>
+                <p>
+                    <em>公司地址： 辽宁省大连开发区</em> <em>电话：400-***-0000 </em>
+                    <em>手机：12341234567</em><em>联系人：庄女士</em>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿@using System.Web.Optimization
+@model mq.model.dbentity.T_User
+@{
+    Layout = null;
+}
+@Styles.Render("~/css/testStyle")
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div> @Model.Code++@Model.Name</div>
+</body>
+</html>
