@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+    var rl = "http://192.168.100.150/web/Blog/AddPayLog?isWap=1&id=524";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="http://localhost:12345/resource/js/jquery-3.2.1.min.js"></script>
+
+</head>
+<body>
+<a href="@rl" id="aaa">@rl</a>
+<div>
+    <div>
+        <input type="text" id="name"/>
+    </div>
+    <div>
+        <input type="text" id="pwd"/>
+    </div>
+    <input type="button" value="submin" onclick="tj();"/>
+    <input type="hidden" value="@rl" id="bb"/>
+    <p style="display: none" id="aa">@rl</p>
+</div>
+<script type="text/javascript">
+    function tj() {
+        var ls = $('#aa').text();
+        window.location.href = ls;
+        var name = $('#name').val();
+        var pwd = $('#pwd').val();
+        @*$.post('Url.Action("Index")', { UserName: name, Password: pwd }, function () {
+            alert('fail');});*@
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Index")",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ 'UserName': name, 'Password': pwd }),
+            success: function() {
+                alert('fail');
+            }
+        });
+    }
+</script>
+</body>
+</html>
