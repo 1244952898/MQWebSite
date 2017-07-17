@@ -1,0 +1,127 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <title>A</title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="myCtlr">
+            <input type="text" ng-model="fname"/><br/>
+            <input type="text" ng-model="lname"/><br/>
+            <p>{{fname+" "+lname}}</p><br/>
+
+            <input type="text" ng-model="person.name"/><br/>
+            <input type="text" ng-model="person.age"/><br/>
+            <p>{{person.name+" "+person.age}}</p><br/>
+
+            nums[0]=<input type="text" ng-model="nums[0]"/><br/>
+            <p>nums[0]:{{nums[0]}} nums[0]+nums[1]:{{nums[0]+nums[1]}}</p>
+            <ul>
+                <li ng-repeat="x in nums">{{x|less10}}</li>
+            </ul><br/>
+
+            过滤<input type="text" value="" ng-model="wds"/><br />
+            persons[0].country=<input type="text" ng-model="persons[0].country" /><br />
+            <ul>
+                <li ng-repeat="p in persons|orderBy:'country'|filter:wds">{{p.name}}-{{p.country}}</li>
+            </ul><br/>
+
+            @*//创建自定义的指令*@
+            创建自定义的指令:
+            <div>
+                <runoob-a></runoob-a>
+                <div runoob-b></div>
+                <div class="runoob-c"></div>
+                <!-- directive: runoob-d -->
+            </div>
+            <div>
+                <runoob-acme></runoob-acme>
+                <div runoob-acme></div>
+                <div class="runoob-acme"></div>
+                <!-- directive:runoob-acme -->
+            </div><br/>
+
+            <form ng-app="" name="myForm">
+                Email:
+                <input type="email" name="myAddress" ng-model="text">
+                <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+            </form><br/>
+            <input type="button" ng-click="cl();" value="11111111111"/>
+            <p>{{11|duoge:1:2:4}}</p>
+        </div>
+        <div>
+            <p>{{allName}}</p>
+            <p>{{allName|uppercase}}</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var App = angular.module('myApp', []);
+        App.controller("myCtlr", function ($scope, $rootScope) {
+            $scope.fname = "a";
+            $scope.lname = "b";
+            $scope.person = { name: 'a', age: 33 };
+            $scope.nums = [1, 2, 3, 4, 5, 6, 78, 9];
+            $scope.persons = [{ name: 'Jani', country: 'Norway' }, { name: 'Hege', country: 'Sweden' }, { name: 'Kai', country: 'Denmark' }];
+            $scope.cl= function() {
+                alert($scope.person.name + " " + $scope.person.age);
+            }
+            $rootScope.allName = "aa";
+        });
+        App.directive("runoobAcme", function () {
+            return {
+                restrict: "ACME",
+                replace: true,
+                template: "<p>ACME={{fname+lname}}</p>"
+            }
+        });
+        App.directive("runoobA", function () {
+            return {
+                restrict: "E",
+                template: "<p>aaa</p>"
+            }
+        });
+        App.directive("runoobB", function () {
+            return {
+                restrict: "A",
+                template: "<p>bbb</p>"
+            }
+        });
+        App.directive("runoobC", function () {
+            return {
+                restrict: "C",
+                template: "<p>ccc</p>"
+            }
+        });
+        App.directive("runoobD", function () {
+            return {
+                restrict: "M",
+                replace: true,
+                template: "<p>ddd</p>"
+            }
+        });
+        App.filter("less10", function() {
+            return function (text) {
+                return text < 10 ? text + 10 : text;
+            }
+        });
+        App.filter("duoge", function () {
+            return function(xx) {
+                var args = Array.prototype.slice.call(arguments);
+                var a = 0;
+                for (var i = 0; i < args.length; i++) {
+                    a = a + parseInt(args[i]);
+                }
+                return xx + a;
+            }
+            
+        });
+    </script>
+</body>
+</html>
