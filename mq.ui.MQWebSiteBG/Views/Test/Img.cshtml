@@ -1,0 +1,43 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Img</title>
+    @Styles.Render("~/libs/uploadify/uploadify")
+    @Scripts.Render("~/js/jquery", "~/libs/uploadify/jquery.uploadify")
+    <style type="text/css">
+        .some-class {
+            background-color: red !important;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <input type="file" name="file_upload" id="file_upload" />
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#file_upload').uploadify({
+                'buttonClass': 'some-class',
+                'swf': '@(DomainUrlHelper.SourchPath)/libs/uploadify/uploadify.swf',
+                'uploader': '@(DomainUrlHelper.MqWebSiteBg)/Images/UploadImage?type=1',
+                'width': '120',
+                'height': '30',
+                'onUploadSuccess': function (file, data, response) {
+                    var jsonData = eval("(" + data + ")");
+                    alert(jsonData.FileName);
+                    alert(jsonData.ErrorCode);
+                    alert(jsonData.ErrorMessage);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿@using System.Web.Optimization
+@using mq.application.common
+@using mq.application.webmvc
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,9,10">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>麦斯奎尔服饰后台-登录</title>
+    @Styles.Render("~/css/bootstrap.min", "~/css/backstage")
+    @Scripts.Render("~/js/jquery", "~/js/jquery.placeholder", "~/libs/layer/layer", "~/js/jsencrypt.min")
+</head>
+<body>
+    <div class="login">
+
+        <div class="login-modal">
+            <div class="login-header">
+                <a href="" class="logo1"></a>
+                <span class="line"></span>
+                <a href="" class="logo2"></a>
+            </div>
+            <div class="login-body">
+                <div class="input-group username">
+                    <span class="input-group-addon"></span>
+                    <input id="username" type="text" class="form-control" placeholder="请输入用户名" value="">
+                </div>
+                <div class="input-group password">
+                    <span class="input-group-addon"></span>
+                    <input id="userpassword" type="password" class="form-control" placeholder="请输入密码" value="">
+                </div>
+                <a class="btn-login" onclick="return login();">
+                    <img src="@(DomainUrlHelper.SourchPath)/images/btn-login.png" height="48" width="323">
+                </a>
+                <p class="forgetPwd">忘记用户名或密码？</p>
+                <p class="tip">温馨提示：为保证最佳用户体验，建议您使用火狐，IE浏览器</p>
+                <p class="copyright">© 麦斯奎尔服饰</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).bind("keydown", function (ev) {
+                if (ev.key == "Enter" || ev.keyCode == 13) {
+                    var username = $("#username").val();
+                    var userpassword = $("#userpassword").val();
+                    if (username == "") {
+                        $("#username").foucs();
+                        return false;
+                    }
+                    if (userpassword == "") {
+                        $("#userpassword").foucs();
+                        return false;
+                    }
+                    login();
+                }
+            });
+        });
+        function dialog(msg) {
+            layer.alert(msg, 8); //风格一
+        }
+        function login() {
+            var username = $("#username").val();
+            if (username == "") {
+                dialog("请输入用户名");
+                return false;
+            }
+            if ((/^[a-zA-Z0-9_]{1,40}$/.test($("#username").val()) == false) && (/^[a-z0-9]+([._\\-]*[a-z0-9])*@@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,40}[a-z0-9]+$/.test(username) == false)) {
+                dialog("用户名请使用1-40位英文字母、数字或下划线！");
+                return false;
+            }
+
+            var userpassword = $("#userpassword").val();
+            if (userpassword == "") {
+                dialog("请输入密码");
+                return false;
+            }
+            if (userpassword.length < 4 || userpassword.length > 300) {
+                dialog("密码请使用6-300位！");
+                return false;
+            }
+
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey('@ProductConfigHelper.ThinkTankJsEncryptPublickKeyForCSharp');
+     
+            if (username.length < 150) {
+                username = encrypt.encrypt(username);
+            }
+            if (userpassword.length < 150) {
+                userpassword = encrypt.encrypt(userpassword);
+            }
+
+            var loadingLayer = null;
+            var timestamp = (new Date()).valueOf();
+            $.ajax({
+                type: "POST",
+                url: "@(DomainUrlHelper.MqWebSiteBg)/Home/LoginValidate",
+                data: { username: username, password: userpassword, url: '@(ViewBag.SourceUrl??"")', r: timestamp },
+                dataType: "json",
+                beforeSend: function () {
+                    loadingLayer = layer.load(1, {
+                        shade: [0.8, '#fff']
+                    });
+                },
+                success: function (data) {
+                    alert(data.ErrorMessage);
+                    if (data.ErrorCode == "E0001") {
+                        window.location.href = data.ToUrl;
+                    } else {
+                        alert(data.ErrorMessage);
+                    }
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    if (undefined != loadingLayer && null != loadingLayer)
+                        layer.close(loadingLayer);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
