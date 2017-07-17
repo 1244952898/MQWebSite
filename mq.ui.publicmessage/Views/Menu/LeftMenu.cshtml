@@ -1,0 +1,42 @@
+﻿@using mq.model.dbentity
+@model IEnumerable<T_BG_Menu>
+@{
+    var grade1 =Model != null?Model.Where(o => o.Grade == 1).ToList():null;
+    var grade2 = Model != null ? Model.Where(o => o.Grade == 2).ToList() : null;
+    var channelId = ViewBag.ChannelId;
+}
+<ul class="layui-nav layui-nav-tree" lay-filter="demolf">
+    @if (grade1 != null && grade1.Any())
+    {
+        foreach (var menu in Model)
+        {
+            var thisGrade2 = grade2.Where(m => m.Parent_ID == menu.ID);
+            var bgMenus = thisGrade2 as T_BG_Menu[] ?? thisGrade2.ToArray();
+            var selectIndex = thisGrade2.ToList().FindIndex(m => m.ID == channelId);
+            var fcls = selectIndex >= 0 ? "layui-this" : string.Empty;
+
+            <li class="layui-nav-item @(string.IsNullOrEmpty(fcls) ? "" : "layui-nav-itemed")">
+                <a href="javascript:;">@menu.Name</a>
+                @if (bgMenus.Any())
+                {
+                    <dl class="layui-nav-child">
+                        @foreach (var item2 in bgMenus)
+                        {
+                            <dd class="@(fcls)"><a href="javascript:;">@(item2.Name)</a></dd>
+                        }
+                    </dl>
+                }
+            </li>
+        }
+    }
+</ul>
+<script>
+    layui.use('element', function () {
+        var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        //监听导航点击
+        element.on('nav(demolf)', function (elem) {
+          
+        });
+    });
+</script>

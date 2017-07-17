@@ -1,0 +1,96 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+@model List<mq.model.dbentity.V_BG_PublishFile_User>
+@{
+    ViewBag.Title = "公共文件";
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+@section head
+{
+  @Styles.Render("~/css/publicmessage/PublicFiles")
+}
+
+
+<div class="files">
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="lead">
+            <span class="layui-breadcrumb">
+                <a class="heada" href="/">首页</a>
+                <a><cite>公共信件</cite></a>
+            </span>
+        </div>
+
+        <table class="layui-table" lay-even="" lay-skin="row">
+            <colgroup>
+                <col width="50">
+                <col width="150">
+                <col width="850">
+                <col width="300">
+                <col width="100">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>附件</th>
+                    <th>发布人</th>
+                    <th>主题</th>
+                    <th>发布时间</th>
+                    <th>级别</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var publishFile in Model)
+                {
+                    <tr>
+                        <td class="imgTd">
+                            @if (string.IsNullOrEmpty(publishFile.FilePath) || string.IsNullOrEmpty(publishFile.FileType))
+                            { 
+                                <a href="@(Url.Action("DownloadFilePathResult", new {filepath = publishFile.FilePath, fileorgname = HttpUtility.UrlEncode(publishFile.FileOriginName), fileytpe = publishFile.FileType}))">
+                                <img class="fujian" src="@(DomainUrlHelper.SourchPath)/Images/fujian1.gif" />
+                            </a>
+                            }
+                           
+                        </td>
+                        <td>@(publishFile.EditorName)</td>
+                        <td>
+                            <a href="@Url.Action("PublicFileDetial", new { pageIndex = ViewBag.pageIndex, fileid = publishFile.Id })">@(publishFile.Title)</a>
+                        </td>
+                        <td>@(publishFile.PublishTime)</td>
+                        <td>@(publishFile.Lvl)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="demoPage"></div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $('.fujian').hover(function() {
+            $(this).attr('src', '@(DomainUrlHelper.SourchPath)/Images/fujian2.png');
+        },function () {
+            $(this).attr('src', '@(DomainUrlHelper.SourchPath)/Images/fujian1.gif');
+        });
+    });
+
+    layui.use(['laypage', 'layer'], function () {
+        var laypage = layui.laypage;
+
+        laypage({
+            cont: 'demoPage',
+            pages: @(ViewBag.page),
+            curr:@(ViewBag.pageIndex),
+            skip: true,
+            jump: function(obj, first) {
+                if (!first) {
+                    window.location.href = '@(DomainUrlHelper.PublicMessagePath)/PublicMsg/PublicFiles?pageIndex=' + obj.curr;
+                }
+            }
+        });
+    });
+
+
+</script>
+

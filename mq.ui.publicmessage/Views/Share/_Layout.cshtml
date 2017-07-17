@@ -1,0 +1,94 @@
+﻿@using System.Web.Optimization
+@using koala.application.common
+@using mq.application.webmvc
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8,9,10" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/public/header-and-footer")
+    @Styles.Render("~/public/main")
+    @Styles.Render("~/public/platform")
+    @Styles.Render("~/public/public")
+    @Styles.Render("~/css/jquery.bs_pagination.min")
+    @Styles.Render("~/css/bootstrap_pagination")
+    @Scripts.Render("~/js/vue")
+    @Scripts.Render("~/js/jquery")
+    @Scripts.Render("~/js/bootstrap", "~/js/respond", "~/libs/pagination","~/libs/zh.min", "~/libs/layer/js", "~/libs/laydate/js", "~/js/divSelect", "~/js/movetabletr")
+    @RenderSection("head", false)
+</head>
+<body>
+    <div class="header">
+        <div class="left logo"> MAXQUILL| 麦斯奎尔</div>
+        <div class="right name">@LoginHelper.UserRealName</div>
+        <ul class="dropList">
+            <li><a href="">返回首页</a></li>
+            <li><a href="@Url.Action("Logout","Home")">退出登录</a></li>
+        </ul>
+    </div>
+    <!--banner-->
+    @*@Html.Action("logoimg", "menu")*@
+    <div class="topBanner">
+        <div class="left logo">
+            <img width="144" height="144" src="@(DomainUrlHelper.SourchPath)/Images/MXlogo.jpg"/>
+        </div>
+        <div class="left name">CNKI大成编客</div>
+    </div>
+<div class="main clearfix">
+    @Html.Action("LeftMenu", "Menu")
+    <!--右侧主体-->
+    @RenderBody()
+</div>
+    <div class="footer">©麦斯奎尔MAXQUILL有限公司</div>
+    @RenderSection("foot", false)
+    @RenderSection("scripts", false)
+    <script type="text/javascript">
+        $(function () {
+            var ls = $(".header .name");
+            var lb = $(".dropList");
+            ls.hover(function () {
+                lb.css("display", "block");
+            }, function () {
+                lb.css("display", "none");
+            });
+            lb.hover(function () {
+                $(this).css("display", "block");
+            }, function () {
+                $(this).css("display", "none");
+            });
+        });
+        $(".topArea .tags a").click(function () {
+            $(this).addClass("cur").siblings().removeClass("cur");
+        });
+        $(".condition .partA ul li").click(function () {
+            var text = $(this).text();
+            if (text.indexOf("时间") > 0) {
+                $(".condition .partB .style1").hide();
+                $(".condition .partB .style2").show();
+            }
+            else {
+                $(".condition .partB .style1").show();
+                $(".condition .partB .style2").hide();
+            }
+        });
+
+        $(".table tr:gt(0)").hover(function () {
+            $(this).css("background-color", "#ccc");
+        }, function () {
+            $(this).css("background-color", "#fff");
+        });
+
+        String.prototype.format = function () {
+            var args = arguments;
+            return this.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
+                if (m == "{{") { return "{"; }
+                if (m == "}}") { return "}"; }
+                return args[n];
+            });
+        };
+    </script>
+</body>
+</html>

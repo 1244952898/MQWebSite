@@ -1,0 +1,84 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+@model mq.model.viewentity.PublicFileDetailView
+@{
+    ViewBag.Title = Model.BgPublishFileUser.Title;
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+@section head
+{
+    @Styles.Render("~/css/publicmessage/PublicFileDetail")
+}
+<div class="files">
+    <div class="lead">
+        <span class="layui-breadcrumb">
+            <a class="heada" href="/">首页</a>
+            <a href="@(DomainUrlHelper.PublicMessagePath)/PublicMsg/PublicFiles">公共信件</a>
+            <a><cite>信件详情</cite></a>
+        </span>
+    </div>
+    <table class="layui-table" lay-even="" lay-skin="row ">
+        <colgroup>
+            <col width="90">
+            <col width="180">
+            <col width="100">
+            <col width="600">
+            <col width="80">
+            <col width="170">
+            <col width="135">
+            <col width="200">
+            <col width="85">
+            <col width="85">
+        </colgroup>
+        <thead>
+            <tr>
+                <th style="border-bottom: 1px solid #e2e2e2;">发布人</th>
+                <th class="context">@Model.BgPublishFileUser.EditorName</th>
+                <th>主题</th>
+                <th class="context">@Model.BgPublishFileUser.Title</th>
+                <th>附件</th>
+                <th class="context">
+                    <a href="@(Url.Action("DownloadFilePathResult", new { filepath = Model.BgPublishFileUser.FilePath, fileorgname = HttpUtility.UrlEncode(Model.BgPublishFileUser.FileOriginName), fileytpe = Model.BgPublishFileUser.FileType }))">
+                        <img class="fujian" src="@(DomainUrlHelper.SourchPath)/Images/fujian1.gif" />
+                    </a>
+                </th>
+                <th>发布时间</th>
+                <th class="context">@Model.BgPublishFileUser.PublishTime</th>
+                <th>级别</th>
+                <th class="context">@Model.BgPublishFileUser.Lvl</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-weight: bold; background-color: rgb(242, 242, 242)">内容</td>
+                <td colspan="9" class="contenttd">
+                    <div>@Html.Raw(Model.BgPublishFileUser.HtmlContent)</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="layui-btn-group">
+        <button class="layui-btn pageUpDown @(Model.BgPublishFileUserPre == null ? " layui-btn-disabled layui-btn-radius" : "")" data-id="@(Model.BgPublishFileUserPre == null ?"":Model.BgPublishFileUserPre.Id.ToString())">
+            上一封
+        </button>
+        <button class="layui-btn pageUpDown @(Model.BgPublishFileUserNext == null ? " layui-btn-disabled layui-btn-radius" : "")" data-id="@(Model.BgPublishFileUserNext == null ? "" : Model.BgPublishFileUserNext.Id.ToString())">
+            下一封
+        </button>
+        <button class="layui-btn pageReturn">返 回</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.layui-btn-group .pageUpDown').click(function () {
+            var id = $(this).attr('data-id');
+            if (id == undefined || id == '') {
+                return;
+            }
+            location.href = '@(DomainUrlHelper.PublicMessagePath)/PublicMsg/PublicFileDetial?fileid=' + id;
+        });
+        $('.layui-btn-group .pageReturn').click(function () {
+            location.href = '@(DomainUrlHelper.PublicMessagePath)/PublicMsg/PublicFiles?pageIndex=@(ViewBag.pageIndex)';
+        });
+    });
+</script>
