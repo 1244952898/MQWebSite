@@ -1,0 +1,157 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+@using mq.model.dbentity
+@{
+    ViewBag.Title = "FileList";
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+@section head
+{
+    @Styles.Render("~/css/employbg/ActiveFile/FileList")
+    @Scripts.Render("~/js/AngularJs/angular")
+}
+<div class="main" ng-app="myApp" ng-controller="myCtrl">
+    <div class="lead">
+        <span class="layui-breadcrumb">
+            <a class="heada" href="/">首页</a>
+            <a><cite>常用文件</cite></a>
+        </span>
+    </div>
+
+    <div class="btn">
+        <button class="layui-btn layui-btn-primary layui-btn-mini layui-btn-disabled" ng-click="getData(0,$event)">全部</button>
+        <button class="layui-btn layui-btn-primary layui-btn-mini " ng-click="getData(1,$event)">发布</button>
+        <button class="layui-btn layui-btn-primary layui-btn-mini" ng-click="getData(2,$event)">办公室</button>
+        <button class="layui-btn layui-btn-primary layui-btn-mini" ng-click="getData(3,$event)">店铺</button>
+    </div>
+
+    <div class="table layui-form">
+        <button class="layui-btn" ng-click="delBtn()">
+            <i class="layui-icon">&#xe640;</i>全部删除
+        </button>
+        <table class="layui-table" lay-even="" lay-skin="row">
+            <colgroup>
+                <col width="0.2%">
+                <col width="4%">
+                <col width="5%">
+                <col width="4%">
+                <col width="9%">
+                <col width="9%">
+                <col width="0.8%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                    <th>部门</th>
+                    <th>发布时间</th>
+                    <th>性质</th>
+                    <th>文件</th>
+                    <th>备注</th>
+                    <th>修改</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in listData">
+                    <td data-id="{{x.Id}}"><input type="checkbox" name="" lay-skin="primary"></td>
+                    <td>{{x.DepartmentName}}</td>
+                    <td>{{x.PublicTime| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{x.NatureType== 2 ? "规章制度": file.NatureType == 1 ? "技术指导" : "常用文件"}}</td>
+                    <td>{{x.FileOriginName}}</td>
+                    <td>{{x.Remark}}</td>
+                    <td><a href="@(DomainUrlHelper.EmployeeBgPath)/ActiveFile/AddFile?id={{x.Id}}" style="color: #00ced1">修改</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+
+    layui.use(['layer', 'form'], function () {
+        var $ = layui.jquery, form = layui.form();
+        //全选
+        form.on('checkbox(allChoose)', function (data) {
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function (index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+
+    var mdl = angular.module('myApp', []);
+    mdl.controller('myCtrl', function ($scope, $http, $timeout) {
+        $scope.typ = 0;
+
+        $http({
+            method: "POST",
+            url: '@(DomainUrlHelper.EmployeeBgPath)/api/ActiveFileApi/GetList?type=' + $scope.typ
+        }).then(function successCallback(response) {
+            $scope.listData = response.data.List;
+        }, function errorCallback(response) {
+            // 请求失败执行代码
+            alert(response.data);
+        });
+
+        $scope.delBtn = function () {
+            var list = [];
+            var ids = $('tbody .layui-form-checked');
+            if (ids == undefined || ids.length == 0) {
+                layer.msg('请选择删除的数据！');
+                return;
+            }
+            $.each(ids, function (i, n) {
+                var id = $(n).parent().attr('data-id');
+                list.push({ 'Id': id });
+            });
+            $http({
+                method: "POST",
+                url: '@(DomainUrlHelper.EmployeeBgPath)/ActiveFile/DelAddFileList',
+                headers: { 'Content-Type': 'application/json', 'dataType': 'json' },
+                data: JSON.stringify(list)
+            }).then(function successCallback(response) {
+                if (response.status == 200 && response.data != undefined && response.data.ErrorCode == "E0000") {
+                    layer.msg("删除成功！");
+                    $timeout(function () {
+                        location.reload();
+                    }, 1000);
+                    return;
+                }
+                //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                layer.alert("删除失败！！！", {
+                    icon: 2,
+                    skin: 'layer-ext-moon' 
+                });
+            }, function errorCallback(response) {
+                //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                layer.alert("程序发生异常！", {
+                    icon: 2,
+                    skin: 'layer-ext-moon' 
+                });
+            });
+        }
+
+        $scope.getData = function (id, event) {
+            $http({
+                method: "POST",
+                url: '@(DomainUrlHelper.EmployeeBgPath)/api/ActiveFileApi/GetList?type=' + id
+            }).then(function successCallback(response) {
+                if (response.status == 200 && response.data != undefined && response.data.ErrorCode == "E000") {
+                    $scope.listData = response.data.List;
+                    $(event.target).addClass('layui-btn-disabled').siblings().removeClass('layui-btn-disabled');
+                }
+            }, function errorCallback(response) {
+                //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                layer.alert("查询数据失败，服务异常！！！", {
+                    icon: 2,
+                    skin: 'layer-ext-moon' 
+                });
+            });
+
+            //这个方法是为了刷新表格的checkbox,直接放置无法获得刷新，需要以后有新的方法处理
+            $timeout(function () {
+                layui.form().render('checkbox');
+            }, 70);
+        }
+
+    });
+</script>

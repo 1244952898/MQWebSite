@@ -1,0 +1,307 @@
+﻿@using System.Web.Optimization
+@using koala.application.common
+@using mq.application.webmvc
+@model  List<mq.model.dbentity.T_BG_Department>
+@{
+    ViewBag.Title = "添加常用文件";
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+
+@section head
+{
+    @Styles.Render("~/css/employbg/ActiveFile/AddFile","~/css/UploadMessageCss", "~/libs/uploadify/uploadify")
+    @Scripts.Render("~/libs/uploadify/jquery.uploadify", "~/libs/layer/layer")
+}
+<div class="main" style="background-color: white">
+    <div class="lead">
+        <span class="layui-breadcrumb">
+            <a class="heada" href="/">首页</a>
+            <a><cite>常用文件</cite></a>
+        </span>
+    </div>
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 部门：</label>
+            <div class="layui-input-inline">
+                <select name="quiz1" style="height: 38px;" id="depart">
+                    <option value="-1" selected="">请选择部门</option>
+                    @foreach (var bgDepartment in Model)
+                    {
+                        <option value="@bgDepartment.Id">@bgDepartment.DepartmentName</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label"> 文件类型：</label>
+        <div class="layui-input-inline">
+            <select name="quiz1" style="height: 38px;" id="typ">
+                <option value="-1" selected="">请选择文件类型</option>
+                @*1=发布 2=办公室 3=店铺*@
+                <option value="1">发布</option>
+                <option value="2">办公室</option>
+                <option value="3">店铺</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"> 文件性质：</label>
+        <div class="layui-input-inline">
+            <select name="quiz1" style="height: 38px;" id="natureTyp">
+                <option value="-1" selected="">请选择文件性质</option>
+                @*0=规章制度  1=技术指导 2=常用文件*@
+                <option value="0">常用文件</option>
+                <option value="1">技术指导</option>
+                <option value="2">规章制度</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"> 发布时间：</label>
+        <div class="layui-input-inline">
+            @*layui时间控件暂时坑，期待以后更新*@
+            <input id="time" class="layui-input" placeholder="自定义日期格式" onclick="layui.laydate({ elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss', min: @(ViewBag.id == -1 ? "laydate.now()" : "\'1989-08-27 11:59:59\'"), max: '2099-12-31 23:59:59' })">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备  注：</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入备注内容" class="layui-textarea" id="txt"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="uploadfile">
+        <label class="layui-form-label" style="height: 50px;"> 上传文件：</label>
+        <div class="layui-input-inline">
+            <div class="upfile" style="padding: 0 0 0 0; width: 235px;">
+                <div class="clickArea">
+                    <a href="javascript:void(0);" class="file_upload" style="padding-left: 0px; width: 230px;">
+                        <input type="file" name="file_upload" id="file_upload" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="upfile" id="fileShow" style="display: none;" data-orginname='' data-newname='' data-filepath>
+        <div class="upload-box upfilebox">
+            <span class="num bgGrey">文件名：</span>
+            <div class="box2" style="margin-left: 75px;">
+                <p class="name left" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">xxxxxxxxxxxxx</p>
+                <div class="left uploading" id="pct">
+                    <div class="left">
+                        <span class="span1" style="width: 0%" id="pct1"></span>
+                    </div>
+                    <i class="left i1" style="font-style: normal" id="pct2">0%</i>
+                    <i class="left i1" style="font-style: normal; margin-left: 10px;" id="pct3">正在上传</i>
+                </div>
+                <a style="display: none" href="javascript:void(0)" onclick="delOriginal();" class="sc">删除</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <fieldset class="layui-elem-field site-demo-button">
+            <div>
+                <button class="layui-btn" onclick="Save();">提 交</button>
+                <button class="layui-btn layui-btn-danger">删  除</button>
+            </div>
+        </fieldset>
+    </div>
+
+</div>
+<script>
+    layui.use('laydate', function () {
+    });
+
+    $(function () {
+        //uploadify
+        $("#file_upload").uploadify({
+            'buttonClass': 'uploadbutton',
+            'width': 232,
+            'height': 45,
+            'queueSizeLimit': 1,
+            'fileSizeLimit': '10MB',
+            'multi': 'false',
+            'queueID': 'cnki_file_queue',
+            'buttonText': '选择要上传的文件',
+            'fileTypeExts': '*.doc;*.docx;*.pdf',
+            'formData': { 'ASPSESSID': '@(Session.SessionID)', 'AUTHID': '@(HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName] == null ? string.Empty : HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value)' },
+            'swf': '@(DomainUrlHelper.SourchPath)/libs/uploadify/uploadify.swf',
+            'uploader': '@(DomainUrlHelper.UploadPath)/Files/Post?key=@(LoginHelper.UserId)&type=PublicFile',
+            'onUploadSuccess': function (file, data, response) {
+                $('#pct').hide();
+                if (response == true) {
+                    var json = eval('(' + data + ')');
+                    if (json.ErrorCode != undefined && json.ErrorCode == '00000') {
+
+                        $('#fileShow a').show();
+                        $('#fileShow .name').text(json.Attach);
+                        $('#fileShow').attr('data-orginname', json.Attach);
+                        $('#fileShow').attr('data-newname', json.ErrorMessage);
+                        $('#fileShow').attr('data-filepath', json.FilePath);
+                        $('#fileShow').attr('data-filetype', json.FileType);
+                        $('#uploadfile').hide();
+                    }
+                } else {
+                    $('#fileShow .name').text('服务端异常！');
+                    $('#fileShow a').hide();
+                }
+            },
+            'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                $('#fileShow .name').text(file.name);
+                $('#fileShow a').hide();
+            },
+            'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                var progress = (bytesUploaded * 100 / bytesTotal).toFixed(0) + "%";
+
+                $('#pct1').css('width', progress);
+                $('#pct2').text(progress);
+            },
+            'onSelect': function (file) {
+                $('#fileShow').show();
+                $('#pct').show();
+                $('#pct1').css('width', '0%');
+                $('#pct2').text('0%');
+                $('#fileShow p').text(file.name);
+                $('#fileShow a').hide();
+            },
+            'onSelectError': function (file, errorCode, errorMsg) {
+
+            },
+            'onDialogOpen': function () {
+            }
+        });
+
+        GetAddFileModel();
+    });
+
+    function GetAddFileModel() {
+        var id = @(ViewBag.Id);
+        if (id<=0) {
+            return;
+        }
+        var url = '@(DomainUrlHelper.EmployeeBgPath)/ActiveFile/GetAddFileModel';
+        $.post(url,{'id':id},function (data) {
+            if (data.ErrorCode == 'E0001') {
+                if (data.ActiveFile == null) {
+                    //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    layer.alert('未发现数据', {
+                        icon: 2,
+                        skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                    });
+                } else {
+                    $('#depart').val(data.ActiveFile.DeparementId);
+                    $('#typ').val(data.ActiveFile.Type);
+                    $('#natureTyp').val(data.ActiveFile.NatureType);
+                    $('#time').val(data.PublishTime);
+
+                    $('#fileShow a').show();
+                    $('#fileShow .name').text(data.ActiveFile.FileOriginName);
+                    $('#fileShow').attr('data-newname',data.ActiveFile.FileNewName);
+                    $('#fileShow').attr('data-orginname',data.ActiveFile.FileOriginName);
+                    $('#fileShow').attr('data-filepath',data.ActiveFile.FilePath);
+                    $('#fileShow').attr('data-filetype',data.ActiveFile.FileType);
+                    $('#fileShow').show();
+                    $('#uploadfile').hide();
+                    $('#pct').hide();
+                   
+                    $('#txt').val(data.ActiveFile.Remark);
+                }
+            }else {
+                layer.msg(json.ErrorMessage);
+            }
+        });
+    }
+
+    //删除图片
+    function delOriginal() {
+        $('#fileShow').hide();
+        $('#fileShow a').show();
+        $('#pct').hide();
+        $('#uploadfile').show();
+
+        $('#fileShow').attr('data-orginname', '');
+        $('#fileShow').attr('data-newname', '');
+        $('#fileShow').attr('data-filepath', '');
+        $('#fileShow').attr('data-filetype', '');
+    }
+
+    function Save() {
+        var departId = $('#depart').val();
+        if (departId == undefined || departId == '-1') {
+            layer.msg('请选择部门！');
+            return;
+        }
+        var typ = $('#typ').val();
+        if (typ == undefined || typ == '-1') {
+            layer.msg('请选择文件类型！');
+            return;
+        }
+        var natureTyp = $('#natureTyp').val();
+        if (natureTyp == undefined || natureTyp == '-1') {
+            layer.msg('请选择文件性质！');
+            return;
+        }
+        var time = $('#time').val();
+        if (time == undefined || typ == '') {
+            layer.msg('请选择发布时间！');
+            return;
+        }
+        var fileNewName = $('#fileShow').attr('data-newname');
+        var fileOriginName = $('#fileShow').attr('data-orginname');
+        var filePath = $('#fileShow').attr('data-filepath');
+        var filetype = $('#fileShow').attr('data-filetype');
+
+        if (fileNewName == undefined || fileNewName == '' || fileOriginName == undefined || fileOriginName == '' || filePath == undefined || filePath == '' || filetype == undefined || filetype == '') {
+            layer.msg('上传文件出错！');
+            return;
+        }
+        var remark = $('#txt').val();
+        fileOriginName = escape(fileOriginName);
+        filePath = encodeURIComponent(filePath);
+        remark = encodeURIComponent(remark);
+        var url = "@(DomainUrlHelper.EmployeeBgPath)/ActiveFile/AddAddFile";
+        var datas = { 'departId': departId, 'typ': typ, 'natureTyp': natureTyp, 'time': time, 'fileOriginName': fileOriginName, 'fileNewName': fileNewName, 'filePath': filePath, 'filetype': filetype, 'remark': remark }
+        var layerId = -1;
+        $.ajax({
+            url: url,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(datas),
+            dataType: "json",
+            beforeSend: function () {
+                layerId = layer.load(1, { shade: [0.5, '#fff'] });
+            },
+            success: function (data) {
+              
+               var jsn = eval('(' + data + ')');
+               //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+               layer.alert(jsn.ErrorMessage, {
+                   icon: 1,
+                   skin: 'layer-ext-moon' 
+               });
+               layer.close(layerId);
+                //if (jsn.ErrorCode == 'E0001') {
+                //} else {
+                //    layer.alert(jsn.ErrorMessage, {
+                //        icon: 4,
+                //        skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                //    });
+                //}
+            },
+            complete: function () {
+                layer.close(layerId);
+            },
+            error: function (a, b) {
+                layer.close(layerId);
+            }
+        });
+    }
+</script>

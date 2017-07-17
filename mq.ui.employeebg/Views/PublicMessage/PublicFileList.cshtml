@@ -1,0 +1,193 @@
+﻿@using mq.application.webmvc
+@model List<mq.model.dbentity.V_BG_PublishFile_User>
+@{
+    ViewBag.Title = "公共文件";
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+@section head
+{
+    <style type="text/css">
+        .files {
+            position: fixed;
+            left: 222px;
+            top: 80px;
+            border: 1px solid #e0ffff;
+            padding: 20px 20px 20px 20px;
+        }
+
+        .layui-btn {
+            margin-top: 20px;
+        }
+
+        .layui-table td, .layui-table th {
+            text-align: center;
+        }
+
+        .files .layui-table tbody tr .imgTd a img {
+            width: 27px;
+            height: 27px;
+        }
+    </style>
+}
+
+
+<div class="files">
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="lead">
+            <span class="layui-breadcrumb">
+                <a class="heada" href="/">首页</a>
+                <a><cite>公共信件</cite></a>
+            </span>
+        </div>
+        <button class="layui-btn" onclick="delBtn();">
+            <i class="layui-icon">&#xe640;</i>全部删除
+        </button>
+
+        <div class="layui-form">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="50">
+                    <col width="60">
+                    <col width="150">
+                    <col width="850">
+                    <col width="300">
+                    <col width="100">
+                    <col width="60">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                        <th>附件</th>
+                        <th>发布人</th>
+                        <th>主题</th>
+                        <th>发布时间</th>
+                        <th>级别</th>
+                        <th>删除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var publishFile in Model)
+                    {
+                        <tr>
+                            <td data-id="@(publishFile.Id)"><input type="checkbox" name="" lay-skin="primary"></td>
+                            <td class="imgTd">
+                                @if (!string.IsNullOrEmpty(publishFile.FilePath) && !string.IsNullOrEmpty(publishFile.FileType))
+                                {
+                                    <a href="@(Url.Action("DownloadFilePathResult", new {filepath = publishFile.FilePath, fileorgname = HttpUtility.UrlEncode(publishFile.FileOriginName), fileytpe = publishFile.FileType}))">
+                                        <img class="fujian" src="@(DomainUrlHelper.SourchPath)/Images/fujian1.gif" />
+                                    </a>
+                                }
+                            </td>
+                            <td>@(publishFile.EditorName)</td>
+                            <td>
+                                <a href="@Url.Action("UploadMessage", new {id = publishFile.Id})" style="color: #00bfff">@(publishFile.Title)</a>
+                            </td>
+                            <td>@(publishFile.PublishTime)</td>
+                            <td>@(publishFile.Lvl)</td>
+                            <td><a href="javascript:void(0);" style="color: #00bfff" onclick="singleDel('@(publishFile.Id)')">删除</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="demoPage"></div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.fujian').hover(function () {
+            $(this).attr('src', '@(DomainUrlHelper.SourchPath)/Images/fujian2.png');
+        }, function () {
+            $(this).attr('src', '@(DomainUrlHelper.SourchPath)/Images/fujian1.gif');
+        });
+    });
+
+    layui.use(['laypage', 'layer','form'], function () {
+        var laypage = layui.laypage,
+            $ = layui.jquery,
+            form = layui.form();
+        //全选
+        form.on('checkbox(allChoose)', function (data) {
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function (index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+        laypage({
+            cont: 'demoPage',
+            pages: @(ViewBag.page),
+            curr:@(ViewBag.pageIndex),
+            skip: true,
+            jump: function(obj, first) {
+                if (!first) {
+                    window.location.href = '@(DomainUrlHelper.EmployeeBgPath)/PublicMessage/PublicFileList?pageIndex=' + obj.curr;
+                }
+            }
+        });
+    });
+
+    function delBtn() {
+        var list = [];
+        var ids = $('tbody .layui-form-checked');
+        if (ids==undefined||ids.length==0) {
+            layer.msg('请选择删除的数据！');
+            return;
+        }
+        $.each(ids, function(i, n) {
+            var id = $(n).parent().attr('data-id');
+            list.push({'Id':id});
+        });
+        $.ajax({
+            type: "POST",
+            url: "@(DomainUrlHelper.EmployeeBgPath)/PublicMessage/DelAddFileList",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(list),
+            success: function (data) {
+                if (data==undefined||data=='') {
+                    layer.msg('发生未知错误！');
+                } else {
+                    if (typeof (data) == "string")
+                        data = eval('(' + data + ')');
+                    if (data.ErrorCode=="E0000") {
+                        layer.msg(data.ErrorMessage);
+                        setTimeout(function myfunction() {
+                            window.location.reload();//刷新当前页面
+                        },1000);
+                    } else {
+                        layer.msg(data.ErrorMessage);
+                    }
+                }
+            }
+        });
+    }
+
+    function singleDel(id) {
+        $.ajax({
+            type: "POST",
+            url: "@(DomainUrlHelper.EmployeeBgPath)/PublicMessage/DelSingle?id="+id,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                if (data==undefined||data=='') {
+                    layer.msg('发生未知错误！');
+                } else {
+                    if (typeof (data) == "string")
+                        data = eval('(' + data + ')');
+                    if (data.ErrorCode=="E0000") {
+                        layer.msg(data.ErrorMessage);
+                        setTimeout(function myfunction() {
+                            window.location.reload();//刷新当前页面
+                        },1000);
+                    } else {
+                        layer.msg(data.ErrorMessage);
+                    }
+                }
+            }
+        });
+    }
+</script>
+

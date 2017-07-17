@@ -1,0 +1,241 @@
+﻿@using System.Web.Optimization
+@using koala.application.common
+@using mq.application.webmvc
+@{
+    ViewBag.Title = "添加陈列指引文件";
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+@section head
+{
+    @Styles.Render("~/libs/webuploader/webuploaderCss", "~/libs/datetimepicker/jquery.datetimepickercss", "~/libs/bootstrap3.3.7/css/bootstrap", "~/libs/webuploader/DemoCss")
+    @Scripts.Render("~/libs/webuploader/webuploaderJs", "~/libs/datetimepicker/jquery.datetimepickercjs", "~/libs/bootstrap3.3.7/js/bootstrap")
+    <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file:// 引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .breadcrumb > li + li:before {
+            padding: 0 5px;
+            color: #ccc;
+            content: " > ";
+        }
+
+        .container {
+            width: 90%;
+            margin-top: 10px;
+            margin-left: 200px;
+            -moz-min-width: 30%;
+            -ms-min-width: 30%;
+            -o-min-width: 30%;
+            -webkit-min-width: 30%;
+            min-width: 30%;
+        }
+    </style>
+
+    <style type="text/css">
+        .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+
+        .inputEmail3 {
+            text-align: left;
+        }
+
+        #time {
+            width: 14%;
+        }
+
+        .uploadbutton {
+            margin-left: 60px;
+            text-decoration: none !important;
+            line-height: 48px;
+        }
+        .layui-elem-quote {
+            height: 70px;
+        }
+        .layui-elem-quote button {
+            float: right;
+        }
+        .layui-elem-quote {
+            border-left: 10px solid #009688;
+        }
+    </style>
+}
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">添加陈列指引文件</li>
+            </ul>
+        </div>
+        <div class="col-md-12 column form-group">
+            <label for="inputEmail" class="col-sm-2 control-label">主 题：</label>
+            <div class="col-sm-10" style="padding-left: 0;">
+                <input type="email" class="form-control" id="inputEmail" placeholder="请输入陈列指引文件的主题"/>
+            </div>
+        </div>
+        <div class="col-md-12 column form-group">
+            <div class="gettime">
+                <label class="col-sm-2 control-label">发布时间:</label>
+                <input id="time" class="layui-input form-control" placeholder="输入发布日期" onclick="layui.laydate({ elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss', min: @(ViewBag.id == -1 ? "laydate.now()" : "\'1989-08-27 11:59:59\'"), max: '2099-12-31 23:59:59' })">
+            </div>
+        </div>
+
+
+        <div class="col-md-12 column" style="width: 50%; height: 20%">
+            <div id="uploader" class="wu-example">
+                <!--用来存放文件信息-->
+                <div id="thelist" class="uploader-list"></div>
+                <div class="btns">
+                    <div id="picker">选择文件</div>
+                </div>
+                <blockquote class="layui-elem-quote" id="fileMessage" style="display: none">
+                    <label style="margin-bottom: 0px; margin-top: 11px; font-weight: 100;">
+                        这个貌似不用多介绍，因为你已经在太多的地方都看到
+                    </label>
+                    <button class="layui-btn layui-btn-normal" onclick="DelBtn()">删除</button>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="orginname" value="" />
+<input type="hidden" id="newname" value="" />
+<input type="hidden" id="filepath" value="" />
+<input type="hidden" id="filetype" value="" />
+<script type="text/javascript">
+    $(function() {
+        layui.use(['laydate'], function() {
+        });
+
+        if ('@ViewBag.id' > 0) {
+            $.post('@Url.Action("GetDisplayFile")', { 'id': '@ViewBag.id' }, function(data) {
+                var dat = eval('(' + data + ')');
+                if (dat.ErrorCode == 'E000') {
+                    $('#inputEmail').val(dat.File.Title);
+                    $('#time').val(dat.File.Title.PublishTime);
+                    $('#orginname').val(dat.File.Title.FileOriginName);
+                    $('#newname').val(dat.File.Title.FileNewName);
+                    $('#filepath').val(dat.File.Title.FilePath);
+                    $('#filetype').val(dat.File.Title.FileType);
+                } else {
+                    //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    layer.alert(dat.ErrorMessage, {
+                        icon: 2,
+                        skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                    });
+                }
+            });
+        }
+    });
+
+    function DelBtn() {
+        $('#orginname').val('');
+        $('#newname').val('');
+        $('#filepath').val('');
+        $('#filetype').val('');
+    }
+
+    var uploader = WebUploader.create({
+        // swf文件路径
+        swf: '@(DomainUrlHelper.EmployeeBgPath)/libs/webuploader/Uploader.swf', // swf文件路径
+        // 文件接收服务端。
+        server: '@(DomainUrlHelper.UploadPath)/Files/FileExtensionPdfRarZip?key=@(LoginHelper.UserId)&filetype=DisplayGuideFile', // 文件接收服务端。
+        pick: {
+            id: '#picker',
+            label: '点击选择文件'
+        },
+        accept: [
+            {
+                title: 'ZIP',
+                extensions: 'zip',
+                mimeTypes: 'application/zip'
+            }, {
+                title: 'PDF',
+                extensions: 'pdf',
+                mimeTypes: 'application/pdf'
+            }, {
+                title: 'RAR',
+                extensions: 'rar',
+                mimeTypes: 'application/rar'
+            }],
+        resize: false,
+        fileNumLimit: 1,
+        fileSizeLimit: 1 * 1024 * 1024,    // 200 M
+        fileSingleSizeLimit: 1 * 1024 * 1024    // 50 M
+    });
+    uploader.on('fileQueued', function (file) {
+        $('#uploader').append('<div id="' + file.id + '" class="item">' +
+            '<h4 class="info">' + file.name + '</h4>' +
+            '<p class="state">等待上传...</p>' +
+        '</div>');
+            if ( state === 'uploading' ) {
+               // uploader.stop();
+            } else {
+                uploader.upload();
+            }
+    });
+
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on('uploadProgress', function (file, percentage) {
+        var $li = $('#' + file.id),
+            $percent = $li.find('.progress .progress-bar');
+
+        // 避免重复创建
+        if (!$percent.length) {
+            $percent = $('<div class="progress progress-striped active">' +
+              '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+              '</div>' +
+            '</div>').appendTo($li).find('.progress-bar');
+        }
+        $li.find('p.state').text('上传中');
+        $percent.css('width', percentage * 100 + '%');
+    });
+
+    var state = 'pending';
+    uploader.on('all', function (type) {
+        if (type === 'startUpload') {
+            state = 'uploading';
+        } else if (type === 'stopUpload') {
+            state = 'paused';
+        } else if (type === 'uploadFinished') {
+            state = 'done';
+        }
+
+    });
+
+    uploader.on('uploadSuccess', function (file, json) {
+        //var json = eval('(' + response + ')');
+        if (json.ErrorCode != undefined && json.ErrorCode == '00000') {
+            $('#fileMessage').show();
+            $('#fileMessage label').text(json.Attach);
+            $('#orginname').val(json.Attach);
+            $('#newname').val(json.ErrorMessage);
+            $('#filepath').val(json.FilePath);
+            $('#filetype').val(json.FileType);
+
+        } else {
+            //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+            layer.alert('系统发生异常', {
+                icon: 2,
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+        }
+    });
+
+    uploader.on('uploadError', function (file) {
+        $('#' + file.id).find('p.state').text('上传出错');
+    });
+
+    uploader.on('uploadComplete', function (file) {
+        //$('#' + file.id).find('.progress').fadeOut();
+        $('#' + file.id).fadeOut();
+    });
+    
+</script>
