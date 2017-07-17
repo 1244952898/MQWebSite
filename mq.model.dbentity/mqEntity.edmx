@@ -1,0 +1,730 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="POSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="T_BG_ActiveFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="DeparementId" Type="bigint" />
+          <Property Name="PublicTime" Type="datetime" />
+          <Property Name="NatureType" Type="int" />
+          <Property Name="FileNewName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FileOriginName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="20" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="IsDel" Type="int" />
+          <Property Name="AddTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="T_BG_Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="200" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="IsDel" Type="int" />
+          <Property Name="Lvl" Type="int" />
+        </EntityType>
+        <EntityType Name="T_BG_DisplayGuideFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="FileNewName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FileOriginName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="20" />
+          <Property Name="UserId" Type="bigint" />
+          <Property Name="PublishTime" Type="datetime" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="IsDel" Type="int" />
+        </EntityType>
+        <EntityType Name="T_BG_LoginLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogUserID" Type="bigint" />
+          <Property Name="LogTime" Type="datetime" />
+          <Property Name="IP" Type="nvarchar" MaxLength="20" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsLogIn" Type="bit" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="T_BG_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Parent_ID" Type="int" />
+          <Property Name="Grade" Type="int" />
+          <Property Name="URL" Type="nvarchar" MaxLength="500" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDel" Type="int" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="UpdateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="T_BG_PublishFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="EditorId" Type="bigint" />
+          <Property Name="PublishTime" Type="datetime" />
+          <Property Name="PublishState" Type="bigint" />
+          <Property Name="Lvl" Type="bigint" />
+          <Property Name="TextContent" Type="text" />
+          <Property Name="HtmlContent" Type="text" />
+          <Property Name="IsDel" Type="int" />
+          <Property Name="FileNewName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FileOriginName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="T_BG_Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="IsDel" Type="int" />
+        </EntityType>
+        <EntityType Name="T_BG_Role_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="MenuID" Type="int" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="IsDel" Type="int" />
+        </EntityType>
+        <EntityType Name="T_BG_UpFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="filename" Type="nvarchar" MaxLength="400" />
+          <Property Name="filehash" Type="nvarchar" MaxLength="32" />
+          <Property Name="userid" Type="bigint" />
+          <Property Name="fileoriginname" Type="nvarchar" MaxLength="400" />
+          <Property Name="filepath" Type="nvarchar" MaxLength="800" />
+          <Property Name="ext" Type="nvarchar" MaxLength="10" />
+          <Property Name="filetype" Type="int" />
+          <Property Name="proofreading" Type="nvarchar" MaxLength="250" />
+          <Property Name="proofpath" Type="nvarchar" MaxLength="800" />
+          <Property Name="addtime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="T_BG_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="RealName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassWord" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="30" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="ShopID" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ApproveTime" Type="datetime" />
+          <Property Name="ApproveName" Type="nvarchar" MaxLength="20" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="IsDel" Type="int" />
+        </EntityType>
+        <EntityType Name="T_User">
+          <Key>
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" />
+          <Property Name="DepartmentId" Type="nvarchar" MaxLength="10" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="11" />
+          <Property Name="Birthday" Type="datetime" />
+          <Property Name="IDCard" Type="nchar" MaxLength="18" />
+          <Property Name="StatusCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="BasePay" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="OtherAllance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Post" Type="nvarchar" MaxLength="10" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="Frozen" Type="bit" />
+          <Property Name="OperationLvl" Type="int" />
+          <Property Name="PassWord" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsSaler" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“POS.dbo.V_BG_ActiveFile_Department”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BG_ActiveFile_Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="DeparementId" Type="bigint" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PublicTime" Type="datetime" />
+          <Property Name="NatureType" Type="int" />
+          <Property Name="FileNewName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FileOriginName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="20" />
+          <Property Name="Remark" Type="text" />
+          <Property Name="Lvl" Type="int" />
+          <Property Name="IsDel" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“POS.dbo.V_BG_PublishFile_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BG_PublishFile_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="EditorId" Type="bigint" />
+          <Property Name="PublishTime" Type="datetime" />
+          <Property Name="PublishState" Type="bigint" />
+          <Property Name="Lvl" Type="bigint" />
+          <Property Name="TextContent" Type="text" />
+          <Property Name="HtmlContent" Type="text" />
+          <Property Name="IsDel" Type="int" />
+          <Property Name="FileNewName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FileOriginName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="20" />
+          <Property Name="EditorName" Type="nvarchar" MaxLength="20" />
+          <Property Name="EditorRealName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="POSModelStoreContainer">
+          <EntitySet Name="T_BG_ActiveFile" EntityType="Self.T_BG_ActiveFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_Department" EntityType="Self.T_BG_Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_DisplayGuideFile" EntityType="Self.T_BG_DisplayGuideFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_LoginLog" EntityType="Self.T_BG_LoginLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_Menu" EntityType="Self.T_BG_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_PublishFile" EntityType="Self.T_BG_PublishFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_Role" EntityType="Self.T_BG_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_Role_Menu" EntityType="Self.T_BG_Role_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_UpFiles" EntityType="Self.T_BG_UpFiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_User" EntityType="Self.T_BG_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_User" EntityType="Self.T_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_BG_ActiveFile_Department" EntityType="Self.V_BG_ActiveFile_Department" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BG_ActiveFile_Department].[Id] AS [Id], 
+    [V_BG_ActiveFile_Department].[Type] AS [Type], 
+    [V_BG_ActiveFile_Department].[DeparementId] AS [DeparementId], 
+    [V_BG_ActiveFile_Department].[DepartmentName] AS [DepartmentName], 
+    [V_BG_ActiveFile_Department].[PublicTime] AS [PublicTime], 
+    [V_BG_ActiveFile_Department].[NatureType] AS [NatureType], 
+    [V_BG_ActiveFile_Department].[FileNewName] AS [FileNewName], 
+    [V_BG_ActiveFile_Department].[FileOriginName] AS [FileOriginName], 
+    [V_BG_ActiveFile_Department].[FilePath] AS [FilePath], 
+    [V_BG_ActiveFile_Department].[FileType] AS [FileType], 
+    [V_BG_ActiveFile_Department].[Remark] AS [Remark], 
+    [V_BG_ActiveFile_Department].[Lvl] AS [Lvl], 
+    [V_BG_ActiveFile_Department].[IsDel] AS [IsDel]
+    FROM [dbo].[V_BG_ActiveFile_Department] AS [V_BG_ActiveFile_Department]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_BG_PublishFile_User" EntityType="Self.V_BG_PublishFile_User" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BG_PublishFile_User].[Id] AS [Id], 
+    [V_BG_PublishFile_User].[Title] AS [Title], 
+    [V_BG_PublishFile_User].[EditorId] AS [EditorId], 
+    [V_BG_PublishFile_User].[PublishTime] AS [PublishTime], 
+    [V_BG_PublishFile_User].[PublishState] AS [PublishState], 
+    [V_BG_PublishFile_User].[Lvl] AS [Lvl], 
+    [V_BG_PublishFile_User].[TextContent] AS [TextContent], 
+    [V_BG_PublishFile_User].[HtmlContent] AS [HtmlContent], 
+    [V_BG_PublishFile_User].[IsDel] AS [IsDel], 
+    [V_BG_PublishFile_User].[FileNewName] AS [FileNewName], 
+    [V_BG_PublishFile_User].[FileOriginName] AS [FileOriginName], 
+    [V_BG_PublishFile_User].[FilePath] AS [FilePath], 
+    [V_BG_PublishFile_User].[FileType] AS [FileType], 
+    [V_BG_PublishFile_User].[EditorName] AS [EditorName], 
+    [V_BG_PublishFile_User].[EditorRealName] AS [EditorRealName]
+    FROM [dbo].[V_BG_PublishFile_User] AS [V_BG_PublishFile_User]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="POSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="T_User">
+          <Key>
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="3" />
+          <Property Name="IDCard" Type="String" MaxLength="18" FixedLength="true" Unicode="true" />
+          <Property Name="StatusCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BasePay" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="OtherAllance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Post" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="Frozen" Type="Boolean" />
+          <Property Name="OperationLvl" Type="Int32" />
+          <Property Name="PassWord" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsSaler" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="POSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="T_User" EntityType="Self.T_User" />
+          <EntitySet Name="T_BG_User" EntityType="POSModel.T_BG_User" />
+          <EntitySet Name="T_BG_LoginLog" EntityType="POSModel.T_BG_LoginLog" />
+          <EntitySet Name="T_BG_Menu" EntityType="POSModel.T_BG_Menu" />
+          <EntitySet Name="T_BG_Role" EntityType="POSModel.T_BG_Role" />
+          <EntitySet Name="T_BG_Role_Menu" EntityType="POSModel.T_BG_Role_Menu" />
+          <EntitySet Name="T_BG_UpFiles" EntityType="POSModel.T_BG_UpFiles" />
+          <EntitySet Name="T_BG_PublishFile" EntityType="POSModel.T_BG_PublishFile" />
+          <EntitySet Name="V_BG_PublishFile_User" EntityType="POSModel.V_BG_PublishFile_User" />
+          <EntitySet Name="T_BG_ActiveFile" EntityType="POSModel.T_BG_ActiveFile" />
+          <EntitySet Name="T_BG_Department" EntityType="POSModel.T_BG_Department" />
+          <EntitySet Name="T_BG_DisplayGuideFile" EntityType="POSModel.T_BG_DisplayGuideFile" />
+          <EntitySet Name="V_BG_ActiveFile_Department" EntityType="POSModel.V_BG_ActiveFile_Department" />
+        </EntityContainer>
+        <EntityType Name="T_BG_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="RealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassWord" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="ShopID" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ApproveTime" Type="DateTime" Precision="3" />
+          <Property Name="ApproveName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDel" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_BG_LoginLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogUserID" Type="Int64" />
+          <Property Name="LogTime" Type="DateTime" Precision="3" />
+          <Property Name="IP" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsLogIn" Type="Boolean" />
+          <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_BG_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Parent_ID" Type="Int32" />
+          <Property Name="Grade" Type="Int32" />
+          <Property Name="URL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDel" Type="Int32" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="T_BG_Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDel" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_BG_Role_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDel" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_BG_UpFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="filename" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="filehash" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="userid" Type="Int64" />
+          <Property Name="fileoriginname" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="filepath" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+          <Property Name="ext" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="filetype" Type="Int32" />
+          <Property Name="proofreading" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="proofpath" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+          <Property Name="addtime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="T_BG_PublishFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EditorId" Type="Int64" />
+          <Property Name="PublishTime" Type="DateTime" Precision="3" />
+          <Property Name="PublishState" Type="Int64" />
+          <Property Name="Lvl" Type="Int64" />
+          <Property Name="TextContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HtmlContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDel" Type="Int32" />
+          <Property Name="FileNewName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FileOriginName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_BG_PublishFile_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EditorId" Type="Int64" />
+          <Property Name="PublishTime" Type="DateTime" Precision="3" />
+          <Property Name="PublishState" Type="Int64" />
+          <Property Name="Lvl" Type="Int64" />
+          <Property Name="TextContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HtmlContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDel" Type="Int32" />
+          <Property Name="FileNewName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FileOriginName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="EditorName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EditorRealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_BG_ActiveFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="DeparementId" Type="Int64" />
+          <Property Name="PublicTime" Type="DateTime" Precision="3" />
+          <Property Name="NatureType" Type="Int32" />
+          <Property Name="FileNewName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FileOriginName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDel" Type="Int32" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="T_BG_Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDel" Type="Int32" />
+          <Property Name="Lvl" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_BG_DisplayGuideFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileNewName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FileOriginName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int64" />
+          <Property Name="PublishTime" Type="DateTime" Precision="3" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDel" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_BG_ActiveFile_Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="DeparementId" Type="Int64" />
+          <Property Name="DepartmentName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PublicTime" Type="DateTime" Precision="3" />
+          <Property Name="NatureType" Type="Int32" />
+          <Property Name="FileNewName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FileOriginName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Lvl" Type="Int32" />
+          <Property Name="IsDel" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="POSModelStoreContainer" CdmEntityContainer="POSEntities">
+          <EntitySetMapping Name="T_User">
+            <EntityTypeMapping TypeName="POSModel.T_User">
+              <MappingFragment StoreEntitySet="T_User">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="BasePay" ColumnName="BasePay" />
+                <ScalarProperty Name="OtherAllance" ColumnName="OtherAllance" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Frozen" ColumnName="Frozen" />
+                <ScalarProperty Name="OperationLvl" ColumnName="OperationLvl" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="IsSaler" ColumnName="IsSaler" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_User">
+            <EntityTypeMapping TypeName="POSModel.T_BG_User">
+              <MappingFragment StoreEntitySet="T_BG_User">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="ApproveName" ColumnName="ApproveName" />
+                <ScalarProperty Name="ApproveTime" ColumnName="ApproveTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ShopID" ColumnName="ShopID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_LoginLog">
+            <EntityTypeMapping TypeName="POSModel.T_BG_LoginLog">
+              <MappingFragment StoreEntitySet="T_BG_LoginLog">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsLogIn" ColumnName="IsLogIn" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="LogTime" ColumnName="LogTime" />
+                <ScalarProperty Name="LogUserID" ColumnName="LogUserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_Menu">
+            <EntityTypeMapping TypeName="POSModel.T_BG_Menu">
+              <MappingFragment StoreEntitySet="T_BG_Menu">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_Role">
+            <EntityTypeMapping TypeName="POSModel.T_BG_Role">
+              <MappingFragment StoreEntitySet="T_BG_Role">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_Role_Menu">
+            <EntityTypeMapping TypeName="POSModel.T_BG_Role_Menu">
+              <MappingFragment StoreEntitySet="T_BG_Role_Menu">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_UpFiles">
+            <EntityTypeMapping TypeName="POSModel.T_BG_UpFiles">
+              <MappingFragment StoreEntitySet="T_BG_UpFiles">
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="proofpath" ColumnName="proofpath" />
+                <ScalarProperty Name="proofreading" ColumnName="proofreading" />
+                <ScalarProperty Name="filetype" ColumnName="filetype" />
+                <ScalarProperty Name="ext" ColumnName="ext" />
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+                <ScalarProperty Name="fileoriginname" ColumnName="fileoriginname" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="filehash" ColumnName="filehash" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_PublishFile">
+            <EntityTypeMapping TypeName="POSModel.T_BG_PublishFile">
+              <MappingFragment StoreEntitySet="T_BG_PublishFile">
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileOriginName" ColumnName="FileOriginName" />
+                <ScalarProperty Name="FileNewName" ColumnName="FileNewName" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="HtmlContent" ColumnName="HtmlContent" />
+                <ScalarProperty Name="TextContent" ColumnName="TextContent" />
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="PublishState" ColumnName="PublishState" />
+                <ScalarProperty Name="PublishTime" ColumnName="PublishTime" />
+                <ScalarProperty Name="EditorId" ColumnName="EditorId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BG_PublishFile_User">
+            <EntityTypeMapping TypeName="POSModel.V_BG_PublishFile_User">
+              <MappingFragment StoreEntitySet="V_BG_PublishFile_User">
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="EditorRealName" ColumnName="EditorRealName" />
+                <ScalarProperty Name="EditorName" ColumnName="EditorName" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileOriginName" ColumnName="FileOriginName" />
+                <ScalarProperty Name="FileNewName" ColumnName="FileNewName" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="HtmlContent" ColumnName="HtmlContent" />
+                <ScalarProperty Name="TextContent" ColumnName="TextContent" />
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="PublishState" ColumnName="PublishState" />
+                <ScalarProperty Name="PublishTime" ColumnName="PublishTime" />
+                <ScalarProperty Name="EditorId" ColumnName="EditorId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_ActiveFile">
+            <EntityTypeMapping TypeName="POSModel.T_BG_ActiveFile">
+              <MappingFragment StoreEntitySet="T_BG_ActiveFile">
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileOriginName" ColumnName="FileOriginName" />
+                <ScalarProperty Name="FileNewName" ColumnName="FileNewName" />
+                <ScalarProperty Name="NatureType" ColumnName="NatureType" />
+                <ScalarProperty Name="PublicTime" ColumnName="PublicTime" />
+                <ScalarProperty Name="DeparementId" ColumnName="DeparementId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_Department">
+            <EntityTypeMapping TypeName="POSModel.T_BG_Department">
+              <MappingFragment StoreEntitySet="T_BG_Department">
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_DisplayGuideFile">
+            <EntityTypeMapping TypeName="POSModel.T_BG_DisplayGuideFile">
+              <MappingFragment StoreEntitySet="T_BG_DisplayGuideFile">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="PublishTime" ColumnName="PublishTime" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileOriginName" ColumnName="FileOriginName" />
+                <ScalarProperty Name="FileNewName" ColumnName="FileNewName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BG_ActiveFile_Department">
+            <EntityTypeMapping TypeName="POSModel.V_BG_ActiveFile_Department">
+              <MappingFragment StoreEntitySet="V_BG_ActiveFile_Department">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileOriginName" ColumnName="FileOriginName" />
+                <ScalarProperty Name="FileNewName" ColumnName="FileNewName" />
+                <ScalarProperty Name="NatureType" ColumnName="NatureType" />
+                <ScalarProperty Name="PublicTime" ColumnName="PublicTime" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="DeparementId" ColumnName="DeparementId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
