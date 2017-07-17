@@ -1,0 +1,37 @@
+﻿.main {
+            border: 1px solid #daa520;
+            position: relative;
+            float: left;
+            background-color: #e3f5af;
+            width: 80%;
+            min-width: 30%;
+            height: 1500px;
+            margin: 10px 0px 0px 210px;
+        }
+
+        .main .layui-form-item {
+            margin-top: 25px;
+        }
+
+        .main .lead {
+            height: 38px;
+            background-color: rgb(242, 242, 242);
+        }
+
+        .main .lead .layui-breadcrumb {
+            position: absolute;
+            margin-left: 15px;
+            top: 10px;
+        }
+        .layui-form-item .layui-elem-field div {
+            margin-left: 108px;
+        }
+        .layui-input, .layui-textarea {
+            width: 80%;
+        }
+        .layui-elem-field {
+            border: none;
+        }
+        .upload .title, .title1, .demotxt, .btn, .upfile {
+            padding-left: 110px;
+        }

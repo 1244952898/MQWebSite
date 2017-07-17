@@ -1,0 +1,28 @@
+﻿.main {
+    border: 1px solid #daa520;
+    position: relative;
+    float: left;
+    background-color: #e3f5af;
+    width: 80%;
+    min-width: 30%;
+    height: 1500px;
+    margin: 10px 0px 0px 210px;
+}
+
+    .main > div {
+        margin-bottom: 20px;
+    }
+
+    .main .lead {
+        margin-top: 10px;
+    }
+
+.layui-breadcrumb .heada, .table {
+    margin-left: 11px;
+    padding-right: 11px;
+}
+
+.main .btn .layui-btn-primary {
+    width: 160px;
+    margin-left: 100px;
+}

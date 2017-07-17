@@ -1,0 +1,99 @@
+a:hover { text-decoration: none; }
+.btn-blue { background-color: #00a2dd !important; color: #fff !important }
+.content .wrap .table-zbtj { margin-top: 14px; margin-bottom: 20px; }
+.content .wrap .table .disabled { color:#a1a1a1; }
+.btn-add { display:block; width: 177px; height: 41px; line-height: 41px; margin-top: 10px; letter-spacing: 2px; background-color: #00a2dd; text-align: center; font-weight: bold; font-size: 14px; color:#fff; }
+.noticeManage .table .limitWidth { max-width:280px;  *width:680px;
+text-indent:2em; text-align:left; padding:5px; line-height:1.5em; }
+.noticeManage .table .links { text-align:center; }
+.editorRecommend .topArea { padding-top: 10px; margin-top: 20px; border-top: 1px solid #ececec; }
+.modalNotice .form { padding: 29px 43px 0 30px; margin-bottom: 5px; }
+.modalNotice .form .item input { width: 615px; }
+.modalLinks { width:631px; height:288px; }
+.modalLinks .form .item input { width:450px; }
+.modalLinks .form { margin-bottom:50px; }
+.modalNotice .form .item textarea { float: left; width: 605px; height: 174px; padding: 10px; border: none; outline:none; resize:none; }
+.modalEditor h1 { position: relative; }
+.modalNotice .form .item, .modalAudit .form .item.spec { width:auto; height:auto; }
+.close { position: absolute; top:12px; right:10px; width: 15px; height: 15px; background: url(../../images/main/jg-b-close.png) no-repeat; }
+.modalSetting { height:auto; padding-bottom:30px;}
+.modalSetting .tab { padding: 12px 10px; }
+.modalSetting .tabNav { margin-bottom:9px;}
+.modalSetting .tabNav a { float: left; width: 78px; height: 21px; line-height: 21px; margin-right: 6px; border: 1px solid #00a2dd; border-radius: 2px; color:#00a2dd; text-align: center;background-color:#ffffff;  }
+.modalSetting .tabNav a.active { background-color: #00a2dd; color:#fff; }
+.modalSetting .tabContent { padding-top: 10px; }
+.modalSetting .tabContent.tablogo{ padding-top:53px;}
+.modalSetting .tabContent .pic{ display:table-cell; vertical-align:middle; text-align:center; width:800px;}
+.modalSetting .tabContent .pic img{ vertical-align:middle;}
+.modalSetting .tabContent .upload {color: #08A2DC;padding-left: 11px;  margin: 10px auto; width: 55px;background:url(../../images/main/upload.gif) no-repeat left center;}
+.modalSetting .tabContent .upload a {color: #08A2DC;}
+.modalSetting .tabContent .item { display: none; }
+.modalSetting .tabContent .item.active { display: block; }
+.modalSetting .tabContent .btns{ text-align:center; font-size:16px; font-weight:bold; line-height:39px;}
+.modalSetting .tabContent .btns a{ display:inline-block;*display:inline;*zoom:1; width:125px; height:39px; border:1px solid #08A2DC; border-radius:3px;}
+.modalSetting .tabContent .btns .btn1{ color:#ffffff; background-color:#08A2DC; margin-right:10px;}
+.modalSetting .tabContent .btns .btn2{ color:#08A2DC;}
+.modalSetting .uploadImg { width: 327px; padding-top: 40px; margin: 0 auto; }
+.modalSetting .tabContent1 .uploadImg { padding-top: 40px; }
+.modalSetting .uploadImg p { line-height: 30px; font-size: 14px; color:#4b4b4b; }
+.modalSetting .uploadImg .btn { display: block; width: 327px; height: 41px; margin-top: 22px; border-radius: 2px; background-color: #00a2dd; color:#fff; text-align: center; font:bold 16px/41px "宋体"; margin-bottom:30px; }
+.sysImg .module a { position: relative; margin-bottom: 10px; display: block; width: 780px; height: 206px; overflow: hidden; }
+.sysImg .module a img { display: block; width: 100%; margin: 0 auto; width: 780px; height: 206px; }
+.sysImg .module a span { position: absolute; top:0; left:0; width: 770px; height: 196px; border: 5px solid #00a2dd; background: url(../../images/main/jg-b-icon1.png) 736px 160px no-repeat; }
+.paging { float: right; }
+.paging li { float: left; width: 27px; height: 27px; line-height: 27px; margin-left: 6px; border: 1px solid #00a2dd; text-align: center; }
+.paging li a { display: block; color:#00a2dd; }
+.paging li.active { background-color: #00a2dd; }
+.paging li.active a { color:#fff; }
+.modalSetting .sysImg .save { width: 327px; margin-top: 17px; }
+.intro .save { width: 327px; margin: 20px auto 0; }
+.content .setting { padding: 30px; }
+.modalMessage textarea { width: 710px; height: 230px; padding: 5px; border: none; resize: none; margin: 30px 40px; }
+.audit .wrap .topArea .chooseBar .item { width: auto; padding: 0 5px; border-color: #00a2dd; color:#00a2dd; }
+.audit .wrap .topArea .chooseBar span { line-height: 23px; }
+.audit .wrap .topArea .chooseBar .item.click { color:#fff; }
+.modalAudit .modal-footer { text-align: center; }
+.modalAudit .modal-footer .btn { display:inline-block; width: 185px; height: 40px; border:1px solid #00a2dd; border-radius: 3px; margin: 0 6px; font:bold 16px/40px "宋体"; background-color:#fff; color:#00a2dd; }
+.modalAudit1 { height: auto; padding-bottom: 92px; }
+.modalAudit1 h2 { font:bold 16px/74px "宋体"; text-align: center; color:#00a2dd; }
+.modalAudit1 .form { width: 658px; margin: 0 auto; padding: 0; padding-bottom: 13px; }
+.modalAudit1 .form1 { border-bottom: 1px solid #00a2dd; }
+.modalAudit1 .form2 { padding-bottom: 37px; }
+.modalAudit1 .selectWrap { position: relative; width: 560px; height: 32px; }
+.modalAudit1 .selectWrap .toggle { display: block; width: 550px; padding: 6px 0 6px 10px; height: 20px; line-height: 20px; font-size: 14px; color: #242424; background-color: #ffffff; background:#fff url(../../images/main/select-icon.png) no-repeat 540px center; }
+.modalAudit1 .selectWrap ul { display: none; position: absolute; left: -1px; background-color: #ffffff; width: 550px; padding: 5px 0 5px 10px; border: 1px solid #E3E3E3; border-top: none; }
+.modalAudit1 .selectWrap li { width: 550px; line-height: 32px; font-size: 14px; cursor: pointer; }
+.modalAudit1 .calendar span { float: left; height: 32px; line-height: 32px; font-weight: bold; text-align: center; color:#252525; }
+.modalAudit1 .calendar .txt { width: 35px; }
+.modalAudit1 .laydate-icon { float: left; width: 262px; padding-right: 0; border: none; background-color: #fff; font-size: 14px; }
+.modalAudit2 { height: 220px; }
+.modalAudit2 p { margin: 45px 0 35px; text-align: center; font-size: 16px; font-weight: bold; color:#00a2dd; }
+.setting .banner { position: relative; width: 100%; height: 215px; overflow: hidden;/*	padding-top: 6px;*/
+	/*background:url(../images/main/banner1.jpg) center top  no-repeat;*/
+}
+.setting .banner .avatar { position: absolute; top:6px; left:50%; margin-left: -62px; width: 124px; height: 124px;/*margin: 0 auto;*/
+}
+.setting .banner .avatar img { border-radius: 50%; }
+.setting .banner .avatar .cover { position: absolute; top:-3px; left:-3px; width: 124px; height: 124px; background: url(../../images/main/cover.png) no-repeat; text-align: center; }
+.setting .banner .avatar .cover button { padding: 0; border: none; outline: none; width: 89px; height: 21px; margin-top: 52px; cursor: pointer; }
+.setting .banner .name { position: absolute; top:144px; left:50%; margin-left: -280px; /*display: block;*/
+	width: 560px; height: 41px; background-color: #fff; /*margin: 0 auto;*/
+	text-align: center; font:28px/41px "微软雅黑"; color:#4b4b4b; }
+.setting .btns { padding-top: 22px; text-align: center; font-size:0; }
+.setting .btns a { display: inline-block; width: 197px; height: 40px; border: 1px solid #00a2dd; border-radius: 3px; margin: 0 5px; font:bold 16px/40px "宋体"; text-align: center; color: #00a2dd; }
+/************平台设置-机构简介***********/
+.content .editor { padding: 30px 32px 0; }
+.content .editor .item { margin-bottom: 30px; overflow: hidden; font:bold 14px/28px "宋体"; color:#4b4b4b; }
+.content .editor .item label { float: left; width: 5%; }
+.content .editor .item .text { float: left; width:95%; font-weight: normal; }
+.content .editor .title input { width:100%; height: 28px; border-bottom: 1px solid #c3c3c3; font:14px/28px "宋体"; color:#4b4b4b; }
+/*修改平台设置*/
+.setting .info{ width:146px; margin:0 auto; margin-top:15px; text-align:center;}
+.setting .info .upload{ background: url(../../images/main/upload2.png) no-repeat 18px center; line-height:24px;}
+.setting .info .upload a{ color:#07A1DB; font-weight:bold;}
+.setting .info p{ line-height:24px; color:#BBBABA; font-weight:bold;}
+.setting .banner-login{ height:400px;}
+.setting .banner .title{ position:absolute; left:0px; top:0; width:59%; padding:0 1.5%; height:400px;display:table-cell;vertical-align:middle; font-family: "微软雅黑"; color:#ffffff; text-align:center; font-size:254px; }
+.setting .banner .title span{display:inline-block;vertical-align:middle; font-size:44px;}
+.setting .banner .login-pic{ position:absolute; right:0; top:0;width:38%; padding-top:30px;}
+.wrap .preview-btn{ position:absolute; right:30px; margin-top:5px; width:35px; height:21px; line-height:21px; padding-left:26px; background:url(../../images/main/main-preview.png) no-repeat 12px center; font-weight:bold; color:#07A1DB; border:1px solid #07A1DB; border-radius:2px;}

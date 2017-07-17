@@ -1,0 +1,47 @@
+﻿@charset "utf-8";
+html { }
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, input, button, textarea, p, th, td, form, body { padding: 0px; margin: 0px; }
+body { font-family:"宋体"; font-size:12px; color:#000; }
+img { border:none; }
+strong { font-style:normal }
+ul, li, ol { list-style-type: none; }
+table { border-collapse: collapse; border-spacing: 0 }
+input::-moz-focus-inner {border:0;padding:0;margin:0;}
+input::-ms-clear {display:none;}
+input[type="button"] { cursor:pointer; }
+input, textarea { outline:none; }
+input { border:none 0; background-color:transparent; font-size:12px; font-family:"宋体";}
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { zoom: 1; }
+a { text-decoration:none; outline:none; }
+a:hover { text-decoration:underline; }
+.left { float:left; }
+.right { float:right; }
+.positionR { position:relative; }
+.positionA { position:absolute; }
+.overflowHidden { overflow:hidden; }
+.positionR { position:relative;}
+.textAlignC { text-align:center; }
+.displayB { display:block; }
+.displayN { display:none; }
+.fontWeightN { font-weight:normal; }
+.fontSize14px { font-size:14px; }
+.colorGrey { color:#999999; } /* grey */
+/*mask layer*/
+.shade { background-color:rgba(191,191,191,0.5); position:absolute; _background:#bfbfbf; _filter:alpha(opacity=50); left: 0px; top: 0px; }
+/*page*/
+.page { text-align: center; height: 47px; padding-top: 20px; padding-bottom:20px; }
+.page ul { display: inline-block;*display:inline;*zoom:1;vertical-align: middle; }
+.page li { float: left; width: 25px; height:25px; line-height: 25px; text-align: center; border: 1px solid #0c96e5; color:#0c96e5; margin-left: 6px; display: inline-block; }
+.page li.width-56 { width: 56px; height: 25px; }
+.page li.width-80{ width:80px; }
+.page li.border0{ border:none 0;}
+.page li.width-56.border0 { text-align: right; border:none 0; color:#4A4A4A; }
+.page li a { display: block; color:#08A2DC; text-decoration:none;}
+.page li a:hover, .page li a:active, .page li a.cur { background-color: #0c96e5; color:#fff; }
+.page-input .txt { border-width:1px;width: 38px; height: 25px; border-color: #0c96e5; border-radius: 0; padding: 0; text-align: center; }
+.page-input .input-group-btn { line-height: 0; }
+.btn-identify { width: 41px; height: 27px; line-height: 27px; font-size:12px; }
+.input-group{ display: table; position:relative; border-collapse:separate;}
+.form-control{ font-size:14px; line-height:25px;color:#555;position:relative; z-index:2; float:left; display:table-cell; background-image:none; border:1px solid #ccc;}
+.page .btn{float:left;  display:table-cell; vertical-align:middle;width:40px; height:27px; line-height:27px; background-color:#08A2DC; color:#ffffff;}

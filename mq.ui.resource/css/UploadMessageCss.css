@@ -1,0 +1,192 @@
+﻿.sidebar {
+    border-right: 1px solid gray;
+    padding: 0;
+    background-color: #ebebeb;
+}
+
+.upload {
+    border: 1px solid #daa520;
+    position: relative;
+    float: left;
+    background-color: #e3f5af;
+    width: 80%;
+    min-width: 30%;
+    height: 1500px;
+    margin: 10px 0px 0px 20px;
+}
+
+    .upload .title, .title1, .demotxt, .btn, .upfile {
+        font-size: 16px;
+        width: 640px;
+        padding-left: 120px;
+        padding-top: 18px;
+    }
+
+    .upload .item {
+        padding-left: 6px;
+        height: 32px;
+        border: 1px solid #daa520;
+        line-height: 32px;
+    }
+
+    .upload .title .nameText {
+        width: 439px;
+        font-size: 16px;
+        color: #BEBEBE;
+        background-color: white;
+    }
+
+#datetimepicker {
+    padding-left: 6px;
+    height: 25px;
+    border: 1px solid #daa520;
+    line-height: 32px;
+    width: 160px;
+    font-size: 16px;
+    color: #BEBEBE;
+    background-color: white;
+}
+
+.lvl {
+    float: left;
+    width: 120px;
+    line-height: 40px;
+}
+
+.gettime {
+    float: left;
+    line-height: 40px;
+    margin-left: 45px;
+}
+
+    .gettime input {
+        line-height: 4px !important;
+        margin-left: 6px;
+    }
+
+.title1 {
+    width: 540px;
+    height: 40px;
+}
+
+#editor {
+    margin-top: 15px;
+}
+
+.myFrame .uploadWrap .topS .clickArea {
+    width: 240px;
+    margin: 0 auto;
+    padding-top: 115px;
+    background: url(../images/ec-cloud.png) no-repeat center top;
+}
+
+.clickArea a {
+    display: block;
+    font-family: 微软雅黑;
+    font-size: 18px;
+    color: #ef8a1e;
+    height: 48px;
+    line-height: 48px;
+    width: 175px;
+    padding-left: 63px;
+    border: 1px solid #F6922A;
+    border-radius: 4px;
+    background: #FFFBF8 url(../images/ec-icon19-file1.png) no-repeat 32px center;
+}
+
+.uploadWrap {
+    width: 872px;
+    border: 1px solid #DFDFDF;
+    padding: 28px 18px 0;
+}
+
+.uploadbutton .uploadify-button-text {
+    margin-left: 60px;
+    text-decoration: none !important;
+    line-height: 48px;
+}
+
+.clickArea:hover a {
+    background: #F6922A url(../images/ec-icon19-file2.png) no-repeat 32px center;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+.upfilebox {
+    height: 66px;
+    border: 1px solid #F6922A;
+    position: relative;
+}
+
+.upload-box {
+    position: relative;
+    width: 808px;
+    margin-bottom: 8px;
+    background: #ffffff;
+}
+
+    .upload-box .num {
+        position: absolute;
+        top: 18px;
+        left: 1px;
+        width: 63px;
+        height: 33px;
+        text-align: center;
+        line-height: 33px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 微软雅黑;
+        background: #F6922A;
+        z-index: 5;
+    }
+
+    .upload-box .box2 {
+        margin-left: 83px;
+    }
+
+        .upload-box .box2 .name {
+            font-size: 14px;
+            line-height: 66px;
+            height: 66px;
+            color: #4a4a4a;
+            width: 400px;
+            margin-left: 30px;
+        }
+
+        .upload-box .box2 .sc {
+            text-decoration: none;
+            position: absolute;
+            right: 78px;
+            top: 26px;
+            height: 16px;
+            line-height: 16px;
+            color: #337ABF;
+            padding-left: 18px;
+            background: url(../images/ec-icon19-delete.png) no-repeat left center;
+        }
+
+        .upload-box .box2 .uploading {
+            height: 14px;
+            margin-top: 27px;
+            color: #4A4A4A;
+            width: 288px;
+        }
+
+            .upload-box .box2 .uploading div {
+                width: 146px;
+                padding: 1px;
+                border: 1px solid #539FE9;
+                height: 10px;
+                margin-right: 14px;
+            }
+
+                .upload-box .box2 .uploading div .span1 {
+                    display: block;
+                    background: #539FE9;
+                    height: 10px;
+                    margin-right: 14px;
+                }
+
+.i1 {
+    height: 30px;
+}

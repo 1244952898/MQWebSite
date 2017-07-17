@@ -1,0 +1,253 @@
+﻿@charset "utf-8";
+
+.header {
+    height: 49px;
+    background: #1B1B1B;
+    padding-left: 10px;
+    padding-right: 20px;
+    position: relative;
+}
+
+    .header .logo {
+        font-size: 24px;
+        font-family: "黑体";
+        height: 29px;
+        line-height: 29px;
+        padding-left: 40px;
+        background: url(../Images/header-and-footer/hf-logo.gif) no-repeat left center;
+        color: #ffffff;
+        margin-top: 11px;
+    }
+
+    .header .name {
+        color: #989898;
+        line-height: 29px;
+        height: 29px;
+        margin-top: 11px;
+        padding-right: 20px;
+        background: url(../Images/header-and-footer/hf-icon1.gif) no-repeat right center;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .header .dropList {
+        display: none;
+        position: absolute;
+        top: 39px;
+        right: 20px;
+        width: 106px;
+        padding: 1px;
+        border: 1px solid #E3E3E3;
+        background: #ffffff;
+        height: 57px;
+    }
+
+        .header .dropList a {
+            display: block;
+            height: 26px;
+            margin-bottom: 3px;
+            line-height: 26px;
+            color: #4A4A4A;
+            padding-left: 8px;
+        }
+
+            .header .dropList a:hover {
+                background: #08A2DC;
+                color: #ffffff;
+                text-decoration: none;
+            }
+
+.topBanner {
+    padding-left: 54px;
+    height: 200px;
+    background: url(../Images/header-and-footer/banner.jpg) no-repeat left center;
+    border-bottom: 3px solid #044C8C;
+}
+
+    .topBanner .logo {
+        margin-top: 24px;
+        width: 144px;
+        height: 144px;
+        padding: 4px;
+        border-radius: 50%;
+        background-color: rgba(4,0,0,0.2);
+        margin-right: 15px;
+    }
+
+        .topBanner .logo img {
+            border-radius: 50%;
+        }
+
+    .topBanner .name {
+        margin-top: 24px;
+        font-size: 42px;
+        font-family: "微软雅黑";
+        color: #ffffff;
+        height: 144px;
+        line-height: 144px;
+    }
+
+.footer {
+    height: 65px;
+    background-color: #F0EADD;
+    padding-top: 25px;
+    text-align: center;
+    line-height: 18px;
+    color: #4A4A4A;
+}
+/*sidebar*/
+.main {
+    border-top: 3px solid #C6C6C6;
+    background: #F1F1F1;
+}
+
+    .main .sidebar {
+        width: 258px;
+    }
+
+        .main .sidebar .item {
+            position: relative;
+        }
+
+            .main .sidebar .item .title {
+                position: relative;
+                display: block;
+                padding-left: 45px;
+                height: 49px;
+                line-height: 49px;
+                font-size: 16px;
+                color: #4A4A4A;
+                font-weight: bold;
+                text-decoration: none;
+                background-repeat: no-repeat;
+                background-position: 20px center;
+            }
+
+            .main .sidebar .item.cur .title {
+                background-color: #08A2DC;
+                color: #ffffff;
+            }
+
+            .main .sidebar .item.cur .angle {
+                position: absolute;
+                width: 7px;
+                height: 49px;
+                top: 0;
+                right: -7px;
+                background: url(../Images/main/side-icon8.png) no-repeat center;
+            }
+
+        .main .sidebar .item1 .title {
+            background-image: url(../Images/main/side-icon1.png);
+        }
+
+        .main .sidebar .item2 .title {
+            background-image: url(../Images/main/side-icon2.png);
+        }
+
+        .main .sidebar .item3 .title {
+            background-image: url(../Images/main/side-icon3.png);
+        }
+
+        .main .sidebar .item4 .title {
+            background-image: url(../../Images/main/side-icon4.png);
+        }
+
+        .main .sidebar .item5 .title {
+            background-image: url(../Images/main/side-icon5.png);
+        }
+
+        .main .sidebar .item6 .title {
+            background-image: url(../Images/main/side-icon6.png);
+        }
+
+        .main .sidebar .item1.cur .title {
+            background-image: url(../Images/main/side-icon1-h.png);
+        }
+
+        .main .sidebar .item2.cur .title {
+            background-image: url(../Images/main/side-icon2-h.png);
+        }
+
+        .main .sidebar .item3.cur .title {
+            background-image: url(../Images/main/side-icon3-h.png);
+        }
+
+        .main .sidebar .item4.cur .title {
+            background-image: url(../../Images/main/side-icon4-h.png);
+        }
+
+        .main .sidebar .item5.cur .title {
+            background-image: url(../Images/main/side-icon5-h.png);
+        }
+
+        .main .sidebar .item6.cur .title {
+            background-image: url(../Images/main/side-icon6-h.png);
+        }
+
+        .main .sidebar .item .title i {
+            position: absolute;
+            width: 13px;
+            height: 11px;
+            right: 15px;
+            top: 19px;
+            background: url(../Images/main/side-icon7.png) no-repeat center;
+        }
+
+        .main .sidebar .item.cur .title i {
+            background-image: url(../Images/main/side-icon7-h.png);
+        }
+
+        .main .sidebar .divide {
+            height: 0;
+            font-size: 0;
+            border-top: 1px solid #C6C6C6;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .main .sidebar .item ul {
+            display: none;
+            padding-left: 26px;
+            background: #ffffff;
+        }
+
+            .main .sidebar .item ul li {
+                width: 16px;
+                height: 29px;
+                border-bottom: 1px dashed #d2d2d2;
+                border-left: 1px dashed #d2d2d2;
+                position: relative;
+            }
+
+                .main .sidebar .item ul li.first {
+                    height: 22px;
+                }
+
+                .main .sidebar .item ul li.last {
+                    border-bottom: 0;
+                }
+
+                .main .sidebar .item ul li a {
+                    width: 100px;
+                    height: 14px;
+                    line-height: 14px;
+                    position: absolute;
+                    left: 23px;
+                    top: 23px;
+                    font-size: 14px;
+                    color: #4A4A4A;
+                    text-decoration: none;
+                }
+
+                    .main .sidebar .item ul li a:hover {
+                        color: #0092e5;
+                    }
+
+                .main .sidebar .item ul li.first a {
+                    top: 16px;
+                }
+
+                .main .sidebar .item ul li.active a {
+                    color: #0DA4CB;
+                    font-weight: bold;
+                }

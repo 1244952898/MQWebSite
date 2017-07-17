@@ -1,0 +1,52 @@
+﻿.files {
+    float: left;
+    top: 10px;
+    position: relative;
+    left: 211px;
+    width: 85%;
+    height: 85%;
+    min-width: 30%;
+}
+
+.lead {
+    height: 25px;
+    background-color: rgb(242, 242, 242);
+}
+
+.layui-breadcrumb.heada {
+    margin-left: 11px;
+}
+/*************************************************/
+.layui-btn-group {
+    float: right;
+}
+
+    .layui-btn-group .layui-btn {
+        margin-left: 8px !important;
+    }
+
+.files .layui-table thead tr .context a .fujian {
+    width: 27px;
+    height: 27px;
+}
+
+.files .layui-table thead tr .context {
+    font-weight: normal;
+}
+
+.files .layui-table tr th, td {
+    text-align: center;
+}
+
+.files .layui-table tbody .contenttd {
+    height: 650px;
+    text-align: center;
+}
+
+    .files .layui-table tbody .contenttd div {
+        background-color: #e0ffff;
+        margin-left: 10%;
+        width: 80%;
+        height: 600px;
+        text-align: left;
+    }

@@ -1,0 +1,35 @@
+﻿.files {
+    float: left;
+    top: 10px;
+    position: relative;
+    left: 211px;
+    width: 85%;
+    height: 85%;
+    min-width: 30%;
+}
+
+.layui-breadcrumb.heada {
+    margin-left: 11px;
+}
+
+.layui-breadcrumb {
+    margin-left: 11px;
+}
+
+.lead {
+    height: 25px;
+    background-color: rgb(242, 242, 242);
+}
+
+.files .layui-table tbody tr .imgTd a img {
+    width: 27px;
+    height: 27px;
+}
+
+.files .layui-table tr th, td {
+    text-align: center;
+}
+
+#demoPage {
+    text-align: center;
+}
