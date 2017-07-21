@@ -11,59 +11,66 @@
     <title>A</title>
 </head>
 <body>
-    <div ng-app="myApp">
-        <div ng-controller="myCtlr">
-            <input type="text" ng-model="fname"/><br/>
-            <input type="text" ng-model="lname"/><br/>
-            <p>{{fname+" "+lname}}</p><br/>
+<div ng-app="myApp">
+    <div>
+        <p>{{allName}}</p>
+        <p>{{allName|uppercase}}</p>
+    </div>
+    <div ng-controller="myCtlr">
+        <input type="text" ng-model="fname"/><br/>
+        <input type="text" ng-model="lname"/><br/>
+        <p>{{fname+" "+lname}}</p><br/>
 
-            <input type="text" ng-model="person.name"/><br/>
-            <input type="text" ng-model="person.age"/><br/>
-            <p>{{person.name+" "+person.age}}</p><br/>
+        <input type="text" ng-model="person.name"/><br/>
+        <input type="text" ng-model="person.age"/><br/>
+        <p>{{person.name+" "+person.age}}</p><br/>
 
-            nums[0]=<input type="text" ng-model="nums[0]"/><br/>
-            <p>nums[0]:{{nums[0]}} nums[0]+nums[1]:{{nums[0]+nums[1]}}</p>
-            <ul>
-                <li ng-repeat="x in nums">{{x|less10}}</li>
-            </ul><br/>
+        nums[0]=<input type="text" ng-model="nums[0]"/><br/>
+        <p>nums[0]:{{nums[0]}} nums[0]+nums[1]:{{nums[0]+nums[1]}}</p>
+        <ul>
+            <li ng-repeat="x in nums">{{x|less10}}</li>
+        </ul><br/>
 
-            过滤<input type="text" value="" ng-model="wds"/><br />
-            persons[0].country=<input type="text" ng-model="persons[0].country" /><br />
-            <ul>
-                <li ng-repeat="p in persons|orderBy:'country'|filter:wds">{{p.name}}-{{p.country}}</li>
-            </ul><br/>
+        过滤<input type="text" value="" ng-model="wds"/><br/>
+        persons[0].country=<input type="text" ng-model="persons[0].country"/><br/>
+        <ul>
+            <li ng-repeat="p in persons|orderBy:'country'|filter:wds">{{p.name}}-{{p.country}}</li>
+        </ul><br/>
 
-            @*//创建自定义的指令*@
-            创建自定义的指令:
-            <div>
-                <runoob-a></runoob-a>
-                <div runoob-b></div>
-                <div class="runoob-c"></div>
-                <!-- directive: runoob-d -->
-            </div>
-            <div>
-                <runoob-acme></runoob-acme>
-                <div runoob-acme></div>
-                <div class="runoob-acme"></div>
-                <!-- directive:runoob-acme -->
-            </div><br/>
-
-            <form ng-app="" name="myForm">
-                Email:
-                <input type="email" name="myAddress" ng-model="text">
-                <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
-            </form><br/>
-            <input type="button" ng-click="cl();" value="11111111111"/>
-            <p>{{11|duoge:1:2:4}}</p>
+        @*//创建自定义的指令*@
+        创建自定义的指令:
+        <div>
+            <runoob-a></runoob-a>
+            <div runoob-b></div>
+            <div class="runoob-c"></div>
+            <!-- directive: runoob-d -->
         </div>
         <div>
-            <p>{{allName}}</p>
-            <p>{{allName|uppercase}}</p>
-        </div>
+            <runoob-acme></runoob-acme>
+            <div runoob-acme></div>
+            <div class="runoob-acme"></div>
+            <!-- directive:runoob-acme -->
+        </div><br/>
+
+        <form ng-app="" name="myForm">
+            Email:
+            <input type="email" name="myAddress" ng-model="text">
+            <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+        </form><br/>
+        <input type="button" ng-click="cl();" value="11111111111"/>
+        <p>{{11|duoge:1:2:4}}</p><br/>
+
+        页面地址：
+        <p>{{hrf}}</p><br/>
+        2.22秒后显示：<p>{{word}}</p><br/>
+        现在时间是：<p>{{tme}}</p><br />
+
     </div>
+
+</div>
     <script type="text/javascript">
         var App = angular.module('myApp', []);
-        App.controller("myCtlr", function ($scope, $rootScope) {
+        App.controller("myCtlr", function ($scope, $rootScope,$location,$timeout,$interval) {
             $scope.fname = "a";
             $scope.lname = "b";
             $scope.person = { name: 'a', age: 33 };
@@ -73,6 +80,15 @@
                 alert($scope.person.name + " " + $scope.person.age);
             }
             $rootScope.allName = "aa";
+            $scope.hrf = $location.absUrl(); //$location.absUrl();
+            $scope.word = "aaaa";
+            $timeout(function() {
+                $scope.word = "bbbb";
+            }, 2222);
+            $scope.tme = new Date().toLocaleString();
+            $interval(function () {
+                $scope.tme = new Date().toLocaleString();
+            },1000);
         });
         App.directive("runoobAcme", function () {
             return {
