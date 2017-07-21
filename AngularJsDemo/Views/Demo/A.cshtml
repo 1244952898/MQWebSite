@@ -11,84 +11,100 @@
     <title>A</title>
 </head>
 <body>
-<div ng-app="myApp">
-    <div>
-        <p>{{allName}}</p>
-        <p>{{allName|uppercase}}</p>
-    </div>
-    <div ng-controller="myCtlr">
-        <input type="text" ng-model="fname"/><br/>
-        <input type="text" ng-model="lname"/><br/>
-        <p>{{fname+" "+lname}}</p><br/>
-
-        <input type="text" ng-model="person.name"/><br/>
-        <input type="text" ng-model="person.age"/><br/>
-        <p>{{person.name+" "+person.age}}</p><br/>
-
-        nums[0]=<input type="text" ng-model="nums[0]"/><br/>
-        <p>nums[0]:{{nums[0]}} nums[0]+nums[1]:{{nums[0]+nums[1]}}</p>
-        <ul>
-            <li ng-repeat="x in nums">{{x|less10}}</li>
-        </ul><br/>
-
-        过滤<input type="text" value="" ng-model="wds"/><br/>
-        persons[0].country=<input type="text" ng-model="persons[0].country"/><br/>
-        <ul>
-            <li ng-repeat="p in persons|orderBy:'country'|filter:wds">{{p.name}}-{{p.country}}</li>
-        </ul><br/>
-
-        @*//创建自定义的指令*@
-        创建自定义的指令:
+    <div ng-app="myApp">
         <div>
-            <runoob-a></runoob-a>
-            <div runoob-b></div>
-            <div class="runoob-c"></div>
-            <!-- directive: runoob-d -->
+            <p>{{allName}}</p>
+            <p>{{allName|uppercase}}</p>
         </div>
-        <div>
-            <runoob-acme></runoob-acme>
-            <div runoob-acme></div>
-            <div class="runoob-acme"></div>
-            <!-- directive:runoob-acme -->
-        </div><br/>
+        <div ng-controller="myCtlr">
+            <input type="text" ng-model="fname" /><br />
+            <input type="text" ng-model="lname" /><br />
+            fname+lname:<p>{{fname+" "+lname}}</p><br />
+            flname: <p>{{flname}}</p><br />
 
-        <form ng-app="" name="myForm">
-            Email:
-            <input type="email" name="myAddress" ng-model="text">
-            <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
-        </form><br/>
-        <input type="button" ng-click="cl();" value="11111111111"/>
-        <p>{{11|duoge:1:2:4}}</p><br/>
+            <input type="text" ng-model="person.name" /><br />
+            <input type="text" ng-model="person.age" /><br />
+            <p>{{person.name+" "+person.age}}</p><br />
 
-        页面地址：
-        <p>{{hrf}}</p><br/>
-        2.22秒后显示：<p>{{word}}</p><br/>
-        现在时间是：<p>{{tme}}</p><br />
+            nums[0]=<input type="text" ng-model="nums[0]" /><br />
+            <p>nums[0]:{{nums[0]}} nums[0]+nums[1]:{{nums[0]+nums[1]}}</p>
+            <ul>
+                <li ng-repeat="x in nums">{{x|less10}}</li>
+            </ul><br />
+
+            过滤<input type="text" value="" ng-model="wds" /><br />
+            persons[0].country=<input type="text" ng-model="persons[0].country" /><br />
+            <ul>
+                <li ng-repeat="p in persons|orderBy:'country'|filter:wds">{{p.name}}-{{p.country}}</li>
+            </ul><br />
+
+            @*//创建自定义的指令*@
+            创建自定义的指令:
+            <div>
+                <runoob-a></runoob-a>
+                <div runoob-b></div>
+                <div class="runoob-c"></div>
+                <!-- directive: runoob-d -->
+            </div>
+            <div>
+                <runoob-acme></runoob-acme>
+                <div runoob-acme></div>
+                <div class="runoob-acme"></div>
+                <!-- directive:runoob-acme -->
+            </div><br />
+
+            <form ng-app="" name="myForm">
+                Email:
+                <input type="email" name="myAddress" ng-model="text">
+                <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+            </form><br />
+            <input type="button" ng-click="cl();" value="11111111111" />
+            <p>{{11|duoge:1:2:4}}</p><br />
+
+            页面地址：
+            <p>{{hrf}}</p><br />
+            2.22秒后显示：<p>{{word}}</p><br />
+            现在时间是：<p>{{tme}}</p><br />
+
+            Service:<p>{{service1}}</p><br /><p>{{service2}}</p><br />
+
+            在过滤器中使用服务:
+            <ul>
+                <li ng-repeat="x in nums">{{x}} {{x|myfilter}}</li>
+            </ul>
+        </div>
 
     </div>
-
-</div>
     <script type="text/javascript">
         var App = angular.module('myApp', []);
-        App.controller("myCtlr", function ($scope, $rootScope,$location,$timeout,$interval) {
+        App.controller("myCtlr", function ($scope, $rootScope, $location, $timeout, $interval, myService) {
             $scope.fname = "a";
             $scope.lname = "b";
+            $scope.$watch('fname', function() {
+                $scope.flname = $scope.fname + $scope.lname;
+            });
+            $scope.$watch('lname', function () {
+                $scope.flname = $scope.fname + $scope.lname;
+            });
             $scope.person = { name: 'a', age: 33 };
             $scope.nums = [1, 2, 3, 4, 5, 6, 78, 9];
             $scope.persons = [{ name: 'Jani', country: 'Norway' }, { name: 'Hege', country: 'Sweden' }, { name: 'Kai', country: 'Denmark' }];
-            $scope.cl= function() {
+            $scope.cl = function () {
                 alert($scope.person.name + " " + $scope.person.age);
             }
             $rootScope.allName = "aa";
             $scope.hrf = $location.absUrl(); //$location.absUrl();
             $scope.word = "aaaa";
-            $timeout(function() {
+            $timeout(function () {
                 $scope.word = "bbbb";
             }, 2222);
             $scope.tme = new Date().toLocaleString();
             $interval(function () {
                 $scope.tme = new Date().toLocaleString();
-            },1000);
+            }, 1000);
+            $scope.service1 = myService.a;
+            $scope.service2 = myService.fuc(2155, 11111);
+           
         });
         App.directive("runoobAcme", function () {
             return {
@@ -122,13 +138,13 @@
                 template: "<p>ddd</p>"
             }
         });
-        App.filter("less10", function() {
+        App.filter("less10", function () {
             return function (text) {
                 return text < 10 ? text + 10 : text;
             }
         });
         App.filter("duoge", function () {
-            return function(xx) {
+            return function (xx) {
                 var args = Array.prototype.slice.call(arguments);
                 var a = 0;
                 for (var i = 0; i < args.length; i++) {
@@ -136,8 +152,23 @@
                 }
                 return xx + a;
             }
-            
+
         });
+        App.service('myService', function () {
+            this.a = "service-a";
+            this.fuc = function (x, y) {
+                return x.toString(16) + " y=" + y;
+            }
+        });
+        App.filter('myfilter', ['myService', function (myService) {
+            return function (xx) {
+                if (xx > 5) {
+                    return myService.a;
+                } else {
+                    return myService.fuc(255, xx);
+                }
+            }
+        }]);
     </script>
 </body>
 </html>

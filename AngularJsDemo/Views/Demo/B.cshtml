@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <title>B</title>
+</head>
+<body>
+<div ng-app="myApp" ng-controller="myController">
+    $http.get
+    <div>
+        <p>{{Name}}</p>
+        <p>{{Age}}</p>
+        <p>{{Parm}}</p>
+    </div>
+    $http.post:
+    <ul>
+        <li ng-repeat="x in lists">
+            {{x.Name}}+{{x.Age}}+{{x.Parm}}
+        </li>
+    </ul>
+    <select ng-init="l=lists[0].Name" ng-model='l' ng-options="x.Name for x in lists"></select>
+</div>
+    <script type="text/javascript">
+        var App = angular.module("myApp", []);
+        App.controller('myController', function ($scope, $http) {
+            $scope.Name = '';
+            $scope.Age = 0;
+            $scope.Parm = '';
+            $scope.lists = '';
+            //$scope.selName = '';
+            $http.get('http://localhost:1035/api/DemoApi/GetApi', { params: { 'p': 'abc' } }).then(function (a) {
+                $scope.Name = a.data.Name;
+                $scope.Age = a.data.Age;
+                $scope.Parm = a.data.Parm;
+            }, function (b) {
+                alert(b);
+            });
+            $http.post('http://localhost:1035/api/DemoApi/GetListApi', { 'p': 'abc', 'p1': 'def' }, { params: { 'p': 'abc1', 'p1': 'def2' } }).then(function (a) {
+                $scope.lists = a.data;
+                //$scope.selName = a.data[0].Name;
+            });
+        });
+    </script>
+</body>
+</html>
