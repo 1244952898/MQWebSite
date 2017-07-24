@@ -195,8 +195,16 @@
         filepath = encodeURIComponent(filepath);
 
         var url = '@DomainUrlHelper.EmployeeBgPath/DisplayGuide/SaveGuideFile';
-        $.post(url, { 'title': title, 'time': time, 'fileoriginname': fileoriginname, 'filenewname': filenewname, 'filepath': filepath, 'filetype': filetype }, function () {
-
+        $.post(url, { 'title': title, 'time': time, 'fileoriginname': fileoriginname, 'filenewname': filenewname, 'filepath': filepath, 'filetype': filetype }, function (data) {
+            data = eval('(' + data + ')');
+            if (data.ErrorCode == 'E000') {
+                layer.msg('添加文件成功！');
+            } else {
+                layer.alert(data.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                });
+            }
         });
     }
 
@@ -204,7 +212,7 @@
         // swf文件路径
         swf: '@(DomainUrlHelper.EmployeeBgPath)/libs/webuploader/Uploader.swf', // swf文件路径
         // 文件接收服务端。
-        server: '@(DomainUrlHelper.UploadPath)/Files/PostGuideFile?key=@(LoginHelper.UserId)&filetype=DisplayGuideFile', // 文件接收服务端。
+        server: '@(DomainUrlHelper.UploadPath)/Files/PostGuideFile?key=@(LoginHelper.UserId)&filetype=GuideFile', // 文件接收服务端。
         pick: {
             id: '#picker',
             label: '点击选择文件'

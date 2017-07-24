@@ -115,7 +115,12 @@ namespace mq.webservice.upload.Controllers
                     long reslt = _bgUpFilesService.Add(bgUpFiles);
                     if (reslt > 0)
                     {
-                        return Json(new FileUploadEntity { ErrorCode = "00000", ErrorMessage = fn, Attach = string.Format("{0}({1}).{2}", fileorigin.Replace("." + bgUpFiles.ext, ""), cnt, bgUpFiles.ext), FilePath = bgUpFiles.filepath, FileType = fileExt });
+                        string oname = fileorigin.ToLower().Replace("." + bgUpFiles.ext.ToLower(), "");
+                        string attach = cnt > 0
+                            ? string.Format("{0}.{1}", oname, bgUpFiles.ext)
+                            : string.Format("{0}({1}).{2}", oname, cnt, bgUpFiles.ext);
+
+                        return Json(new FileUploadEntity { ErrorCode = "00000", ErrorMessage = fn, Attach = attach, FilePath = bgUpFiles.filepath, FileType = fileExt });
                     }
                     else
                     {
@@ -212,9 +217,10 @@ namespace mq.webservice.upload.Controllers
                     long reslt = _bgUpFilesService.Add(bgUpFiles);
                     if (reslt > 0)
                     {
+                        string oname = fileorigin.ToLower().Replace("." + bgUpFiles.ext.ToLower(), "");
                         string attach = cnt > 0
-                            ? string.Format("{0}.{1}", fileorigin.Replace("." + bgUpFiles.ext, ""),bgUpFiles.ext)
-                            : string.Format("{0}({1}).{2}", fileorigin.Replace("." + bgUpFiles.ext, ""), cnt,bgUpFiles.ext);
+                            ? string.Format("{0}.{1}", oname, bgUpFiles.ext)
+                            : string.Format("{0}({1}).{2}", oname, cnt, bgUpFiles.ext);
 
                         return Json(new FileUploadEntity { ErrorCode = "00000", ErrorMessage = fn, Attach = attach, FilePath = bgUpFiles.filepath, FileType = fileExt });
                     }
