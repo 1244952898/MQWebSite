@@ -17,5 +17,13 @@ namespace AngularJsDemo.Controllers
         {
             return View();
         }
+        public ActionResult C()
+        {
+            return View();
+        }
+        public ActionResult D()
+        {
+            return View();
+        }
     }
 }

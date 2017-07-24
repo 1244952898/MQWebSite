@@ -9,6 +9,14 @@
     <meta name="viewport" content="width=device-width" />
     <script src="~/Scripts/angular.min.js"></script>
     <title>B</title>
+    <style type="text/css">
+        /*table tr:nth-child(odds) {
+        background-color:#00ff21     
+        }
+        table tr:nth-child(even) {
+        background-color:#ffd300     
+        }*/
+    </style>
 </head>
 <body>
 <div ng-app="myApp" ng-controller="myController">
@@ -25,6 +33,73 @@
         </li>
     </ul>
     <select ng-init="l=lists[0].Name" ng-model='l' ng-options="x.Name for x in lists"></select>
+    <p>{{l.Name}}+{{l.Age}}</p><br/>
+    <select ng-model="ll">
+        <option ng-repeat="x in lists" value="{{x.Age}}">{{x.Name}}</option>
+    </select>
+    <p>{{ll.Name}}+{{ll.Age}}+{{ll}}</p><br/>
+
+    <select ng-model="llll" ng-options="y.a for (x,y) in lists2"></select>
+    <p>{{llll}}</p>
+
+    <table>
+        <tr style="{{$odd?'background-color:#808080':''}}" ng-repeat=" x in lists|orderBy: 'Age'">
+            <td style="{{$even?'background-color:#a6ba2c':''}}">{{$index+1}}</td>
+            <td>{{x.Name}}</td>
+            <td>{{x.Age}}</td>
+        </tr>
+    </table>
+    <table>
+        <tr ng-repeat="x in lists|orderBy :'Age'">
+            <td ng-if="$odd" style="background-color:#a6ba2c">{{$index+1}}</td>
+            <td >{{x.Name|uppercase }}</td>
+            <td ng-if ="$even" style="background-color:#e64a4a">{{x.Age}}</td>
+        </tr>
+    </table>
+    <input type="button" ng-disabled="dbl"  value="11111"/>
+    <input type="checkbox"  ng-model="dbl"/>
+    <p>{{dbl}}</p>
+
+    <p ng-show="shw">show</p>
+    <p ng-show="!shw">!show</p>
+    <p ng-hide="shw">hide</p>
+    <p ng-hide="!shw">!hide</p>
+    <input type="text" ng-model="fname" ng-show="shw" />
+    <input type="text" ng-model="lname" ng-show="shw" />
+    <input type="button" value="11" ng-click="btn();"/>
+    <input type="button" value="reset" ng-click="rest();"/>
+
+    <div>
+        <input type="radio" ng-model="chk"  value="a"/>
+        <input type="radio" ng-model="chk" value="b" />
+        <input type="radio" ng-model="chk" value="c" />
+        <input type="radio" ng-model="chk" value="d" />
+    </div>
+    <div ng-switch="chk">
+        <p ng-switch-when="a">aaaaaaaaaaaa</p>
+        <p ng-switch-when="b">bbbbbbbbbb</p>
+        <p ng-switch-when="c">ccccccccccccc</p>
+        <p ng-switch-when="d">dddddddddd</p>
+    </div>
+
+    lists1: <select ng-model="lll" ng-options="x for (x,y) in lists1"></select>
+    <p style="background-color:#808080">{{lll}}</p>
+    <div ng-switch="lll">
+            <p ng-switch-when="1">111111111</p>
+            <p ng-switch-when="2">222222222</p>
+            <p ng-switch-when="3">333333333</p>
+        </div>
+
+    <form novalidate>
+        First Name:<br>
+        <input type="text" ng-model="user.firstName"><br>
+        Last Name:<br>
+        <input type="text" ng-model="user.lastName">
+        <br><br>
+        <button ng-click="reset()">RESET</button>
+    </form>
+    <p>form = {{user}}</p>
+    <p>master = {{master}}</p>
 </div>
     <script type="text/javascript">
         var App = angular.module("myApp", []);
@@ -33,6 +108,8 @@
             $scope.Age = 0;
             $scope.Parm = '';
             $scope.lists = '';
+            $scope.lists1 = { 'a': 1, "b": 2, "c": 3 }
+            $scope.lists2 = { a: { a: 1, b: 2, c: 3 }, b: {a:4,b:5,c:6}}
             //$scope.selName = '';
             $http.get('http://localhost:1035/api/DemoApi/GetApi', { params: { 'p': 'abc' } }).then(function (a) {
                 $scope.Name = a.data.Name;
@@ -45,6 +122,19 @@
                 $scope.lists = a.data;
                 //$scope.selName = a.data[0].Name;
             });
+
+            $scope.shw = true;
+            $scope.fname = "1";
+            $scope.lname = "2";
+            $scope.btn = function () {
+                $scope.shw = !$scope.shw;
+            }
+
+            $scope.master = { firstName: "John", lastName: "Doe" };
+            $scope.reset = function () {
+                $scope.user = angular.copy($scope.master);
+            };
+            $scope.reset();
         });
     </script>
 </body>

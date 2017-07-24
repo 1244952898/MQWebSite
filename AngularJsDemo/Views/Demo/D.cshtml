@@ -1,0 +1,89 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>D</title>
+    <script src="https://cdn.bootcss.com/angular.js/1.6.4/angular.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.6.4/angular-animate.min.js"></script>
+    <style type="text/css">
+        .cck{
+  transition: all linear 0.5s;
+  background-color: lightblue;
+  height: 100px;
+  width: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+        .ng-hide {
+  height: 0;
+  width: 0;
+  background-color: transparent;
+  top:-200px;
+  left: 200px;
+}
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="myController">
+    <div ng-include="'http://localhost:1035/pageIndex.html'">
+    </div>
+
+
+    <h1>隐藏 DIV: 
+    <input type="checkbox" ng-model="myCheck">
+    </h1>
+    <div ng-hide="myCheck" class="cck">11111111111111111</div>
+
+    <h2>AngularJS 简单应用</h2>
+    <div >
+        <p>输入一个数字: <input type="number" ng-model="number" /></p>
+        <button ng-click="square()">X<sup>2</sup></button>
+        <p>结果: {{result}}</p>
+    </div>
+
+    <script type="text/javascript">
+        var App = angular.module("myApp", ['ngAnimate']);
+        App.controller('myController', function ($scope, $http, myservice, myvalue) {
+            $scope.lists = '';
+            $http.get('http://localhost:1035/api/DemoApi/GetListApi', { params: { 'p': 'abc1', 'p1': 'def2' } }).then(function (a) {
+                $scope.lists = a.data;
+            }, function (b) {
+                alert(b);
+            });
+
+            $scope.number = myvalue;
+            $scope.result = myservice.squ($scope.number)+1;
+
+            $scope.square = function () {
+                $scope.result = myservice.squ($scope.number);
+            }
+        });
+        App.value('myvalue', 5);
+        App.factory('myfac', function () {
+            var faty = {};
+            faty.mul = function (a,b) {
+                return a * b;
+            }
+            return faty;
+        });
+
+        App.service('myservice', function (myfac) {
+            this.squ = function (a) {
+                return myfac.mul(a, a);
+            }
+        })
+
+        //App.config(function ($sceDelegateProvider) {
+        //    $sceDelegateProvider.resourceUrlWhitelist([
+        //        'http://c.runoob.com/runoobtest/**'
+        //    ]);
+        //});
+    </script>
+</body>
+</html>

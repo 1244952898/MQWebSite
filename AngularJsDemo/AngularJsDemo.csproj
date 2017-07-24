@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="pageIndex.html" />
     <Content Include="readme.txt" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
@@ -121,6 +122,8 @@
     <Content Include="Views\AngularDemo\Demo.cshtml" />
     <Content Include="Views\Demo\A.cshtml" />
     <Content Include="Views\Demo\B.cshtml" />
+    <Content Include="Views\Demo\C.cshtml" />
+    <Content Include="Views\Demo\D.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

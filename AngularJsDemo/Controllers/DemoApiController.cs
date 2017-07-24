@@ -42,6 +42,24 @@ namespace AngularJsDemo.Controllers
                      Name = "bb",
                     Age = 2,
                     Parm = p1
+                },
+                new JsonDemoApi
+                {
+                     Name = "cc",
+                    Age = 3,
+                    Parm = p1
+                },
+                new JsonDemoApi
+                {
+                     Name = "dd",
+                    Age = 4,
+                    Parm = p1
+                },
+                new JsonDemoApi
+                {
+                     Name = "bb",
+                    Age = 2,
+                    Parm = p1
                 }
             };
             return list;
