@@ -36,8 +36,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
           <Property Name="FileNewName" Type="nvarchar" MaxLength="400" />
           <Property Name="FileOriginName" Type="nvarchar" MaxLength="400" />
           <Property Name="FilePath" Type="nvarchar" MaxLength="1000" />
@@ -127,6 +127,7 @@
           <Property Name="proofreading" Type="nvarchar" MaxLength="250" />
           <Property Name="proofpath" Type="nvarchar" MaxLength="800" />
           <Property Name="addtime" Type="datetime" />
+          <Property Name="type" Type="int" />
         </EntityType>
         <EntityType Name="T_BG_User">
           <Key>
@@ -384,6 +385,7 @@
           <Property Name="proofreading" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="proofpath" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
           <Property Name="addtime" Type="DateTime" Precision="3" />
+          <Property Name="type" Type="Int32" />
         </EntityType>
         <EntityType Name="T_BG_PublishFile">
           <Key>
@@ -455,7 +457,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="FileNewName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="FileOriginName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="FilePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -586,6 +588,7 @@
           <EntitySetMapping Name="T_BG_UpFiles">
             <EntityTypeMapping TypeName="POSModel.T_BG_UpFiles">
               <MappingFragment StoreEntitySet="T_BG_UpFiles">
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="addtime" ColumnName="addtime" />
                 <ScalarProperty Name="proofpath" ColumnName="proofpath" />
                 <ScalarProperty Name="proofreading" ColumnName="proofreading" />

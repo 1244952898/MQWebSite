@@ -46,7 +46,7 @@ namespace mq.application.common
             {
                 strRoot = ActiveFileCollectionRoot.TrimEnd('\\');
             }
-            else if (type.Equals(OrignalTypeEnum.GuideFile.ToString(), StringComparison.InvariantCultureIgnoreCase) || type == "2")
+            else if (type.Equals(OrignalTypeEnum.GuideFile.ToString(), StringComparison.InvariantCultureIgnoreCase) || type == "3")
             {
                 strRoot = GuideFileCollectionRoot.TrimEnd('\\');
             }

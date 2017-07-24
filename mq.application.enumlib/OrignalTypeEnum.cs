@@ -21,6 +21,6 @@ namespace mq.application.enumlib
         /// <summary>
         /// 2:陈列指引
         /// </summary>
-        GuideFile=2
+        GuideFile=3
     }
 }

@@ -53,12 +53,15 @@
             text-decoration: none !important;
             line-height: 48px;
         }
+
         .layui-elem-quote {
             height: 70px;
         }
-        .layui-elem-quote button {
-            float: right;
-        }
+
+            .layui-elem-quote button {
+                float: right;
+            }
+
         .layui-elem-quote {
             border-left: 10px solid #009688;
         }
@@ -77,7 +80,7 @@
         <div class="col-md-12 column form-group">
             <label for="inputEmail" class="col-sm-2 control-label">主 题：</label>
             <div class="col-sm-10" style="padding-left: 0;">
-                <input type="email" class="form-control" id="inputEmail" placeholder="请输入陈列指引文件的主题"/>
+                <input type="email" class="form-control" id="inputEmail" placeholder="请输入陈列指引文件的主题" />
             </div>
         </div>
         <div class="col-md-12 column form-group">
@@ -103,6 +106,9 @@
                 </blockquote>
             </div>
         </div>
+        <div class="col-md-12 column form-group">
+            <button class="layui-btn" onclick="Save();">保  存</button>
+        </div>
     </div>
 </div>
 <input type="hidden" id="orginname" value="" />
@@ -110,12 +116,12 @@
 <input type="hidden" id="filepath" value="" />
 <input type="hidden" id="filetype" value="" />
 <script type="text/javascript">
-    $(function() {
-        layui.use(['laydate'], function() {
+    $(function () {
+        layui.use(['laydate'], function () {
         });
 
         if ('@ViewBag.id' > 0) {
-            $.post('@Url.Action("GetDisplayFile")', { 'id': '@ViewBag.id' }, function(data) {
+            $.post('@Url.Action("GetDisplayFile")', { 'id': '@ViewBag.id' }, function (data) {
                 var dat = eval('(' + data + ')');
                 if (dat.ErrorCode == 'E000') {
                     $('#inputEmail').val(dat.File.Title);
@@ -136,17 +142,69 @@
     });
 
     function DelBtn() {
-        $('#orginname').val('');
-        $('#newname').val('');
-        $('#filepath').val('');
-        $('#filetype').val('');
+        var filename = $('#newname').val();
+        if (filename == undefined || filename == '') {
+            //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+            layer.alert('数据错误！', {
+                icon: 2,
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+        }
+        var url = '@DomainUrlHelper.UploadPath/Files/DelFile';
+        $.post(url, { 'filename': filename }, function (data) {
+            data = eval('(' + data + ')');
+            if (data.ErrorCode == 'E000') {
+                layer.msg('删除文件成功！');
+                $('#orginname').val('');
+                $('#newname').val('');
+                $('#filepath').val('');
+                $('#filetype').val('');
+            } else {
+                layer.alert(data.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                });
+            }
+        });
+
+
+    }
+
+    function Save() {
+        var title = $('#inputEmail').val();
+        var time = $('#time').val();
+        var fileoriginname = $('#orginname').val();
+        var filenewname = $('#newname').val();
+        var filepath = $('#filepath').val();
+        var filetype = $('#filetype').val();
+        if (time == undefined || time == '') {
+            layer.alert('请输入发布时间！', {
+                icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+        }
+        if (fileoriginname == undefined || fileoriginname == '' || filenewname == undefined || filenewname == '' || filepath == undefined || filepath == '' || filetype == undefined || filetype == '') {
+            layer.alert('请上传文件！', {
+                icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+        }
+
+        title = escape(title);
+        fileoriginname = escape(fileoriginname);
+        filepath = encodeURIComponent(filepath);
+
+        var url = '@DomainUrlHelper.EmployeeBgPath/DisplayGuide/SaveGuideFile';
+        $.post(url, { 'title': title, 'time': time, 'fileoriginname': fileoriginname, 'filenewname': filenewname, 'filepath': filepath, 'filetype': filetype }, function () {
+
+        });
     }
 
     var uploader = WebUploader.create({
         // swf文件路径
         swf: '@(DomainUrlHelper.EmployeeBgPath)/libs/webuploader/Uploader.swf', // swf文件路径
         // 文件接收服务端。
-        server: '@(DomainUrlHelper.UploadPath)/Files/FileExtensionPdfRarZip?key=@(LoginHelper.UserId)&filetype=DisplayGuideFile', // 文件接收服务端。
+        server: '@(DomainUrlHelper.UploadPath)/Files/PostGuideFile?key=@(LoginHelper.UserId)&filetype=DisplayGuideFile', // 文件接收服务端。
         pick: {
             id: '#picker',
             label: '点击选择文件'
@@ -175,11 +233,11 @@
             '<h4 class="info">' + file.name + '</h4>' +
             '<p class="state">等待上传...</p>' +
         '</div>');
-            if ( state === 'uploading' ) {
-               // uploader.stop();
-            } else {
-                uploader.upload();
-            }
+        if (state === 'uploading') {
+            // uploader.stop();
+        } else {
+            uploader.upload();
+        }
     });
 
     // 文件上传过程中创建进度条实时显示。
@@ -237,5 +295,5 @@
         //$('#' + file.id).find('.progress').fadeOut();
         $('#' + file.id).fadeOut();
     });
-    
+
 </script>

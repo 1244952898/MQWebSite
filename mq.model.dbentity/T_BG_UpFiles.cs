@@ -25,5 +25,6 @@ namespace mq.model.dbentity
         public string proofreading { get; set; }
         public string proofpath { get; set; }
         public Nullable<System.DateTime> addtime { get; set; }
+        public Nullable<int> type { get; set; }
     }
 }

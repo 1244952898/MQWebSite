@@ -39,6 +39,11 @@ namespace mq.webservice.upload.Controllers
 
             userid = "1";
 
+            OrignalTypeEnum saveType = type.Equals("GuideFile") || type.Equals("3")
+                ? OrignalTypeEnum.GuideFile
+                : type.Equals("ActiveFile") || type.Equals("1")
+                    ? OrignalTypeEnum.ActiveFile
+                    : OrignalTypeEnum.PublicFile;
 
             long lUserId = userid.ToLong(-1);
             //string.IsNullOrEmpty(sign) || 
@@ -103,10 +108,10 @@ namespace mq.webservice.upload.Controllers
                         return Json(new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "服务器不能解析上传的pdf，请选择其他文件重新上传！" });
                     }
 
-                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, filetype = 0, addtime = DateTime.Now };
+                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, filetype = 0, addtime = DateTime.Now, type = saveType.ToInt(0) };
 
                     string fileorigin = originFileName.ReplaceSqlTag();
-                    long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt);
+                    long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt,saveType.ToInt(0));
                     long reslt = _bgUpFilesService.Add(bgUpFiles);
                     if (reslt > 0)
                     {
@@ -138,6 +143,12 @@ namespace mq.webservice.upload.Controllers
 
             userid = "1";
 
+
+            OrignalTypeEnum saveType = type.Equals("GuideFile") || type.Equals("3")
+               ? OrignalTypeEnum.GuideFile
+               : type.Equals("ActiveFile") || type.Equals("1")
+                   ? OrignalTypeEnum.ActiveFile
+                   : OrignalTypeEnum.PublicFile;
 
             long lUserId = userid.ToLong(-1);
             //string.IsNullOrEmpty(sign) || 
@@ -194,14 +205,18 @@ namespace mq.webservice.upload.Controllers
                         return Json(new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "服务器不能解析上传的pdf，请选择其他文件重新上传！" });
                     }
 
-                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, filetype = 0, addtime = DateTime.Now };
+                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, filetype = 0, addtime = DateTime.Now, type = saveType.ToInt(0) };
 
                     string fileorigin = originFileName.ReplaceSqlTag();
-                    long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt);
+                    long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt, saveType.ToInt(0));
                     long reslt = _bgUpFilesService.Add(bgUpFiles);
                     if (reslt > 0)
                     {
-                        return Json(new FileUploadEntity { ErrorCode = "00000", ErrorMessage = fn, Attach = string.Format("{0}({1}).{2}", fileorigin.Replace("." + bgUpFiles.ext, ""), cnt, bgUpFiles.ext), FilePath = bgUpFiles.filepath, FileType = fileExt });
+                        string attach = cnt > 0
+                            ? string.Format("{0}.{1}", fileorigin.Replace("." + bgUpFiles.ext, ""),bgUpFiles.ext)
+                            : string.Format("{0}({1}).{2}", fileorigin.Replace("." + bgUpFiles.ext, ""), cnt,bgUpFiles.ext);
+
+                        return Json(new FileUploadEntity { ErrorCode = "00000", ErrorMessage = fn, Attach = attach, FilePath = bgUpFiles.filepath, FileType = fileExt });
                     }
                     else
                     {
@@ -219,7 +234,13 @@ namespace mq.webservice.upload.Controllers
 
         public JsonResult DelFile()
         {
-            string filePath = CommonHelper.GetPostValue("filepath");
+            string filename = CommonHelper.GetPostValue("filename");
+            T_BG_UpFiles upFiles = _bgUpFilesService.GetListByFilename(filename);
+            if (upFiles==null)
+            {
+                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "未获得文件信息" });
+            }
+            string filePath = upFiles.filepath;
             if (string.IsNullOrEmpty(filePath))
             {
                 return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "未获得文件地址" });
