@@ -14,12 +14,11 @@ namespace mq.windowsservice.im
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
+            var servicesToRun = new ServiceBase[] 
             { 
                 new test1() 
             };
-            ServiceBase.Run(ServicesToRun);
+            ServiceBase.Run(servicesToRun);
         }
     }
 }
