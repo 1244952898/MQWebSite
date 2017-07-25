@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mq.test.im", "mq.test.im\mq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mq.ui.im", "mq.ui.im\mq.ui.im.csproj", "{C1E45178-D469-4CD3-8CC2-A646E446E9EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mq.windowsservice.im", "mq.windowsservice.im\mq.windowsservice.im.csproj", "{EDEC3020-B3E1-45A0-8376-F81F675A366A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +165,10 @@ Global
 		{C1E45178-D469-4CD3-8CC2-A646E446E9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1E45178-D469-4CD3-8CC2-A646E446E9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1E45178-D469-4CD3-8CC2-A646E446E9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDEC3020-B3E1-45A0-8376-F81F675A366A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEC3020-B3E1-45A0-8376-F81F675A366A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDEC3020-B3E1-45A0-8376-F81F675A366A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEC3020-B3E1-45A0-8376-F81F675A366A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,5 +197,6 @@ Global
 		{95D0DB6C-3A6B-4E12-A715-15F228E69BBB} = {B44B248F-2BB5-479F-8904-643DE633B559}
 		{B7FF569D-464A-4DB6-AA25-AE1C17106D03} = {B44B248F-2BB5-479F-8904-643DE633B559}
 		{C1E45178-D469-4CD3-8CC2-A646E446E9EE} = {107BD733-D37D-4EA9-B449-8542E99B4942}
+		{EDEC3020-B3E1-45A0-8376-F81F675A366A} = {880DA4A9-EE39-4DC8-8CB4-43B8EB841C10}
 	EndGlobalSection
 EndGlobal
