@@ -8,7 +8,7 @@
 @section head
 {
     @Styles.Render("~/libs/webuploader/webuploaderCss", "~/libs/datetimepicker/jquery.datetimepickercss", "~/libs/bootstrap3.3.7/css/bootstrap", "~/libs/webuploader/DemoCss")
-    @Scripts.Render("~/libs/webuploader/webuploaderJs", "~/libs/datetimepicker/jquery.datetimepickercjs", "~/libs/bootstrap3.3.7/js/bootstrap")
+    @Scripts.Render("~/libs/webuploader/webuploaderJs", "~/libs/datetimepicker/jquery.datetimepickercjs", "~/libs/bootstrap3.3.7/js/bootstrap", "~/libs/layer/layer")
     <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
     <!-- 注意： 如果通过 file:// 引入 Respond.js 文件，则该文件无法起效果 -->
     <!--[if lt IE 9]>
@@ -121,15 +121,18 @@
         });
 
         if ('@ViewBag.id' > 0) {
-            $.post('@Url.Action("GetDisplayFile")', { 'id': '@ViewBag.id' }, function (data) {
-                var dat = eval('(' + data + ')');
+            $.post('@Url.Action("GetDisplayFile")', { 'id': '@ViewBag.id' }, function (dat) {
+               // var dat = eval('(' + data + ')');
                 if (dat.ErrorCode == 'E000') {
                     $('#inputEmail').val(dat.File.Title);
-                    $('#time').val(dat.File.Title.PublishTime);
-                    $('#orginname').val(dat.File.Title.FileOriginName);
-                    $('#newname').val(dat.File.Title.FileNewName);
-                    $('#filepath').val(dat.File.Title.FilePath);
-                    $('#filetype').val(dat.File.Title.FileType);
+                    $('#time').val(dat.PublishTime);
+                    $('#orginname').val(dat.File.FileOriginName);
+                    $('#fileMessage label').text(dat.File.FileOriginName);
+                    $('#fileMessage').show();
+                    $('#newname').val(dat.File.FileNewName);
+                    $('#filepath').val(dat.File.FilePath);
+                    $('#filetype').val(dat.File.FileType);
+                   
                 } else {
                     //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
                     layer.alert(dat.ErrorMessage, {
@@ -152,13 +155,14 @@
         }
         var url = '@DomainUrlHelper.UploadPath/Files/DelFile';
         $.post(url, { 'filename': filename }, function (data) {
-            data = eval('(' + data + ')');
+          // var data = eval('(' + datas + ')');
             if (data.ErrorCode == 'E000') {
                 layer.msg('删除文件成功！');
                 $('#orginname').val('');
                 $('#newname').val('');
                 $('#filepath').val('');
                 $('#filetype').val('');
+                $('#fileMessage').hide();
             } else {
                 layer.alert(data.ErrorMessage, {
                     icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
@@ -285,7 +289,7 @@
             $('#newname').val(json.ErrorMessage);
             $('#filepath').val(json.FilePath);
             $('#filetype').val(json.FileType);
-
+            uploader.removeFile(file);
         } else {
             //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
             layer.alert('系统发生异常', {

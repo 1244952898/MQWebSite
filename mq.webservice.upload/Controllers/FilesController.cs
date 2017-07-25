@@ -111,12 +111,12 @@ namespace mq.webservice.upload.Controllers
                     T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, filetype = 0, addtime = DateTime.Now, type = saveType.ToInt(0) };
 
                     string fileorigin = originFileName.ReplaceSqlTag();
-                    long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt,saveType.ToInt(0));
+                    long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt, saveType.ToInt(0));
                     long reslt = _bgUpFilesService.Add(bgUpFiles);
                     if (reslt > 0)
                     {
                         string oname = fileorigin.ToLower().Replace("." + bgUpFiles.ext.ToLower(), "");
-                        string attach = cnt > 0
+                        string attach = cnt <= 0
                             ? string.Format("{0}.{1}", oname, bgUpFiles.ext)
                             : string.Format("{0}({1}).{2}", oname, cnt, bgUpFiles.ext);
 
@@ -218,7 +218,7 @@ namespace mq.webservice.upload.Controllers
                     if (reslt > 0)
                     {
                         string oname = fileorigin.ToLower().Replace("." + bgUpFiles.ext.ToLower(), "");
-                        string attach = cnt > 0
+                        string attach = cnt <= 0
                             ? string.Format("{0}.{1}", oname, bgUpFiles.ext)
                             : string.Format("{0}({1}).{2}", oname, cnt, bgUpFiles.ext);
 
@@ -242,7 +242,7 @@ namespace mq.webservice.upload.Controllers
         {
             string filename = CommonHelper.GetPostValue("filename");
             T_BG_UpFiles upFiles = _bgUpFilesService.GetListByFilename(filename);
-            if (upFiles==null)
+            if (upFiles == null)
             {
                 return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "未获得文件信息" });
             }
@@ -251,16 +251,36 @@ namespace mq.webservice.upload.Controllers
             {
                 return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "未获得文件地址" });
             }
-            filePath = HttpUtility.UrlDecode(filePath);
-            if (Directory.Exists(filePath))
+            try
             {
-                Directory.Delete(filePath,false);
-                return Json(new FileUploadEntity { ErrorCode = "E000", ErrorMessage = "删除成功" });
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                    return Json(new FileUploadEntity { ErrorCode = "E000", ErrorMessage = "删除成功" });
+                }
+                else
+                {
+                    return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "该文件不存在" });
+                }
             }
-            else
+            catch (Exception)
             {
-                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "该文件不存在" });
+                return Json(new FileUploadEntity { ErrorCode = "E0002", ErrorMessage = "删除文件异常" });
             }
+
+
+            //filePath = HttpUtility.UrlDecode(filePath);
+            //FileStream fileStream = new FileStream(filePath,FileMode.Truncate);
+            //fileStream.
+            //if (Directory.Exists(filePath))
+            //{
+            //    Directory.Delete(filePath,false);
+            //    return Json(new FileUploadEntity { ErrorCode = "E000", ErrorMessage = "删除成功" });
+            //}
+            //else
+            //{
+            //    return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "该文件不存在" });
+            //}
         }
     }
 }

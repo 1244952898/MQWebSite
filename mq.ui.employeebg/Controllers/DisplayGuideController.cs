@@ -44,11 +44,14 @@ namespace mq.ui.employeebg.Controllers
             {
                 json.ErrorCode = "E001";
                 json.ErrorMessage = "未获得Id!";
-                return Json(json);
             }
-            json.ErrorCode = "E000";
-            json.ErrorMessage = "成功!";
-            json.File = _bgDisplayGuideFileService.GetBgDisplayGuideFile(id);
+            else
+            {
+                json.ErrorCode = "E000";
+                json.ErrorMessage = "成功!";
+                json.File = _bgDisplayGuideFileService.GetBgDisplayGuideFile(id);
+                json.PublishTime = json.File.PublishTime.ToDateTime(DateTime.MinValue).ToString("yyyy-MM-dd hh:mm:ss");
+            }
             return Json(json);
         }
 
@@ -59,17 +62,17 @@ namespace mq.ui.employeebg.Controllers
             string fileoriginname = CommonHelper.GetPostValue("fileoriginname");
             string filenewname = CommonHelper.GetPostValue("filenewname");
             string filepath = CommonHelper.GetPostValue("filepath");
-            string filetype = CommonHelper.GetPostValue("filetype");;
+            string filetype = CommonHelper.GetPostValue("filetype"); ;
             title = HttpUtility.UrlDecode(title);
             fileoriginname = HttpUtility.UrlDecode(fileoriginname);
             filepath = HttpUtility.UrlDecode(filepath);
-            JsonGuideFleSaveEntity json=new JsonGuideFleSaveEntity();
+            JsonGuideFleSaveEntity json = new JsonGuideFleSaveEntity();
             if (string.IsNullOrEmpty(time) || string.IsNullOrEmpty(fileoriginname) || string.IsNullOrEmpty(filenewname) || string.IsNullOrEmpty(filepath) || string.IsNullOrEmpty(filetype))
             {
                 json.ErrorCode = "E001";
                 json.ErrorMessage = "参数不全！";
             }
-            T_BG_DisplayGuideFile displayGuideFile=new T_BG_DisplayGuideFile();
+            T_BG_DisplayGuideFile displayGuideFile = new T_BG_DisplayGuideFile();
             displayGuideFile.Title = title;
             displayGuideFile.FileNewName = filenewname;
             displayGuideFile.FileOriginName = fileoriginname;
@@ -79,8 +82,8 @@ namespace mq.ui.employeebg.Controllers
             displayGuideFile.PublishTime = time.ToDateTime(DateTime.MinValue);
             displayGuideFile.AddTime = DateTime.Now;
             displayGuideFile.IsDel = 0;
-            long result =_bgDisplayGuideFileService.AddDisplayGuideFile(displayGuideFile);
-            if (result>0)
+            long result = _bgDisplayGuideFileService.AddDisplayGuideFile(displayGuideFile);
+            if (result > 0)
             {
                 json.ErrorCode = "E000";
                 json.ErrorMessage = "添加成功！";

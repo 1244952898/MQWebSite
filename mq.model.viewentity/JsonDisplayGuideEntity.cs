@@ -10,5 +10,6 @@ namespace mq.model.viewentity
     public class JsonDisplayGuideEntity:JsonBaseEntity
     {
         public T_BG_DisplayGuideFile File { get; set; }
+        public string PublishTime { get; set; }
     }
 }
