@@ -11,5 +11,6 @@ namespace mq.model.viewentity
         public string FileUrl { get; set; }
         public string ExtensionField { get; set; }
         public string FileName { get; set; }
+        public string OldFileName { get; set; }
     }
 }

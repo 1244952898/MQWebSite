@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="employeebg\JsonDisplayGuideApiDelEntity.cs" />
+    <Compile Include="employeebg\JsonDisplayGuideAptGetListData.cs" />
     <Compile Include="employeebg\JsonGuideFleSaveEntity.cs" />
     <Compile Include="FileUploadEntity.cs" />
     <Compile Include="JsonActiveFileApiGetList.cs" />
@@ -74,6 +76,8 @@
     <Compile Include="LoginValidateEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicFileDetailView.cs" />
+    <Compile Include="publicmessage\JsonDisplayPartitionDel.cs" />
+    <Compile Include="publicmessage\JsonDisplayPartitionSaveDisplayPartition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mq.model.dbentity\mq.model.dbentity.csproj">
