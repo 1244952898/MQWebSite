@@ -244,43 +244,26 @@ namespace mq.webservice.upload.Controllers
             T_BG_UpFiles upFiles = _bgUpFilesService.GetListByFilename(filename);
             if (upFiles == null)
             {
-                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "未获得文件信息" });
+                return Json(new FileUploadEntity { ErrorCode = "E0000", ErrorMessage = "未获得文件信息" });
             }
             string filePath = upFiles.filepath;
             if (string.IsNullOrEmpty(filePath))
             {
-                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "未获得文件地址" });
+                return Json(new FileUploadEntity { ErrorCode = "E0000", ErrorMessage = "未获得文件地址" });
             }
-            try
+            string msg;
+         
+            bool result = FileHelper.DelFile(filePath, out msg);
+            if (!result)
             {
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                    return Json(new FileUploadEntity { ErrorCode = "E000", ErrorMessage = "删除成功" });
-                }
-                else
-                {
-                    return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "该文件不存在" });
-                }
+               return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = msg });
             }
-            catch (Exception)
+            bool delResult = _bgUpFilesService.DelFile(upFiles);
+            if (!delResult)
             {
-                return Json(new FileUploadEntity { ErrorCode = "E0002", ErrorMessage = "删除文件异常" });
-            }
-
-
-            //filePath = HttpUtility.UrlDecode(filePath);
-            //FileStream fileStream = new FileStream(filePath,FileMode.Truncate);
-            //fileStream.
-            //if (Directory.Exists(filePath))
-            //{
-            //    Directory.Delete(filePath,false);
-            //    return Json(new FileUploadEntity { ErrorCode = "E000", ErrorMessage = "删除成功" });
-            //}
-            //else
-            //{
-            //    return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "该文件不存在" });
-            //}
+                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "删除表里数据失败！" });
+            } 
+            return Json(new FileUploadEntity { ErrorCode = "E0000", ErrorMessage = "删除成功" });
         }
     }
 }

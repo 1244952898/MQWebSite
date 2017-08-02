@@ -140,6 +140,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FilesController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -155,9 +156,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Files\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\mq.application.common\mq.application.common.csproj">
       <Project>{f5d724ba-554f-4664-b285-e886ba4a80f2}</Project>
@@ -174,6 +173,10 @@
     <ProjectReference Include="..\mq.application.webmvc\mq.application.webmvc.csproj">
       <Project>{a1f3f946-87f5-4f08-bde0-335acf51c995}</Project>
       <Name>mq.application.webmvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mq.dataaccess.nosql\mq.dataaccess.nosql.csproj">
+      <Project>{0a53fab2-f142-4627-9df9-10e74e37034c}</Project>
+      <Name>mq.dataaccess.nosql</Name>
     </ProjectReference>
     <ProjectReference Include="..\mq.model.dbentity\mq.model.dbentity.csproj">
       <Project>{972e976f-b1c2-4389-93ce-8034470c97a8}</Project>
