@@ -95,6 +95,13 @@ namespace mq.dataaccess.nosql
 
         }
 
+        public static void DelFileByName(string dbName, string filename)
+        {
+            MongoDatabase db = ServerInstance().GetDatabase(dbName);
+            if (db.GridFS.Exists(filename.ToUpper()))
+                db.GridFS.Delete(filename.ToUpper());
+        }
+
         /// <summary>
         /// 根据文件名，获取一个ContentType
         /// </summary>
