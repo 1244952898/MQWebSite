@@ -25,7 +25,8 @@ namespace koala.application.common
         /// </summary>
         public static long UserId
         {
-            get { return CookieHelper.GetCookie(CommonVariables.LoginCookiebgUserID).ToLong(0); }
+            get { return 1L; }
+            //get { return CookieHelper.GetCookie(CommonVariables.LoginCookiebgUserID).ToLong(0); }
         }
     
         /// <summary>

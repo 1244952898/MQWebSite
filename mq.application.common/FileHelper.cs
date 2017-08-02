@@ -18,5 +18,30 @@ namespace mq.application.common
                 return BitConverter.ToString(md5.ComputeHash(fs)).Replace("-", "");
             }
         }
+
+        public static bool DelFile(string filePath,out string result)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                result = "未获得文件地址";
+                return false;
+            }
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                    result = "删除成功"; 
+                    return true;
+                }
+                result = "该文件不存在";
+                return true;
+            }
+            catch (Exception)
+            {
+                result = "删除文件g异常";
+                return false;
+            }
+        }
     }
 }
