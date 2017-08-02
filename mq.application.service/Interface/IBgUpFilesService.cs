@@ -12,5 +12,7 @@ namespace mq.application.service
         long Add(T_BG_UpFiles bgUpFiles);
         long GetListByUserIdAndFileNameAndExt(string originFileName, long? userid, string ext, int type);
         T_BG_UpFiles GetListByFilename(string filename);
+        bool DelFile(T_BG_UpFiles file);
+        bool DelFileByFileNewName(string newName);
     }
 }

@@ -90,12 +90,14 @@
     <Compile Include="Implement\ActiveFileDepartmentExtendService.cs" />
     <Compile Include="Implement\BgActiveFileService.cs" />
     <Compile Include="Implement\BgDepartmentService.cs" />
+    <Compile Include="Implement\BgDisplayPartitionService.cs" />
     <Compile Include="Implement\BgLoginLogService.cs" />
     <Compile Include="Implement\BgMenuService.cs" />
     <Compile Include="Implement\BgPublishFileService.cs" />
     <Compile Include="Implement\BgUpFilesService.cs" />
     <Compile Include="Implement\BgUserService.cs" />
     <Compile Include="Implement\BgVActiveFileDepartmentService.cs" />
+    <Compile Include="Implement\BgVDisplayGuideFileService.cs" />
     <Compile Include="Implement\BgVPublishFileUserService.cs" />
     <Compile Include="Interface\IBgDisplayGuideFileService.cs" />
     <Compile Include="Implement\UserService.cs" />
@@ -103,12 +105,14 @@
     <Compile Include="Interface\IActiveFileDepartmentExtendService.cs" />
     <Compile Include="Interface\IBgActiveFileService.cs" />
     <Compile Include="Interface\IBgDepartmentService.cs" />
+    <Compile Include="Interface\IBgDisplayPartitionService.cs" />
     <Compile Include="Interface\IBgLoginLogService.cs" />
     <Compile Include="Interface\IBgMenuService.cs" />
     <Compile Include="Interface\IBgPublishFileService.cs" />
     <Compile Include="Interface\IBgUpFilesService.cs" />
     <Compile Include="Interface\IBgUserService.cs" />
     <Compile Include="Interface\IBgVActiveFileDepartmentService.cs" />
+    <Compile Include="Interface\IBgVDisplayGuideFileService.cs" />
     <Compile Include="Interface\IBgVPublishFileUserService.cs" />
     <Compile Include="Interface\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,6 +129,10 @@
     <ProjectReference Include="..\mq.application.enumlib\mq.application.enumlib.csproj">
       <Project>{06342f0f-16ae-43d7-b322-ad139e95df12}</Project>
       <Name>mq.application.enumlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mq.dataaccess.nosql\mq.dataaccess.nosql.csproj">
+      <Project>{0a53fab2-f142-4627-9df9-10e74e37034c}</Project>
+      <Name>mq.dataaccess.nosql</Name>
     </ProjectReference>
     <ProjectReference Include="..\mq.dataaccess.sql\mq.dataaccess.sql.csproj">
       <Project>{be24cb39-f952-4438-9613-7efbab5ec141}</Project>

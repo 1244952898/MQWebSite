@@ -11,5 +11,9 @@ namespace mq.application.service
     {
         long AddDisplayGuideFile(T_BG_DisplayGuideFile displayGuideFile);
         T_BG_DisplayGuideFile GetBgDisplayGuideFile(long id);
+        bool UpdateDisplayGuideFile(T_BG_DisplayGuideFile displayGuideFile);
+        List<T_BG_DisplayGuideFile> GetList();
+
+        bool DelGuideFileAndUploadFile(string newFileName);
     }
 }
