@@ -18,6 +18,8 @@
         <EntityTypeShape EntityType="POSModel.T_BG_Department" Width="1.5" PointX="9.75" PointY="0.75" />
         <EntityTypeShape EntityType="POSModel.T_BG_DisplayGuideFile" Width="1.5" PointX="8.375" PointY="9.75" />
         <EntityTypeShape EntityType="POSModel.V_BG_ActiveFile_Department" Width="1.5" PointX="3.375" PointY="9.75" />
+        <EntityTypeShape EntityType="POSModel.V_BG_DisplayGuideFile_User" Width="1.5" PointX="10.375" PointY="9.75" />
+        <EntityTypeShape EntityType="POSModel.T_BG_DisplayPartition" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

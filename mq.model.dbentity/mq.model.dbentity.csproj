@@ -123,6 +123,9 @@
     <Compile Include="T_BG_DisplayGuideFile.cs">
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_BG_DisplayPartition.cs">
+      <DependentUpon>mqEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_BG_LoginLog.cs">
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
@@ -148,6 +151,9 @@
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="V_BG_ActiveFile_Department.cs">
+      <DependentUpon>mqEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_BG_DisplayGuideFile_User.cs">
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="V_BG_PublishFile_User.cs">

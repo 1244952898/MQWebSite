@@ -47,6 +47,20 @@
           <Property Name="AddTime" Type="datetime" />
           <Property Name="IsDel" Type="int" />
         </EntityType>
+        <EntityType Name="T_BG_DisplayPartition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepartmentId" Type="bigint" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="PublishTime" Type="datetime" />
+          <Property Name="IsDel" Type="int" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="OldFileName" Type="nvarchar" MaxLength="400" />
+        </EntityType>
         <EntityType Name="T_BG_LoginLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -192,6 +206,24 @@
           <Property Name="IsDel" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“POS.dbo.V_BG_DisplayGuideFile_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BG_DisplayGuideFile_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="FileNewName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FileOriginName" Type="nvarchar" MaxLength="400" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileType" Type="nvarchar" MaxLength="20" />
+          <Property Name="UserId" Type="bigint" />
+          <Property Name="PublishTime" Type="datetime" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="IsDel" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“POS.dbo.V_BG_PublishFile_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_BG_PublishFile_User">
           <Key>
@@ -217,6 +249,7 @@
           <EntitySet Name="T_BG_ActiveFile" EntityType="Self.T_BG_ActiveFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Department" EntityType="Self.T_BG_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_DisplayGuideFile" EntityType="Self.T_BG_DisplayGuideFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_DisplayPartition" EntityType="Self.T_BG_DisplayPartition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_LoginLog" EntityType="Self.T_BG_LoginLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Menu" EntityType="Self.T_BG_Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_PublishFile" EntityType="Self.T_BG_PublishFile" Schema="dbo" store:Type="Tables" />
@@ -241,6 +274,21 @@
     [V_BG_ActiveFile_Department].[Lvl] AS [Lvl], 
     [V_BG_ActiveFile_Department].[IsDel] AS [IsDel]
     FROM [dbo].[V_BG_ActiveFile_Department] AS [V_BG_ActiveFile_Department]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_BG_DisplayGuideFile_User" EntityType="Self.V_BG_DisplayGuideFile_User" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BG_DisplayGuideFile_User].[Name] AS [Name], 
+    [V_BG_DisplayGuideFile_User].[Id] AS [Id], 
+    [V_BG_DisplayGuideFile_User].[Title] AS [Title], 
+    [V_BG_DisplayGuideFile_User].[FileNewName] AS [FileNewName], 
+    [V_BG_DisplayGuideFile_User].[FileOriginName] AS [FileOriginName], 
+    [V_BG_DisplayGuideFile_User].[FilePath] AS [FilePath], 
+    [V_BG_DisplayGuideFile_User].[FileType] AS [FileType], 
+    [V_BG_DisplayGuideFile_User].[UserId] AS [UserId], 
+    [V_BG_DisplayGuideFile_User].[PublishTime] AS [PublishTime], 
+    [V_BG_DisplayGuideFile_User].[AddTime] AS [AddTime], 
+    [V_BG_DisplayGuideFile_User].[IsDel] AS [IsDel]
+    FROM [dbo].[V_BG_DisplayGuideFile_User] AS [V_BG_DisplayGuideFile_User]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BG_PublishFile_User" EntityType="Self.V_BG_PublishFile_User" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -304,6 +352,8 @@
           <EntitySet Name="T_BG_Department" EntityType="POSModel.T_BG_Department" />
           <EntitySet Name="T_BG_DisplayGuideFile" EntityType="POSModel.T_BG_DisplayGuideFile" />
           <EntitySet Name="V_BG_ActiveFile_Department" EntityType="POSModel.V_BG_ActiveFile_Department" />
+          <EntitySet Name="V_BG_DisplayGuideFile_User" EntityType="POSModel.V_BG_DisplayGuideFile_User" />
+          <EntitySet Name="T_BG_DisplayPartition" EntityType="POSModel.T_BG_DisplayPartition" />
         </EntityContainer>
         <EntityType Name="T_BG_User">
           <Key>
@@ -484,6 +534,36 @@
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Lvl" Type="Int32" />
           <Property Name="IsDel" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_BG_DisplayGuideFile_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FileNewName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FileOriginName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int64" />
+          <Property Name="PublishTime" Type="DateTime" Precision="3" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDel" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_BG_DisplayPartition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentId" Type="Int64" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="PublishTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDel" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="OldFileName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -703,6 +783,38 @@
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
                 <ScalarProperty Name="DeparementId" ColumnName="DeparementId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BG_DisplayGuideFile_User">
+            <EntityTypeMapping TypeName="POSModel.V_BG_DisplayGuideFile_User">
+              <MappingFragment StoreEntitySet="V_BG_DisplayGuideFile_User">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="PublishTime" ColumnName="PublishTime" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileOriginName" ColumnName="FileOriginName" />
+                <ScalarProperty Name="FileNewName" ColumnName="FileNewName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_DisplayPartition">
+            <EntityTypeMapping TypeName="POSModel.T_BG_DisplayPartition">
+              <MappingFragment StoreEntitySet="T_BG_DisplayPartition">
+                <ScalarProperty Name="OldFileName" ColumnName="OldFileName" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="PublishTime" ColumnName="PublishTime" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
