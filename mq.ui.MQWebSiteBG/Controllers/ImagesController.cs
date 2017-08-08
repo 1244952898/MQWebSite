@@ -29,11 +29,13 @@ namespace mq.ui.EmployeeWebSite.Controllers
         private string[] MongoDbNameArray = new string[]{
             ""//0：保留，暂时不能使用
             ,"mq_bg_images_test"//1：机构logo
+            ,"mq_bg_"
           };
 
         #region 通用图片上传接口
 
         [HttpPost]
+        [HttpGet]
         //[Route("Images/{type:int:range(1,20)}/Upload")]
         [OverrideActionFilters]
         public JsonResult UploadImage(int type)
