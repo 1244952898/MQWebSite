@@ -63,9 +63,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="employeebg\JsonAreaAddAreaEntity.cs" />
     <Compile Include="employeebg\JsonDisplayGuideApiDelEntity.cs" />
     <Compile Include="employeebg\JsonDisplayGuideAptGetListData.cs" />
     <Compile Include="employeebg\JsonGuideFleSaveEntity.cs" />
+    <Compile Include="employeebg\ShopAddEntity.cs" />
     <Compile Include="FileUploadEntity.cs" />
     <Compile Include="JsonActiveFileApiGetList.cs" />
     <Compile Include="JsonAddFileEntity.cs" />
