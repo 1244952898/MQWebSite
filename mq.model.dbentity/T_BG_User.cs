@@ -27,5 +27,7 @@ namespace mq.model.dbentity
         public string ApproveName { get; set; }
         public Nullable<System.DateTime> AddTime { get; set; }
         public Nullable<int> IsDel { get; set; }
+        public Nullable<long> DepartmentId { get; set; }
+        public Nullable<long> AreaId { get; set; }
     }
 }

@@ -40,5 +40,7 @@ namespace mq.model.dbentity
         public virtual DbSet<V_BG_ActiveFile_Department> V_BG_ActiveFile_Department { get; set; }
         public virtual DbSet<V_BG_DisplayGuideFile_User> V_BG_DisplayGuideFile_User { get; set; }
         public virtual DbSet<T_BG_DisplayPartition> T_BG_DisplayPartition { get; set; }
+        public virtual DbSet<T_BG_Area> T_BG_Area { get; set; }
+        public virtual DbSet<T_BG_Shop> T_BG_Shop { get; set; }
     }
 }

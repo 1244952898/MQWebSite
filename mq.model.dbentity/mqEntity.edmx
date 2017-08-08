@@ -22,6 +22,15 @@
           <Property Name="IsDel" Type="int" />
           <Property Name="AddTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="T_BG_Area">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDel" Type="int" />
+          <Property Name="AddTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="T_BG_Department">
           <Key>
             <PropertyRef Name="Id" />
@@ -126,6 +135,20 @@
           <Property Name="AddTime" Type="datetime" />
           <Property Name="IsDel" Type="int" />
         </EntityType>
+        <EntityType Name="T_BG_Shop">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="30" />
+          <Property Name="LeaderID" Type="int" Nullable="false" />
+          <Property Name="Areas" Type="bigint" />
+          <Property Name="OpenDate" Type="datetime" />
+          <Property Name="WithdrawDate" Type="datetime" />
+          <Property Name="AreaId" Type="bigint" />
+        </EntityType>
         <EntityType Name="T_BG_UpFiles">
           <Key>
             <PropertyRef Name="Id" />
@@ -160,6 +183,8 @@
           <Property Name="ApproveName" Type="nvarchar" MaxLength="20" />
           <Property Name="AddTime" Type="datetime" />
           <Property Name="IsDel" Type="int" />
+          <Property Name="DepartmentId" Type="bigint" />
+          <Property Name="AreaId" Type="bigint" />
         </EntityType>
         <EntityType Name="T_User">
           <Key>
@@ -247,6 +272,7 @@
         </EntityType>
         <EntityContainer Name="POSModelStoreContainer">
           <EntitySet Name="T_BG_ActiveFile" EntityType="Self.T_BG_ActiveFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_Area" EntityType="Self.T_BG_Area" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Department" EntityType="Self.T_BG_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_DisplayGuideFile" EntityType="Self.T_BG_DisplayGuideFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_DisplayPartition" EntityType="Self.T_BG_DisplayPartition" Schema="dbo" store:Type="Tables" />
@@ -255,6 +281,7 @@
           <EntitySet Name="T_BG_PublishFile" EntityType="Self.T_BG_PublishFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Role" EntityType="Self.T_BG_Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Role_Menu" EntityType="Self.T_BG_Role_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_Shop" EntityType="Self.T_BG_Shop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_UpFiles" EntityType="Self.T_BG_UpFiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_User" EntityType="Self.T_BG_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_User" EntityType="Self.T_User" Schema="dbo" store:Type="Tables" />
@@ -354,6 +381,8 @@
           <EntitySet Name="V_BG_ActiveFile_Department" EntityType="POSModel.V_BG_ActiveFile_Department" />
           <EntitySet Name="V_BG_DisplayGuideFile_User" EntityType="POSModel.V_BG_DisplayGuideFile_User" />
           <EntitySet Name="T_BG_DisplayPartition" EntityType="POSModel.T_BG_DisplayPartition" />
+          <EntitySet Name="T_BG_Area" EntityType="POSModel.T_BG_Area" />
+          <EntitySet Name="T_BG_Shop" EntityType="POSModel.T_BG_Shop" />
         </EntityContainer>
         <EntityType Name="T_BG_User">
           <Key>
@@ -372,6 +401,8 @@
           <Property Name="ApproveName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="AddTime" Type="DateTime" Precision="3" />
           <Property Name="IsDel" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int64" />
+          <Property Name="AreaId" Type="Int64" />
         </EntityType>
         <EntityType Name="T_BG_LoginLog">
           <Key>
@@ -565,6 +596,29 @@
           <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="OldFileName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="T_BG_Area">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="AreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDel" Type="Int32" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="T_BG_Shop">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LeaderID" Type="Int32" Nullable="false" />
+          <Property Name="Areas" Type="Int64" />
+          <Property Name="OpenDate" Type="DateTime" Precision="3" />
+          <Property Name="WithdrawDate" Type="DateTime" Precision="3" />
+          <Property Name="AreaId" Type="Int64" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -598,6 +652,8 @@
           <EntitySetMapping Name="T_BG_User">
             <EntityTypeMapping TypeName="POSModel.T_BG_User">
               <MappingFragment StoreEntitySet="T_BG_User">
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="IsDel" ColumnName="IsDel" />
                 <ScalarProperty Name="AddTime" ColumnName="AddTime" />
                 <ScalarProperty Name="ApproveName" ColumnName="ApproveName" />
@@ -816,6 +872,31 @@
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_Area">
+            <EntityTypeMapping TypeName="POSModel.T_BG_Area">
+              <MappingFragment StoreEntitySet="T_BG_Area">
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_Shop">
+            <EntityTypeMapping TypeName="POSModel.T_BG_Shop">
+              <MappingFragment StoreEntitySet="T_BG_Shop">
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="WithdrawDate" ColumnName="WithdrawDate" />
+                <ScalarProperty Name="OpenDate" ColumnName="OpenDate" />
+                <ScalarProperty Name="Areas" ColumnName="Areas" />
+                <ScalarProperty Name="LeaderID" ColumnName="LeaderID" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
