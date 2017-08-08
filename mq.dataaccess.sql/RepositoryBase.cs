@@ -772,6 +772,41 @@ namespace mq.dataaccess.sql
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="predicateGroup"></param>
+        /// <param name="sort"></param>
+        /// <param name="recordCount"></param>
+        /// <returns></returns>
+        public IEnumerable<T> QueryList(PredicateGroup predicateGroup, IList<ISort> sort)
+        {
+            IEnumerable<T> result = null;
+            try
+            {
+                if (conn == null)
+                {
+                    conn = MPConnection.GetConnection();
+                }
+                OpenConnection();
+
+                if (conn.State == ConnectionState.Open)
+                {
+                    result = conn.GetList<T>(predicateGroup, sort);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Close();
+            }
+            return result;
+        }
+
+
+        /// <summary>
         /// 查询符合条件的记录数
         /// </summary>
         /// <param name="fullCountSql"></param>

@@ -90,17 +90,20 @@
   <ItemGroup>
     <Compile Include="Implement\ActiveFileDepartmentExtendRepository.cs" />
     <Compile Include="Implement\BgActiveFileRepository.cs" />
+    <Compile Include="Implement\BgAreaRepository.cs" />
     <Compile Include="Implement\BgDepartmentRepository.cs" />
     <Compile Include="Implement\BgDisplayGuideFileRepository.cs" />
     <Compile Include="Implement\BgDisplayPartitionRepository.cs" />
     <Compile Include="Implement\BgLoginLogRepository.cs" />
     <Compile Include="Implement\BgMenuRepository.cs" />
     <Compile Include="Implement\BgPublishFileRepository.cs" />
+    <Compile Include="Implement\BgShopRepository.cs" />
     <Compile Include="Implement\BgUpFilesRepository.cs" />
     <Compile Include="Implement\BGUserRepository.cs" />
     <Compile Include="Implement\BgVActiveFileDepartmentRepository.cs" />
     <Compile Include="Implement\BgVDisplayGuideFileRepository.cs" />
     <Compile Include="Implement\BgVPublishFileUserRepository.cs" />
+    <Compile Include="Interface\IBgAreaRepository.cs" />
     <Compile Include="Interface\IBgDisplayGuideFileRepository.cs" />
     <Compile Include="Implement\UserRepository.cs" />
     <Compile Include="Interface\IActiveFileDepartmentExtendRepository.cs" />
@@ -110,6 +113,7 @@
     <Compile Include="Interface\IBgPublishFileRepository.cs" />
     <Compile Include="Interface\IBgLoginLogRepository.cs" />
     <Compile Include="Interface\IBgMenuRepository.cs" />
+    <Compile Include="Interface\IBgShopRepository.cs" />
     <Compile Include="Interface\IBgUpFilesRepository.cs" />
     <Compile Include="Interface\IBgUserRepository.cs" />
     <Compile Include="Interface\IBgVActiveFileDepartmentRepository.cs" />

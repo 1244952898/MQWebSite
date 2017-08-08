@@ -55,6 +55,7 @@ namespace mq.dataaccess
         long QueryRecordCount(string fullCountSql, DynamicParameters dynamicParams);
         float QuerySumOrAvgRecordCount(string fullCountSql, DynamicParameters dynamicParams);
         IEnumerable<T> QueryList(PredicateGroup predicateGroup, IList<ISort> sort, int pageIndex, int pageSize, out long recordCount);
+        IEnumerable<T> QueryList(PredicateGroup predicateGroup, IList<ISort> sort);
         IEnumerable<T> QueryList(QuerySqlStruct querySqlStruct, out long recordCount, bool limitResultSetMaxCount = true);
         IEnumerable<T> QueryList(string strSql, DynamicParameters dynamicParams, out long recordCount, string strSqlCount, bool limitResultSetMaxCount = true);
         IEnumerable<T> QueryList(string strSql, DynamicParameters dynamicParams, bool limitResultSetMaxCount = true);
