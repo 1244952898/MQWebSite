@@ -89,16 +89,19 @@
   <ItemGroup>
     <Compile Include="Implement\ActiveFileDepartmentExtendService.cs" />
     <Compile Include="Implement\BgActiveFileService.cs" />
+    <Compile Include="Implement\BgAreaService.cs" />
     <Compile Include="Implement\BgDepartmentService.cs" />
     <Compile Include="Implement\BgDisplayPartitionService.cs" />
     <Compile Include="Implement\BgLoginLogService.cs" />
     <Compile Include="Implement\BgMenuService.cs" />
     <Compile Include="Implement\BgPublishFileService.cs" />
+    <Compile Include="Implement\BgShopService.cs" />
     <Compile Include="Implement\BgUpFilesService.cs" />
     <Compile Include="Implement\BgUserService.cs" />
     <Compile Include="Implement\BgVActiveFileDepartmentService.cs" />
     <Compile Include="Implement\BgVDisplayGuideFileService.cs" />
     <Compile Include="Implement\BgVPublishFileUserService.cs" />
+    <Compile Include="Interface\IBgAreaService.cs" />
     <Compile Include="Interface\IBgDisplayGuideFileService.cs" />
     <Compile Include="Implement\UserService.cs" />
     <Compile Include="Implement\BgDisplayGuideFileService.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Interface\IBgLoginLogService.cs" />
     <Compile Include="Interface\IBgMenuService.cs" />
     <Compile Include="Interface\IBgPublishFileService.cs" />
+    <Compile Include="Interface\IBgShopService.cs" />
     <Compile Include="Interface\IBgUpFilesService.cs" />
     <Compile Include="Interface\IBgUserService.cs" />
     <Compile Include="Interface\IBgVActiveFileDepartmentService.cs" />

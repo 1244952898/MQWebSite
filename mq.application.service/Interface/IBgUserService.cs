@@ -12,5 +12,6 @@ namespace mq.application.service.Interface
         bool Login(string userName, string pwd);
         T_BG_User GetUser(string userName, string pwd);
         T_BG_User GetUserById(long id);
+        List<T_BG_User> GetList();
     }
 }
