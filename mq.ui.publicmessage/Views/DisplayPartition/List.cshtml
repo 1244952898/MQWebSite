@@ -1,0 +1,93 @@
+﻿@using System.Web.Optimization
+@using mq.application.common
+@using mq.application.webmvc
+@model List<mq.model.dbentity.T_BG_DisplayPartition> 
+@{
+    ViewBag.Title = "陈列分区列表";
+    Layout = "~/Views/Share/_BootStrapLayout.cshtml";
+}
+@section head
+{
+    @Scripts.Render("~/libs/layer/layer")
+    <style type="text/css">
+        .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+
+        .table thead th label {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+            background-color: rgb(242, 242, 242);
+        }
+
+        .table tbody tr td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table thead .code {
+            width: 15%;
+        }
+         .table thead .name {
+            width: 15%;
+        }
+          .table thead .time {
+            width: 15%;
+        }
+    </style>
+}
+<div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">陈列分区列表</li>
+            </ul>
+            <table class="table table-bordered  table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="code">店铺代码</th>
+                        <th class="name">店  铺</th>
+                        <th class="file">文  件</th>
+                        <th class="time">发布时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.DepartmentId</td>
+                                <td>@item.DepartmentName</td>
+                                <td>
+                                    <a href="@(DomainUrlHelper.UploadPath)/Images/ShowImage?type=2&picid=@item.FileName">@item.OldFileName</a>
+                                    @*<p onclick="DownloadBigPic('@(DomainUrlHelper.UploadPath)/Images/ShowImage?type=2&picid=@item.FileName')">@item.OldFileName</p>*@
+                                </td>
+                                <td>@item.PublishTime.ToDateTime(DateTime.MaxValue).ToString("yyyy/MM/dd HH:mm:ss")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    @*var downloadImgsrc = "@(DomainUrlHelper.PublicMessagePath)/DisplayPartition/DownLoadImg";
+    function DownloadBigPic(imgPathUrl) {
+      
+        var hf = downloadImgsrc + "?url=" + imgPathUrl;
+        if (!document.getElementById("IframeReportImg"))
+            $('<iframe style="display:none;" id="IframeReportImg" name="IframeReportImg"  width="0" height="0" src="about:blank"></iframe>').appendTo("body");
+        document.all.IframeReportImg.src = hf;
+
+    }*@
+</script>

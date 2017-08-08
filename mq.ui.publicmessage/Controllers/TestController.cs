@@ -8,10 +8,15 @@ namespace mq.ui.publicmessage.Controllers
 {
     public class TestController : Controller
     {
+        public ActionResult A()
+        {
+            return View();
+        }
+
         // GET: Share
         public ActionResult Menu()
         {
-            return View("~/Views/Share/_menu.cshtml");
+            return View("~/Views/Share/_BootStrapLayout.cshtml");
         }
     }
 }

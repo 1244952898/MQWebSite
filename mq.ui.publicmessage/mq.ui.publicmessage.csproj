@@ -146,6 +146,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ActiveFileController.cs" />
+    <Compile Include="Controllers\DisplayGuideController.cs" />
+    <Compile Include="Controllers\DisplayPartitionController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PublicMsgController.cs" />
     <Compile Include="Controllers\TestApiController.cs" />
@@ -165,6 +167,11 @@
     <Content Include="Views\PublicMsg\PublicFiles.cshtml" />
     <Content Include="Views\PublicMsg\PublicFileDetial.cshtml" />
     <Content Include="Views\ActiveFile\ActiveFileList.cshtml" />
+    <Content Include="Views\DisplayGuide\GuideFileList.cshtml" />
+    <Content Include="Views\Share\_BootStrapLayout.cshtml" />
+    <Content Include="Views\Test\A.cshtml" />
+    <Content Include="Views\DisplayPartition\Add.cshtml" />
+    <Content Include="Views\DisplayPartition\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -172,11 +179,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\Base\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\mq.application.common\mq.application.common.csproj">
       <Project>{f5d724ba-554f-4664-b285-e886ba4a80f2}</Project>

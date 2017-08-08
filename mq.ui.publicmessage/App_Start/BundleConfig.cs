@@ -139,6 +139,9 @@ namespace MQWebSite
             //5.bootstrap3.3.7
             bundles.Add(new StyleBundle("~/libs/bootstrap3.3.7/css/bootstrap", string.Format("{0}/libs/bootstrap3.3.7/css/bootstrap.min.css", sourchPath)).Include("~/libs/bootstrap3.3.7/css/bootstrap.min.css"));
             bundles.Add(new ScriptBundle("~/libs/bootstrap3.3.7/js/bootstrap", string.Format("{0}/libs/bootstrap3.3.7/js/bootstrap.min.js", sourchPath)).Include("~/libs/bootstrap3.3.7/js/bootstrap.min.js"));
+
+            //6. pluploader
+            bundles.Add(new ScriptBundle("~/libs/plupload-3.0-beta1/js/plupload", string.Format("{0}/libs/plupload-3.0-beta1/js/plupload.min.js", sourchPath)).Include("~/libs/plupload-3.0-beta1/js/plupload.min.js"));
             #endregion
         }
     }

@@ -1,0 +1,215 @@
+﻿@using System.Web.Optimization
+@using koala.application.common
+@using mq.application.webmvc
+@model List<mq.model.dbentity.T_BG_Department>
+@{
+    ViewBag.Title = "店铺陈列分区图添加";
+    Layout = "~/Views/Share/_BootStrapLayout.cshtml";
+}
+@section head
+{
+    @Scripts.Render("~/libs/plupload-3.0-beta1/js/plupload");
+    <style>
+        .layui-form .layui-inline .layui-form-label {
+            /*text-align: left;*/
+            width: 110px;
+            /*padding-right: 0;*/
+            padding-left: 0;
+        }
+
+        .layui-form-select .layui-input {
+            padding-right: 0;
+        }
+
+        .gettime {
+            margin-top: 15px;
+        }
+
+        .gettime .col-sm-2 {
+            padding-left: 0;
+            width: 110px;
+        }
+
+        #time {
+            width: 10%;
+        }
+
+        .words {
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .imageupload {
+            position: relative;margin-top: 15px;left: 110px;
+        }
+        .layui-progress {
+            margin-top: 20px;
+            width: 200px;
+        }
+        .row .col-md-12 #imagelay { margin-top: 20px; }
+        .row .col-md-12 .save {
+            position: relative;margin-top: 15px;left: 95px;
+        }
+    </style>
+}
+<input type="hidden" id="FileUrl" value="" />
+<input type="hidden" id="FileName" value="" />
+
+<div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">店铺陈列分区图添加</li>
+            </ul>
+
+            <div class="layui-form">
+                <div class="layui-inline">
+                    <label class="layui-form-label words" style="font-weight: 700">请选择部门：</label>
+                    <div class="layui-input-inline">
+                        <select name="quiz" id="slt">
+                            <option value="">==请选择店铺==</option>
+                            @if (Model != null && Model.Count > 0)
+                            {
+                                foreach (var department in Model)
+                                {
+                                    <option value="@department.Id">@department.DepartmentName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gettime">
+                <label class="col-sm-2 control-label words">发布时间：</label>
+                <input id="time" class="layui-input form-control" placeholder="输入发布日期" onclick="layui.laydate({ elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss', min: @(ViewBag.id == null || ViewBag.id <0 ? "laydate.now()" : "\'1989-08-27 11:59:59\'"), max: '2099-12-31 23:59:59' })">
+            </div>
+
+            <div class="layui-form imageupload">
+                <div>
+                    <button class="layui-btn layui-btn-normal" id="uploader">图片上传</button>
+                </div>
+
+                <div class="layui-progress" lay-showpercent="true" lay-filter="progress" style="display: none">
+                    <div id="persent" class="layui-progress-bar" lay-percent="0%"></div>
+                </div>
+
+                <div class="layui-inline " id="imagelay" style="display: none"></div>
+
+                <fieldset class="layui-elem-field" style="margin-top: 20px; width: 900px;display: none">
+                    <legend style="width: 120px;border-bottom: 2px solid #00bfff">文件名称：</legend>
+                    <div class="layui-field-box" id="oldFileName">
+                        你可以在这里放任何内容，比如表单神马的
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-md-12 column form-group save">
+                <button class="layui-btn" onclick="Save();">保  存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var element;
+    layui.use(['laydate', 'form', 'element'], function () {
+        element = layui.element();
+    });
+
+    var uploader = new plupload.Uploader({
+        browse_button: 'uploader',
+        url: '@(DomainUrlHelper.UploadPath)/Images/UploadImage?type=2',
+        filters: [{ title: "Image files", extensions: "jpg,gif,png" }],
+        max_file_size: '10mb',
+        multi_selection: false,
+        flash_swf_url: '@(DomainUrlHelper.SourchPath)/libs/plupload-3.0-beta1/js/Moxie.swf', // Flash settings
+        silverlight_xap_url: '@(DomainUrlHelper.SourchPath)/libs/plupload-3.0-beta1/js/Moxie.xap', // Silverlight settings
+        init: {
+            FilesAdded: function () {
+                uploader.start();
+                $('#persent').parent().show();
+            },
+            UploadProgress: function (up, file) {
+                element.progress('progress', file.percent + '%');
+            },
+            FileUploaded: function (up, file, result) {
+                $('#persent').parent().hide();
+
+                var jsonData = eval("(" + result.response + ")");
+                if (jsonData.ErrorCode == "10001") {
+                    var htmlImg = '<img src="@(DomainUrlHelper.UploadPath)/Images/ShowImage?type=2&picid=' + jsonData.FileName + '">';
+                    $('#imagelay').show().html(htmlImg);
+                    $('.layui-elem-field').show();
+                    layer.msg('上传成功', {icon: 1,time: 2000}, function () {
+                        //do something
+                    });
+                    $('#FileUrl').val(jsonData.FileUrl);
+                    $('#FileName').val(jsonData.FileName);
+                    $('#oldFileName').text(jsonData.OldFileName);
+                } else {
+                    layer.msg('同上', {
+                        icon: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function () {
+                        //do something
+                    });
+                }
+            },
+            UploadComplete: function (up, files) {
+            },
+            Error: function (up, err) {
+                console.log(err);
+            }
+        }
+    });
+
+    uploader.init();
+
+    function Save() {
+        var departId = $('#slt').val();
+        var departName = $('#slt').find("option:selected").text();;
+        var time = $('#time').val(); 
+        var fileName = $('#FileName').val();
+        var oldFileName = $('#oldFileName').text();
+        if (departId == undefined || departId == '' || departName == undefined || departName == '') {
+            layer.alert("请选择部门！", {
+                icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+            return;
+        }
+        if (time == undefined || time == '') {
+            layer.alert("请选择发布时间！", {
+                icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+            return;
+        }
+        if (fileName == undefined || fileName == '') {
+            layer.alert("请上传图片！", {
+                icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+            return;
+        }
+        var url = "@DomainUrlHelper.PublicMessagePath/DisplayPartition/SaveDisplayPartition";
+        $.post(url, { 'departId': departId, 'departName': encodeURIComponent(departName), 'time': time, 'fileName': fileName, 'oldFileName': encodeURIComponent(oldFileName) }, function (data) {
+            if (data.ErrorCode == "E000") {
+                layer.msg('添加成功', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                });
+            } else {
+                layer.msg(data.ErrorMessage, {
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                });
+            }
+        });
+    }
+</script>
