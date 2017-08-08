@@ -1,0 +1,121 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+@model List<mq.model.dbentity.T_BG_DisplayPartition>
+@{
+    ViewBag.Title = "EditList";
+    Layout = "~/Views/Share/_BootStrapLayout.cshtml";
+}
+@section head
+{
+    @Scripts.Render("~/libs/layer/layer")
+    <style type="text/css">
+        .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+
+        .table thead th label {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+            background-color: rgb(242, 242, 242);
+        }
+
+        .table tbody tr td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table thead .code {
+            width: 15%;
+        }
+
+        .table thead .name {
+            width: 15%;
+        }
+
+        .table thead .time {
+            width: 15%;
+        }
+
+          .table thead .del {
+            width: 15%;
+        }
+
+        .table .chk input {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+}
+
+<div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="javascript:void(0);">首页</a>
+                </li>
+                <li class="active">陈列指引文件列表</li>
+            </ul>
+            <table class="table table-bordered  table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="code">店铺代码</th>
+                        <th class="name">店  铺</th>
+                        <th class="file">文  件</th>
+                        <th class="time">发布时间</th>
+                        <th class="del">删  除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var bgDisplayPartition in Model)
+                        {
+                            <tr>
+                                <td>@bgDisplayPartition.DepartmentId</td>
+                                <td>@bgDisplayPartition.DepartmentName</td>
+                                <td><a href="@(DomainUrlHelper.UploadPath)/Images/ShowImage?type=2&picid=@bgDisplayPartition.FileName">@bgDisplayPartition.OldFileName</a></td>
+                                <td>@bgDisplayPartition.PublishTime.ToString()</td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-danger" onclick="DelData('@bgDisplayPartition.Id');">删 除</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default btn-primary" onclick="Add();">添 加</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function Add() {
+        window.location.href = '@(DomainUrlHelper.PublicMessagePath)/DisplayPartition/Add';
+    }
+
+    function DelData(id) {
+        var url = '@DomainUrlHelper.EmployeeBgPath/DisplayPartition/DelFile?id=' + id;
+        $.post(url, function (data) {
+            if (data.ErrorCode == 'E000') {
+                layer.msg('删除成功', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    window.location.reload();
+                });
+            } else {
+                layer.msg('删除失败', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+            }
+        });
+    }
+
+
+</script>

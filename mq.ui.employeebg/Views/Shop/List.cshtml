@@ -1,0 +1,36 @@
+﻿@using mq.application.webmvc
+
+@{
+    ViewBag.Title = "商店列表";
+    Layout = "~/Views/Share/_BootStrapLayout.cshtml";
+}
+<div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="javascript:void(0);">首页</a>
+                </li>
+                <li class="active">商店列表</li>
+            </ul>
+            <button type="button" class="btn btn-default btn-primary" onclick="AddPop();">
+                <i class="layui-icon">&#xe608;</i> 添 加
+            </button>
+            <table class="table table-bordered  table-striped table-hover" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th class="code">店铺代码</th>
+                        <th class="name">店  铺</th>
+                        <th class="file">文  件</th>
+                        <th class="time">发布时间</th>
+                        <th class="del">删  除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default btn-primary" onclick="Add();">添 加</button>
+        </div>
+    </div>
+</div>

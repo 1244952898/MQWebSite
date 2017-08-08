@@ -2,7 +2,7 @@
 @using koala.application.common
 @using mq.application.webmvc
 @{
-    ViewBag.Title = "添加陈列指引文件";
+    ViewBag.Title = ViewBag.id < 0 ? "添加陈列指引文件" : "修改陈列指引文件";
     Layout = "~/Views/Share/_Menu.cshtml";
 }
 @section head
@@ -15,7 +15,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <style type="text/css">
+    @*<style type="text/css">
         .breadcrumb > li + li:before {
             padding: 0 5px;
             color: #ccc;
@@ -32,7 +32,7 @@
             -webkit-min-width: 30%;
             min-width: 30%;
         }
-    </style>
+    </style>*@
 
     <style type="text/css">
         .col-sm-2 {
@@ -74,7 +74,7 @@
                 <li>
                     <a href="#">首页</a>
                 </li>
-                <li class="active">添加陈列指引文件</li>
+                <li class="active">@ViewBag.Title</li>
             </ul>
         </div>
         <div class="col-md-12 column form-group">
@@ -122,7 +122,7 @@
 
         if ('@ViewBag.id' > 0) {
             $.post('@Url.Action("GetDisplayFile")', { 'id': '@ViewBag.id' }, function (dat) {
-               // var dat = eval('(' + data + ')');
+                // var dat = eval('(' + data + ')');
                 if (dat.ErrorCode == 'E000') {
                     $('#inputEmail').val(dat.File.Title);
                     $('#time').val(dat.PublishTime);
@@ -132,7 +132,7 @@
                     $('#newname').val(dat.File.FileNewName);
                     $('#filepath').val(dat.File.FilePath);
                     $('#filetype').val(dat.File.FileType);
-                   
+                    $('#picker').css('left', '-9999px');
                 } else {
                     //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
                     layer.alert(dat.ErrorMessage, {
@@ -155,14 +155,15 @@
         }
         var url = '@DomainUrlHelper.UploadPath/Files/DelFile';
         $.post(url, { 'filename': filename }, function (data) {
-          // var data = eval('(' + datas + ')');
-            if (data.ErrorCode == 'E000') {
-                layer.msg('删除文件成功！');
+            // var data = eval('(' + datas + ')');
+            if (data.ErrorCode == 'E0000') {
+                layer.msg("删除成功");
                 $('#orginname').val('');
                 $('#newname').val('');
                 $('#filepath').val('');
                 $('#filetype').val('');
                 $('#fileMessage').hide();
+                $('#picker').css('left', '0');
             } else {
                 layer.alert(data.ErrorMessage, {
                     icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
@@ -199,10 +200,10 @@
         filepath = encodeURIComponent(filepath);
 
         var url = '@DomainUrlHelper.EmployeeBgPath/DisplayGuide/SaveGuideFile';
-        $.post(url, { 'title': title, 'time': time, 'fileoriginname': fileoriginname, 'filenewname': filenewname, 'filepath': filepath, 'filetype': filetype }, function (data) {
-            data = eval('(' + data + ')');
+        $.post(url, { 'id': '@ViewBag.id', 'title': title, 'time': time, 'fileoriginname': fileoriginname, 'filenewname': filenewname, 'filepath': filepath, 'filetype': filetype }, function (data) {
+            //data = eval('(' + data + ')');
             if (data.ErrorCode == 'E000') {
-                layer.msg('添加文件成功！');
+                layer.msg('保存成功！');
             } else {
                 layer.alert(data.ErrorMessage, {
                     icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
@@ -235,6 +236,7 @@
                 extensions: 'rar',
                 mimeTypes: 'application/rar'
             }],
+        auto:true,
         resize: false,
         fileNumLimit: 1,
         fileSizeLimit: 1 * 1024 * 1024,    // 200 M
@@ -279,10 +281,14 @@
         }
 
     });
+    uploader.on('uploadStart', function () {
+        $('#fileMessage').hide();
+    });
 
     uploader.on('uploadSuccess', function (file, json) {
         //var json = eval('(' + response + ')');
         if (json.ErrorCode != undefined && json.ErrorCode == '00000') {
+            $('#picker').css('left', '-9999px');
             $('#fileMessage').show();
             $('#fileMessage label').text(json.Attach);
             $('#orginname').val(json.Attach);
@@ -291,9 +297,9 @@
             $('#filetype').val(json.FileType);
             uploader.removeFile(file);
         } else {
-            //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+            
             layer.alert('系统发生异常', {
-                icon: 2,
+                icon: 2,//第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
                 skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
             });
         }

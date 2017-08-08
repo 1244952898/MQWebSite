@@ -150,6 +150,9 @@ namespace MQWebSite
             bundles.Add(new ScriptBundle("~/libs/uploadify/jquery.uploadify", string.Format("{0}/libs/uploadify/jquery.uploadify.min.js", sourchPath)).Include("~/libs/uploadify/jquery.uploadify.min.js"));
 
             bundles.Add(new ScriptBundle("~/libs/uploadify/jquery.uploadify", string.Format("{0}/libs/uploadify/jquery.uploadify.min.js", sourchPath)).Include("~/libs/uploadify/jquery.uploadify.min.js"));
+
+            //7 angular-1.6.5
+            bundles.Add(new ScriptBundle("~/libs/angular-1.6.5/angular", string.Format("{0}/libs/angular-1.6.5/angular.min.js", sourchPath)).Include("~/libs/angular-1.6.5/angular.min.js"));
             #endregion
         }
     }

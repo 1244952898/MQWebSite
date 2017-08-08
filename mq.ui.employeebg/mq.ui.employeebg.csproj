@@ -145,13 +145,17 @@
     <Compile Include="App_Start\WebApiSessionRouteHandler.cs" />
     <Compile Include="Controllers\ActiveFileApiController.cs" />
     <Compile Include="Controllers\ActiveFileController.cs" />
+    <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\DisplayGuideApiController.cs" />
     <Compile Include="Controllers\DisplayGuideController.cs" />
+    <Compile Include="Controllers\DisplayPartitionController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PublicMessageApiController.cs" />
     <Compile Include="Controllers\PublicMessageController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\TestApiController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,8 +174,17 @@
     <Content Include="Views\PublicMessage\PublicFileList.cshtml" />
     <Content Include="Views\ActiveFile\FileList.cshtml" />
     <Content Include="Views\DisplayGuide\AddGuideFile.cshtml" />
-    <Content Include="Views\Share\_BootStrapLayout.cshtml" />
     <Content Include="Views\Test\A.cshtml" />
+    <Content Include="Views\DisplayGuide\GuideFileList.cshtml" />
+    <Content Include="Views\DisplayPartition\EditList.cshtml" />
+    <Content Include="Views\Share\_BootStrapLayout.cshtml" />
+    <Content Include="Views\Menu\LeftMenu2.cshtml" />
+    <Content Include="Views\Area\List.cshtml" />
+    <Content Include="Views\Area\Add.cshtml" />
+    <Content Include="Views\Shop\List.cshtml" />
+    <Content Include="Views\Shop\Add.cshtml" />
+    <Content Include="Views\Shop\ListPartial.cshtml" />
+    <Content Include="Views\User\Add.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -179,9 +192,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\mq.application.common\mq.application.common.csproj">
       <Project>{f5d724ba-554f-4664-b285-e886ba4a80f2}</Project>

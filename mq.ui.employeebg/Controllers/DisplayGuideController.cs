@@ -20,7 +20,6 @@ namespace mq.ui.employeebg.Controllers
         private readonly IBgDisplayGuideFileService _bgDisplayGuideFileService;
         private readonly IBgUserService _bgUserService;
         private readonly IBgUpFilesService _bgUpFilesService;
-
         public DisplayGuideController(IBgDisplayGuideFileService bgDisplayGuideFileService, IBgUserService bgUserService, IBgUpFilesService bgUpFilesService)
         {
             _bgDisplayGuideFileService = bgDisplayGuideFileService;
@@ -33,6 +32,11 @@ namespace mq.ui.employeebg.Controllers
         {
             long id = CommonHelper.GetPostValue("id").ToLong(-1L);
             ViewBag.id = id;
+            return View();
+        }
+
+        public ActionResult GuideFileList()
+        {
             return View();
         }
 
@@ -57,6 +61,7 @@ namespace mq.ui.employeebg.Controllers
 
         public JsonResult SaveGuideFile()
         {
+            long id = CommonHelper.GetPostValue("id").ToLong(-1L);
             string title = CommonHelper.GetPostValue("title");
             string time = CommonHelper.GetPostValue("time");
             string fileoriginname = CommonHelper.GetPostValue("fileoriginname");
@@ -71,29 +76,71 @@ namespace mq.ui.employeebg.Controllers
             {
                 json.ErrorCode = "E001";
                 json.ErrorMessage = "参数不全！";
+                return Json(json);
             }
-            T_BG_DisplayGuideFile displayGuideFile = new T_BG_DisplayGuideFile();
-            displayGuideFile.Title = title;
-            displayGuideFile.FileNewName = filenewname;
-            displayGuideFile.FileOriginName = fileoriginname;
-            displayGuideFile.FilePath = filepath;
-            displayGuideFile.FileType = filetype;
-            displayGuideFile.UserId = LoginHelper.UserId;
-            displayGuideFile.PublishTime = time.ToDateTime(DateTime.MinValue);
-            displayGuideFile.AddTime = DateTime.Now;
-            displayGuideFile.IsDel = 0;
-            long result = _bgDisplayGuideFileService.AddDisplayGuideFile(displayGuideFile);
-            if (result > 0)
+
+            T_BG_DisplayGuideFile displayGuideFile = new T_BG_DisplayGuideFile
+            {
+                Title = title,
+                FileNewName = filenewname,
+                FileOriginName = fileoriginname,
+                FilePath = filepath,
+                FileType = filetype,
+                UserId = LoginHelper.UserId,
+                PublishTime = time.ToDateTime(DateTime.MinValue),
+                AddTime = DateTime.Now,
+                IsDel = 0
+            };
+
+            bool result;
+            if (id > 0)
+            {
+                T_BG_DisplayGuideFile file = _bgDisplayGuideFileService.GetBgDisplayGuideFile(id);
+                if (file == null)
+                {
+                    json.ErrorCode = "E001";
+                    json.ErrorMessage = "参数不全！";
+                    return Json(json);
+                }
+                displayGuideFile.Id = file.Id;
+                if (!file.FilePath.Equals(filepath,StringComparison.InvariantCultureIgnoreCase))
+                {
+                    //上传表里的数据也应该删除T_BG_UpFiles
+                    string msg;
+                    bool del = FileHelper.DelFile(file.FilePath, out msg);
+                    if (!del)
+                    {
+                        json.ErrorCode = "E002";
+                        json.ErrorMessage = "删除本地的文件失败！";
+                        return Json(json);
+                    }
+                    bool delResult = _bgUpFilesService.DelFileByFileNewName(filenewname);
+                    if (!delResult)
+                    {
+                        json.ErrorCode = "E002";
+                        json.ErrorMessage = "删除T_BG_UpFiles记录的文件失败！";
+                        return Json(json);
+                    }
+                }
+                result = _bgDisplayGuideFileService.UpdateDisplayGuideFile(displayGuideFile);
+            }
+            else
+            {
+                result = _bgDisplayGuideFileService.AddDisplayGuideFile(displayGuideFile) > 0;
+            }
+
+            if (result)
             {
                 json.ErrorCode = "E000";
-                json.ErrorMessage = "添加成功！";
+                json.ErrorMessage = "保存成功！";
             }
             else
             {
                 json.ErrorCode = "E002";
-                json.ErrorMessage = "添加失败！";
+                json.ErrorMessage = "保存失败！";
             }
             return Json(json);
         }
+
     }
 }

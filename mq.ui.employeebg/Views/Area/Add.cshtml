@@ -1,0 +1,72 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>添加区域</title>
+    @Styles.Render("~/libs/layui/layui/css/layui", "~/libs/bootstrap3.3.7/css/bootstrap")
+    @Scripts.Render("~/js/jquery", "~/libs/layui/layui/layui", "~/libs/bootstrap3.3.7/js/bootstrap")
+    <style type="text/css">
+        .layui-form-item {
+            width: 550px !important;
+        }
+
+        .btts {
+            float: right;
+            margin-left: -0px;
+            top: -37px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layui-form-item" style=" width: 200px; margin: 50px 0 20px 20px">
+        <label class="layui-form-label" style="width: 160px;">请输入区域名称：</label>
+        <div class="layui-input-block" style="width: 300px; height: 40px; margin-left: 160px;">
+            <input type="text" name="" id="name" lay-verify="required" placeholder="请输入区域名称" autocomplete="off" class="layui-input">
+
+        </div>
+        <div class="layui-input-block btts">
+            <button type="button" class="btn btn-default btn-primary" onclick="AddData();">添 加</button>
+        </div>
+
+    </div>
+<script type="text/javascript">
+    layui.use('layer', function () {
+        // layer = layui.layer;
+    });
+
+    function AddData() {
+        var name = $('#name').val();
+        if (name == undefined || name == '') {
+            layui.layer.msg('名称不能为空！');
+            return;
+        }
+        $.post('@DomainUrlHelper.EmployeeBgPath/Area/AddArea', { 'name': encodeURIComponent(name) }, function (data) {
+            if (data.ErrorCode == 'E000') {
+                layer.msg(data.ErrorMessage, {
+                    icon: 1, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon',
+                    time: 1000
+                }, function () {
+                    if (parent.CloseFuc != null) {
+                        parent.CloseFuc();
+                    }
+                });
+            } else {
+                layui.layer.alert(data.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

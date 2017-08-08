@@ -1,0 +1,183 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+@model List<mq.model.dbentity.T_BG_Area>
+@{
+    ViewBag.Title = "区域";
+    Layout = "~/Views/Share/_BootStrapLayout.cshtml";
+}
+
+
+@section head
+{
+    <style type="text/css">
+        .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+
+        .table thead th label {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+            background-color: rgb(242, 242, 242);
+        }
+
+        .table tbody tr td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table thead .select {
+            width: 9%;
+        }
+
+        .table thead .time {
+            width: 7%;
+        }
+
+        .table thead .file {
+            width: 20%;
+        }
+
+        .table thead .del {
+            width: 5%;
+        }
+
+        .table .chk input {
+            width: 16px;
+            height: 16px;
+        }
+
+        .layui-layer-btn {
+            text-align: center;
+        }
+    </style>
+}
+<div>
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="margin-top: 40px;">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">区域列表</li>
+            </ul>
+            <button type="button" class="btn btn-default btn-primary" onclick="AddPop();"><i class="layui-icon">&#xe608;</i> 添 加</button>
+            <table class="table table-bordered  table-striped table-hover" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th class="time">编  号</th>
+                        <th class="file">区域名称</th>
+                        <th class="select">修  改</th>
+                        <th class="del">删  除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var bgArea in Model)
+                        {
+                            <tr>
+                                <td>@bgArea.ID</td>
+                                <td>@bgArea.AreaName</td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-danger" onclick="ModifyShow(this)">修 改</button>
+                                    <div class="layui-form-item" style="display: none;margin-bottom: 0">
+                                        <input type="text" id="@("ID"+bgArea.ID)" class="layui-input" style="display: inline; width: 70%">
+                                        <button type="button" class="btn btn-default btn-danger" onclick="ModifyData('@bgArea.ID')">保存</button>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-danger" onclick="DelData('@bgArea.ID')">删 除</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var popId;
+    var layer;
+    layui.use('layer', function () {
+        // layer = layui.layer;
+    });
+
+    function AddPop() {
+        var url = '@DomainUrlHelper.EmployeeBgPath/Area/Add';
+
+        //iframe层-父子操作
+        popId = layui.layer.open({
+            type: 2,
+            titl: '添加区域',
+            area: ['600px', '200px'],
+            skin: 'layui-layer-lan',
+            fixed: false, //不固定
+            scrollbar: false,
+            content: url,
+            btnAlign: 'c'//设置不好用，失效了
+        });
+    }
+
+    function CloseFuc() {
+        if (undefined != popId || null != popId || popId == '') {
+            layer.close(popId);
+            window.location.reload();
+        }
+    }
+
+    function ModifyShow(btn) {
+        $(btn).hide().siblings().show();
+    }
+
+    function ModifyData(id) {
+        var obj = '#ID' + id;
+        var name = $(obj).val();
+        if (name == undefined || name == '') {
+            layer.msg('名称不能为空！');
+            return;
+        }
+        $.post('@DomainUrlHelper.EmployeeBgPath/Area/ModifyArea', { 'id': id, 'name': name }, function (data) {
+            if (data.ErrorCode == 'E000') {
+                layer.msg(data.ErrorMessage, {
+                    icon: 1,
+                    skin: 'layer-ext-moon', 
+                    time: 1000
+                }, function () {
+                    location.reload();
+                });
+            } else {
+                layer.alert(data.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon' 
+                });
+            }
+        });
+    }
+
+    function DelData(id) {
+        $.post('@DomainUrlHelper.EmployeeBgPath/Area/DelArea', { 'id': id }, function (data) {
+            if (data.ErrorCode == 'E000') {
+                layer.msg(data.ErrorMessage, {
+                    icon: 1, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon', 
+                    time: 1000 
+                }, function () {
+                    window.location.reload();
+                });
+            } else {
+                layer.alert(data.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon' 
+                });
+            }
+        });
+    }
+</script>

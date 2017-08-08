@@ -2,118 +2,179 @@
 @using koala.application.common
 @using mq.application.webmvc
 <!DOCTYPE html>
+
 <html>
 <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Scripts.Render("~/js/jquery", "~/libs/bootstrap3.3.7/js/bootstrap")
-    @Styles.Render( "~/libs/bootstrap3.3.7/css/bootstrap")
+    @Styles.Render("~/libs/layui/layui/css/layui", "~/libs/bootstrap3.3.7/css/bootstrap")
+    @Scripts.Render("~/js/jquery", "~/libs/layui/layui/layui", "~/libs/bootstrap3.3.7/js/bootstrap")
     @RenderSection("head", false)
+    <style type="text/css">
+          .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+         .logo img {
+             width: 51px;
+             height: 47px;
+         }
+
+        .dx-header {
+            border-bottom: 0 !important;
+            height: 70px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+            background-color: #fff;
+        }
+
+        .dx-header .layui-main {
+            margin: 0;
+        }
+
+        .dx-header .logo {
+            position: absolute;
+            width: 210px;
+            z-index: 2;
+            line-height: 70px;
+            text-align: center;
+        }
+
+        .dx-header .title {
+            font-size: 24px;
+            color: #c4c4c4;
+            position: absolute;
+            left: 235px;
+            line-height: 70px;
+        }
+
+        .dx-nav {
+            position: absolute;
+            right: 0;
+        }
+
+        .dx-nav li {
+            float: left;
+            color: #d8d8d8;
+            font-size: 14px;
+            line-height: 70px;
+            padding: 0 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dx-nav li span:first-child {
+            margin-right: 10px;
+            display: inline-block;
+            width: 38px;
+            height: 38px;
+            background-color: #424e5c;
+            border-radius: 50%;
+            line-height: 38px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .dx-nav li i {
+            font-size: 18px;
+            color: #242b33;
+        }
+
+        .dx-nav li:last-child {
+            padding-right: 30px;
+        }
+
+        .icon-moban162 {
+            font-family: iconfont !important;
+            font-size: 16px;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-1.png') no-repeat ;
+            background-position:center center;
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-moban162:hover {
+            background:url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-2.png') no-repeat ;
+            background-position:center center;
+        }
+
+        .icon-moban163 {
+            background:url('@(DomainUrlHelper.SourchPath)/Images/closed.png') no-repeat;
+            -ms-background-size: 20px 20px;
+            background-size: 20px 20px;
+            background-position:center center;
+        }
+
+        .icon-moban163:hover {
+            -ms-background-size: 20px 20px;
+            background-size: 20px 20px;
+            background:url('@(DomainUrlHelper.SourchPath)/Images/close_a.png') no-repeat;
+            background-position:center center;
+        }
+
+        .layui-nav-item {
+            background-color: rgb(52, 57, 61);
+        }
+        .layui-nav-child dd {
+            background-color: rgb(64, 69, 75);
+        }
+        .layui-nav-child dd a{
+            padding-left: 40px !important;
+        }
+        .layui-nav-tree {
+            position: fixed;
+            height: 100%;
+        }
+        .mainbody .row .col-md-2 {
+            width: 200px;
+        }
+        .mainbody .row .col-md-10 {
+            margin: 15px 0 0 15px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="mainbody">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <nav class="navbar navbar-default" role="navigation">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> 
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button> 
-                        <a class="navbar-brand" href="#">Brand</a>
+                <header class="layui-layout layui-layout-admin">
+                    <div class="layui-header dx-header header header-demo">
+                        <div class="layui-main">
+                            <a class="logo" href="/">
+                                <img src="@(DomainUrlHelper.SourchPath)/Images/MXlogo.jpg" alt="layui">
+                            </a>
+                            <h2 class="title">麦尔奎斯后台管理系统</h2>
+                            <ul class="dx-nav">
+                                <li>
+                                    <a href="https://github.com/Xuffy/layui-wms" target="_blank" style="color: #d8d8d8">欢迎您，@LoginHelper.UserName</a>
+                                </li>
+                                <li class="layui-this">
+                                    <span class="icon-moban162">
+                                        <i class="iconfont"></i>
+                                    </span>
+                                    <span>修改密码</span>
+                                </li>
+                                <li onclick="">
+                                    <span class="icon-moban163">
+                                        <i class="iconfont icon-tuichu"></i>
+                                    </span>
+                                    <span>退出登录</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li class="active">
-                                <a href="#">Link</a>
-                            </li>
-                            <li>
-                                <a href="#">Link</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="#">Action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Something else here</a>
-                                    </li>
-                                    <li class="divider">
-                                    </li>
-                                    <li>
-                                        <a href="#">Separated link</a>
-                                    </li>
-                                    <li class="divider">
-                                    </li>
-                                    <li>
-                                        <a href="#">One more separated link</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <form class="navbar-form navbar-left" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" />
-                            </div> <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#">Link</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="#">Action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Something else here</a>
-                                    </li>
-                                    <li class="divider">
-                                    </li>
-                                    <li>
-                                        <a href="#">Separated link</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+                </header>
             </div>
         </div>
         <div class="row clearfix">
             <div class="col-md-2 column">
-                <div class="panel-group" id="panel-304865">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-304865" href="#panel-element-551635">Collapsible Group Item #1</a>
-                        </div>
-                        <div id="panel-element-551635" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                Anim pariatur cliche...
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-304865" href="#panel-element-801186">Collapsible Group Item #2</a>
-                        </div>
-                        <div id="panel-element-801186" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                Anim pariatur cliche...
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @Html.Action("LeftMenu2", "Menu")
             </div>
             <div class="col-md-10 column">
                 @RenderBody()
@@ -121,6 +182,5 @@
         </div>
     </div>
 
-    
 </body>
 </html>

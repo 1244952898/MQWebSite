@@ -1,0 +1,157 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+
+@{
+    ViewBag.Title = "陈列指引文件列表";
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+@section head
+{
+    @Styles.Render("~/libs/bootstrap3.3.7/css/bootstrap")
+    @Scripts.Render("~/libs/bootstrap3.3.7/js/bootstrap", "~/libs/layer/layer", "~/libs/angular-1.6.5/angular")
+    <style type="text/css">
+        .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+
+        .table thead th label {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+            background-color: rgb(242, 242, 242);
+        }
+
+         .table tbody tr td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table thead .select {
+            width: 3%;
+        }
+
+        .table thead .time {
+            width: 7%;
+        }
+
+        .table thead .file {
+            width: 20%;
+        }
+
+        .table thead .theme {
+            width: 20%;
+        }
+
+        .table thead .person {
+            width: 8%;
+        }
+
+        .table thead .del {
+            width: 5%;
+        }
+
+        .table .chk input {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+}
+<div class="container" ng-app="listmodel">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">陈列指引文件列表</li>
+            </ul>
+            <table class="table table-bordered  table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="time">发布时间</th>
+                        <th class="file">文 件</th>
+                        <th class="theme">主 题</th>
+                        <th class="person">发布人</th>
+                        <th class="select">修  改</th>
+                        <th class="del">删  除</th>
+                    </tr>
+                </thead>
+                <tbody ng-controller="listcontroller">
+                    <tr ng-repeat="x in list">
+                        @*<td>
+                            <label class="chk">
+                                <input type="checkbox" ng-model="AllChkState" ng-change="ChkFun();" />
+                            </label>
+                        </td>*@
+                        <td>{{x.PublishTime| date :'yyyy/MM/dd HH:mm:ss'}}</td>
+                        <td>
+                            <a href="javascript:void(0);">{{x.FileOriginName}}</a>
+                        </td>
+                        <td>{{x.Title}}</td>
+                        <td>{{x.Name}}</td>
+                        <td>
+                            <button type="button" class="btn btn-default btn-danger" ng-click="ModifyBtn(x.Id);">修  改</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default btn-danger" ng-click="DelBtn(x.Id);">删  除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default btn-primary">按钮</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('listmodel', []);
+    app.controller('listcontroller', function ($scope, $http) {
+        $scope.list = '';
+        $http({
+            method: 'GET',
+            url: '@(DomainUrlHelper.EmployeeBgPath)/Api/DisplayGuideApi/GetListData'
+            //data: { test: 'test' }
+        }).then(function (response) {
+            if (response.data.DisplayGuideFileList != null) {
+                $scope.list = response.data.DisplayGuideFileList;
+            }
+        }, function (repose) {
+            layer.alert("删除发生异常！", {
+                icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            });
+        });
+
+        $scope.DelBtn = function (id) {
+            $http({
+                method: 'Post',
+                url: '@(DomainUrlHelper.EmployeeBgPath)/Api/DisplayGuideApi/DelDisplayGuide?id='+id
+            }).then(function (response) {
+                if (response.data.ErrorCode == 'E0000') {
+                    layer.msg('删除成功！', { icon: 2 }, function () {
+                        window.location.reload();
+                    });
+
+                } else {
+                    layer.alert(response.data.ErrorMessage, {
+                        icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                        skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                    });
+                }
+            }, function (repose) {
+                layer.alert("删除发生异常！", {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+                });
+            });
+        }
+        $scope.ModifyBtn = function (id) {
+            var url = '@Url.Action("AddGuideFile")?id=' + id;
+            window.open(url);
+        }
+    });
+</script>

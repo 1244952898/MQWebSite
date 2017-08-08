@@ -36,6 +36,15 @@ namespace mq.ui.EmployeeWebSite.Controllers
             return PartialView(menuList);
         }
 
+        public ActionResult LeftMenu2()
+        {
+            int channelId = CommonHelper.GetPostValue("cid").ToInt(0);
+            ViewBag.ChannelId = channelId;
+            long userId = LoginHelper.UserId;
+            var menuList = _bgMenuService.GetBgMenuByUserId(1);
+            return PartialView(menuList);
+        }
+
         public ActionResult Error()
         {
             string errorCode = CommonHelper.GetPostValue("ErrorCode");

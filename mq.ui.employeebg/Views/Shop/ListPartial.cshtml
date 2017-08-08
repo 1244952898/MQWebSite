@@ -1,0 +1,14 @@
+﻿@model List<mq.model.dbentity.T_BG_Shop>
+
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var shop in Model)
+    {
+        <tr>
+            <td>@bgDisplayPartition.PublishTime.ToString()</td>
+            <td>
+                <button type="button" class="btn btn-default btn-danger" onclick="DelData();">删 除</button>
+            </td>
+        </tr>
+    }
+}

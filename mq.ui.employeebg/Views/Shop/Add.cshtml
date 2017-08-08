@@ -1,0 +1,146 @@
+﻿@using System.Web.Optimization
+@model mq.model.viewentity.ShopAddEntity
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>添加商铺</title>
+    <script src="http://localhost:12345/resource/libs/layer/layer.js"></script>
+    @Styles.Render("~/libs/layui/layui/css/layui", "~/libs/bootstrap3.3.7/css/bootstrap")
+    @Scripts.Render("~/js/jquery", "~/libs/layui/layui/layui", "~/libs/bootstrap3.3.7/js/bootstrap")
+    <style type="text/css">
+        .layui-form-pane {
+            margin: 20px 20px 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label class="layui-form-label">店铺名称：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" lay-verify="required|name" placeholder="请输入店铺名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">店铺地址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" lay-verify="address" autocomplete="off" placeholder="请输入店铺地址" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">店铺电话：</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="phone" lay-verify="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">店长：</label>
+            <div class="layui-input-block" style="width: 50%">
+                <select name="userId" lay-filter="aihao" lay-verify="required">
+                    @if (Model.userList != null && Model.userList.Count > 0)
+                    {
+                        for (int i = 0; i < Model.userList.Count; i++)
+                        {
+                            <option value="@Model.userList[i].ID" @(i == 0 ? "selected=\"\"" : "")>@Model.userList[i].Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            @*<div class="layui-inline">
+                 <button class="layui-btn">立即提交</button>
+            </div>*@
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">区域：</label>
+            <div class="layui-input-block" style="width: 50%">
+                <select name="interest" lay-filter="areaId" lay-verify="required">
+                    @if (Model.areaList != null && Model.areaList.Count > 0)
+                    {
+                        for (int i = 0; i < Model.areaList.Count; i++)
+                        {
+                            <option value="@Model.areaList[i].ID" @(i == 0 ? "selected=\"\"" : "")>@Model.areaList[i].AreaName</option>
+                        }
+                    }
+                </select>
+            </div>
+            @*<div class="layui-form-mid layui-word-aux">辅助文字</div>*@
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">日期选择</label>
+                <div class="layui-input-block">
+                    <input type="text" name="date" id="openDate" autocomplete="off" class="layui-input" onclick="layui.laydate({ elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss', min: laydate.now(), max: '2099-12-31 23:59:59'})">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form()
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+
+            //自定义验证规则
+            form.verify({
+                name: function (value) {
+                    if (value == undefined || value == '' || value.length == 0) {
+                        return '店铺名字不能为空！';
+                    }
+                    if (value.length>30) {
+                        return '店铺名字不能大于30个字符！';
+                    }
+                }
+                , address: function (value) {
+                    if (value.length > 100) {
+                        return '店铺名字不能大于100个字符！';
+                    }
+                }
+                , title: function (value) {
+                    if (value.length <= 0) {
+                        return '标题至少得5个字符啊';
+                    }
+                }
+              , pass: [/(.+){6,12}$/, '密码必须6到12位']
+            });
+
+
+            //监听提交
+            form.on('submit(demo1)', function (data) {
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                });
+                return false;
+            });
+        });
+
+        function checkMobile() {
+            var sMobile = document.mobileform.mobile.value;
+            if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))) {
+                alert("不是完整的11位手机号或者正确的手机号前七位");
+                document.mobileform.mobile.focus();
+                return false;
+            }
+        }
+
+    </script>
+
+</body>
+</html>

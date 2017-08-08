@@ -54,36 +54,36 @@
             right: 0;
         }
 
-            .dx-nav li {
-                float: left;
-                color: #d8d8d8;
-                font-size: 14px;
-                line-height: 70px;
-                padding: 0 20px;
-                position: relative;
-                cursor: pointer;
-            }
+        .dx-nav li {
+            float: left;
+            color: #d8d8d8;
+            font-size: 14px;
+            line-height: 70px;
+            padding: 0 20px;
+            position: relative;
+            cursor: pointer;
+        }
 
-                .dx-nav li span:first-child {
-                    margin-right: 10px;
-                    display: inline-block;
-                    width: 38px;
-                    height: 38px;
-                    background-color: #424e5c;
-                    border-radius: 50%;
-                    line-height: 38px;
-                    text-align: center;
-                    vertical-align: middle;
-                }
+        .dx-nav li span:first-child {
+            margin-right: 10px;
+            display: inline-block;
+            width: 38px;
+            height: 38px;
+            background-color: #424e5c;
+            border-radius: 50%;
+            line-height: 38px;
+            text-align: center;
+            vertical-align: middle;
+        }
 
-                .dx-nav li i {
-                    font-size: 18px;
-                    color: #242b33;
-                }
+        .dx-nav li i {
+            font-size: 18px;
+            color: #242b33;
+        }
 
-                .dx-nav li:last-child {
-                    padding-right: 30px;
-                }
+        .dx-nav li:last-child {
+            padding-right: 30px;
+        }
 
         .icon-moban162 {
             font-family: iconfont !important;
@@ -91,45 +91,64 @@
             font-style: normal;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background: url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-1.png') no-repeat ;
-            background-position:center center;
+            background: url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-1.png') no-repeat;
+            background-position: center center;
             width: 20px;
             height: 20px;
         }
 
-       .icon-moban162:hover {
-           background:url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-2.png') no-repeat ;
-           background-position:center center;
+        .icon-moban162:hover {
+            background: url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-2.png') no-repeat;
+            background-position: center center;
         }
-       
+
         .icon-moban163 {
-            background:url('@(DomainUrlHelper.SourchPath)/Images/closed.png') no-repeat;
+            background: url('@(DomainUrlHelper.SourchPath)/Images/closed.png') no-repeat;
             -ms-background-size: 20px 20px;
             background-size: 20px 20px;
-            background-position:center center;
+            background-position: center center;
         }
 
         .icon-moban163:hover {
             -ms-background-size: 20px 20px;
             background-size: 20px 20px;
-           background:url('@(DomainUrlHelper.SourchPath)/Images/close_a.png') no-repeat;
-           background-position:center center;
+            background: url('@(DomainUrlHelper.SourchPath)/Images/close_a.png') no-repeat;
+            background-position: center center;
         }
 
         .layui-nav-item {
             background-color: rgb(52, 57, 61);
         }
         .layui-nav-child dd {
-             background-color: rgb(64, 69, 75);
+            background-color: rgb(64, 69, 75);
         }
-         .layui-nav-child dd a{
-             padding-left: 40px !important;
+        .layui-nav-child dd a {
+            padding-left: 40px !important;
         }
         .layui-nav-tree {
             position: fixed;
             height: 100%;
         }
     </style>
+    <style type="text/css">
+        .breadcrumb > li + li:before {
+            padding: 0 5px;
+            color: #ccc;
+            content: " > ";
+        }
+
+        .container {
+            width: 90%;
+            margin-top: 10px;
+            margin-left: 200px;
+            -moz-min-width: 30%;
+            -ms-min-width: 30%;
+            -o-min-width: 30%;
+            -webkit-min-width: 30%;
+            min-width: 30%;
+        }
+    </style>
+
 </head>
 <body>
     <header class="layui-layout layui-layout-admin">
