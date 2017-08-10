@@ -12,17 +12,19 @@ namespace mq.model.dbentity
     using System;
     using System.Collections.Generic;
     
-    public partial class T_BG_Shop
+    public partial class V_Shop_Area_User
     {
+        public int LeaderID { get; set; }
+        public Nullable<long> AreaId { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string Tel { get; set; }
-        public int LeaderID { get; set; }
         public Nullable<long> Areas { get; set; }
-        public Nullable<System.DateTime> OpenDate { get; set; }
         public Nullable<System.DateTime> WithdrawDate { get; set; }
-        public Nullable<long> AreaId { get; set; }
         public Nullable<long> State { get; set; }
+        public Nullable<System.DateTime> OpenDate { get; set; }
+        public string AreaName { get; set; }
+        public string UserName { get; set; }
     }
 }

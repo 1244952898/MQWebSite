@@ -103,6 +103,7 @@
     <Compile Include="Implement\BgVActiveFileDepartmentRepository.cs" />
     <Compile Include="Implement\BgVDisplayGuideFileRepository.cs" />
     <Compile Include="Implement\BgVPublishFileUserRepository.cs" />
+    <Compile Include="Implement\BgVShopAreaUserRepository.cs" />
     <Compile Include="Interface\IBgAreaRepository.cs" />
     <Compile Include="Interface\IBgDisplayGuideFileRepository.cs" />
     <Compile Include="Implement\UserRepository.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Interface\IBgVActiveFileDepartmentRepository.cs" />
     <Compile Include="Interface\IBgVDisplayGuideFileRepository.cs" />
     <Compile Include="Interface\IBgVPublishFileUserRepository.cs" />
+    <Compile Include="Interface\IBgVShopAreaUserRepositoiry.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="IRepositoryBase.cs" />
     <Compile Include="MPConnection.cs" />

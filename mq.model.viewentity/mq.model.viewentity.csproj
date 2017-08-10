@@ -67,6 +67,7 @@
     <Compile Include="employeebg\JsonDisplayGuideApiDelEntity.cs" />
     <Compile Include="employeebg\JsonDisplayGuideAptGetListData.cs" />
     <Compile Include="employeebg\JsonGuideFleSaveEntity.cs" />
+    <Compile Include="employeebg\JsonShopAddShopEntity.cs" />
     <Compile Include="employeebg\ShopAddEntity.cs" />
     <Compile Include="FileUploadEntity.cs" />
     <Compile Include="JsonActiveFileApiGetList.cs" />

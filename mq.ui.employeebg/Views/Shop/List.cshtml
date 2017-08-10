@@ -1,8 +1,16 @@
 ﻿@using mq.application.webmvc
-
+@model mq.model.viewentity.ShopAddEntity
 @{
     ViewBag.Title = "商店列表";
     Layout = "~/Views/Share/_BootStrapLayout.cshtml";
+    <style type="text/css">
+        .layui-form-label {
+            width: 130px !important;
+        }
+        .layui-input-block {
+            margin-left: 130px !important;
+        }
+    </style>
 }
 <div>
     <div class="row clearfix">
@@ -13,24 +21,201 @@
                 </li>
                 <li class="active">商店列表</li>
             </ul>
-            <button type="button" class="btn btn-default btn-primary" onclick="AddPop();">
+            <button type="button" class="btn btn-default btn-primary" onclick="Add();">
                 <i class="layui-icon">&#xe608;</i> 添 加
             </button>
             <table class="table table-bordered  table-striped table-hover" style="margin-top: 20px;">
                 <thead>
-                    <tr>
-                        <th class="code">店铺代码</th>
-                        <th class="name">店  铺</th>
-                        <th class="file">文  件</th>
-                        <th class="time">发布时间</th>
-                        <th class="del">删  除</th>
-                    </tr>
+                <tr>
+                    <th class="code">店铺代码</th>
+                    <th class="name">店 铺</th>
+                    <th class="area">区 域</th>
+                    <th class="user">负责人</th>
+                    <th class="address">地 址</th>
+                    <th class="file">面 积</th>
+                    <th class="state">状 态</th>
+                    <th class="time">开业时间</th>
+                    <th class="del">删 除</th>
+                </tr>
                 </thead>
-                <tbody>
-                
+                <tbody id="dataPartial">
+
                 </tbody>
             </table>
             <button type="button" class="btn btn-default btn-primary" onclick="Add();">添 加</button>
         </div>
     </div>
 </div>
+
+<form class="layui-form layui-form-pane" style="display: none;margin: 15px" id="shop-add">
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i> 店铺名称：
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" lay-verify="required|name" placeholder="请输入店铺名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺地址：</label>
+        <div class="layui-input-block">
+            <input type="text" name="address" lay-verify="" autocomplete="off" placeholder="请输入店铺地址" class="layui-input">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">店铺面积：</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="areas" lay-verify="number" autocomplete="off" placeholder="请输入店铺面积" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">店铺电话：</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="tel" lay-verify="number" autocomplete="off" placeholder="请输入店铺电话" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i> 店 长：
+        </label>
+        <div class="layui-input-block" style="width: 50%">
+            <select name="leaderId" lay-filter="aihao" lay-verify="required">
+                @if (Model.userList != null && Model.userList.Count > 0)
+                {
+                    for (int i = 0; i < Model.userList.Count; i++)
+                    {
+                        <option value="@Model.userList[i].ID" @(i == 0 ? "selected=\"\"" : "")>@Model.userList[i].Name</option>
+                    }
+                }
+            </select>
+        </div>
+        @*<div class="layui-inline">
+                 <button class="layui-btn">立即提交</button>
+            </div>*@
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">
+            <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i> 区 域：
+        </label>
+        <div class="layui-input-block" style="width: 50%">
+            <select name="areaId" lay-filter="areaId" lay-verify="required">
+                @if (Model.areaList != null && Model.areaList.Count > 0)
+                {
+                    for (int i = 0; i < Model.areaList.Count; i++)
+                    {
+                        <option value="@Model.areaList[i].ID" @(i == 0 ? "selected=\"\"" : "")>@Model.areaList[i].AreaName</option>
+                    }
+                }
+            </select>
+        </div>
+      
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">开业日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="date" id="openDate" autocomplete="off" class="layui-input" onclick="layui.laydate({ elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss', min: laydate.now(), max: '2099-12-31 23:59:59'})">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var form = layui.form()
+            , layer = layui.layer;
+        GetPartialData();
+        //自定义验证规则
+        form.verify({
+            name: function (value) {
+                if (value == undefined || value == '' || value.length == 0) {
+                    return '店铺名字不能为空！';
+                }
+                if (value.length > 30) {
+                    return '店铺名字不能大于30个字符！';
+                }
+            },
+            address: function (value) {
+                if (value.length > 100) {
+                    return '店铺名字不能大于100个字符！';
+                }
+            },
+            title: function (value) {
+                if (value.length <= 0) {
+                    return '标题至少得5个字符啊';
+                }
+            }
+            , pass: [/(.+){6,12}$/, '密码必须6到12位']
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+
+            var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/AddShop";
+            var pars = data.field;
+            alert(pars);
+            $.post(url, pars, function (datas) {
+                if (datas.ErrorCode == "E000") {
+                    layer.msg(data.ErrorMessage, {
+                        icon: 1,
+                        skin: 'layer-ext-moon',
+                        time: 1000
+                    }, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.alert(data.ErrorMessage, {
+                        icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                        skin: 'layer-ext-moon'
+                    });
+                }
+
+            });
+            return false;
+        });
+
+    });
+
+    function Add() {
+        layui.layer.open({
+            type: 1,
+            title: '添加商铺',
+            area: ['600px', '600px'],
+            offset: ['100px', '300px'],
+            skin: 'layui-layer-lan',
+            fixed: false, //不固定
+            scrollbar: false,
+            content: $('#shop-add')
+        });
+    }
+
+    function checkMobile() {
+        var sMobile = document.mobileform.mobile.value;
+        if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))) {
+            alert("不是完整的11位手机号或者正确的手机号前七位");
+            document.mobileform.mobile.focus();
+            return false;
+        }
+    }
+
+    function GetPartialData() {
+        var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/ListPartial";
+        $.post(url, function(data) {
+            $('#dataPartial').html(data);
+        });
+    }
+</script>
+

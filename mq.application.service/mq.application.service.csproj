@@ -101,6 +101,7 @@
     <Compile Include="Implement\BgVActiveFileDepartmentService.cs" />
     <Compile Include="Implement\BgVDisplayGuideFileService.cs" />
     <Compile Include="Implement\BgVPublishFileUserService.cs" />
+    <Compile Include="Implement\BgVShopAreaUserService.cs" />
     <Compile Include="Interface\IBgAreaService.cs" />
     <Compile Include="Interface\IBgDisplayGuideFileService.cs" />
     <Compile Include="Implement\UserService.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Interface\IBgVActiveFileDepartmentService.cs" />
     <Compile Include="Interface\IBgVDisplayGuideFileService.cs" />
     <Compile Include="Interface\IBgVPublishFileUserService.cs" />
+    <Compile Include="Interface\IBgVShopAreaUserService.cs" />
     <Compile Include="Interface\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

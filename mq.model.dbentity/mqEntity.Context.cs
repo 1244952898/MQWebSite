@@ -42,5 +42,6 @@ namespace mq.model.dbentity
         public virtual DbSet<T_BG_DisplayPartition> T_BG_DisplayPartition { get; set; }
         public virtual DbSet<T_BG_Area> T_BG_Area { get; set; }
         public virtual DbSet<T_BG_Shop> T_BG_Shop { get; set; }
+        public virtual DbSet<V_Shop_Area_User> V_Shop_Area_User { get; set; }
     }
 }

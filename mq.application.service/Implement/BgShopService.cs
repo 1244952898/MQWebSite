@@ -15,7 +15,7 @@ namespace mq.application.service.Implement
          private IBgShopRepository _shopRepository;
          public BgShopService(IBgShopRepository shopRepository)
         {
-            shopRepository = shopRepository;
+            _shopRepository = shopRepository;
         }
 
          public bool Add(T_BG_Shop shop)
@@ -60,13 +60,18 @@ namespace mq.application.service.Implement
             try
             {
                 PredicateGroup pmain = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+                IList<ISort> sort = new List<ISort> { Predicates.Sort<T_BG_Shop>(o => o.ID, false) };
+                IEnumerable<T_BG_Shop> list;
                 if (areaId>0)
                 {
-                    pmain.Predicates.Add(Predicates.Field<T_BG_Shop>(f => f.AreaId, Operator.Eq, areaId));
+                    pmain.Predicates.Add(Predicates.Field<T_BG_Shop>(f => f.AreaId, Operator.Eq, areaId)); 
+                    list = _shopRepository.QueryList(pmain, sort);
                 }
-               
-                IList<ISort> sort = new List<ISort> { Predicates.Sort<T_BG_Shop>(o => o.ID, false) };
-                var list = _shopRepository.QueryList(pmain, sort);
+                else
+                {
+                    list = _shopRepository.QueryList(null, sort);
+                }
+                
                 return list.ToList();
             }
             catch (Exception)

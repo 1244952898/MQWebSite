@@ -71,7 +71,6 @@
                     }
                 </select>
             </div>
-            @*<div class="layui-form-mid layui-word-aux">辅助文字</div>*@
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
@@ -93,27 +92,24 @@
     <script type="text/javascript">
         layui.use(['form', 'layedit', 'laydate'], function () {
             var form = layui.form()
-            , layer = layui.layer
-            , layedit = layui.layedit
-            , laydate = layui.laydate;
-
+            , layer = layui.layer;
 
             //自定义验证规则
             form.verify({
-                name: function (value) {
+                name: function(value) {
                     if (value == undefined || value == '' || value.length == 0) {
                         return '店铺名字不能为空！';
                     }
-                    if (value.length>30) {
+                    if (value.length > 30) {
                         return '店铺名字不能大于30个字符！';
                     }
-                }
-                , address: function (value) {
+                },
+                address: function(value) {
                     if (value.length > 100) {
                         return '店铺名字不能大于100个字符！';
                     }
-                }
-                , title: function (value) {
+                },
+                title: function(value) {
                     if (value.length <= 0) {
                         return '标题至少得5个字符啊';
                     }

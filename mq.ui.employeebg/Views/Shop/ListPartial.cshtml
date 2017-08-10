@@ -1,11 +1,31 @@
-﻿@model List<mq.model.dbentity.T_BG_Shop>
+﻿@model List<mq.model.dbentity.V_Shop_Area_User>
 
 @if (Model != null && Model.Count > 0)
 {
     foreach (var shop in Model)
     {
         <tr>
-            <td>@bgDisplayPartition.PublishTime.ToString()</td>
+            <td>@shop.ID</td>
+            <td>@shop.Name</td>
+            <td>@shop.AreaName</td>
+            <td>@shop.UserName</td>
+            <td>@shop.Areas</td>
+            <td>
+                @if (shop.State == 0)
+                {
+                    <button type="button" class="btn btn-default btn-danger layui-btn-disabled">营业中</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-default btn-danger layui-btn-disabled">已撤销</button>
+                }
+            </td>
+            <td>
+                @if (shop.OpenDate != null)
+                {
+                    @shop.OpenDate.Value.ToString("yyyy/MM/dd hh:mm:ss")
+                }
+                </td>
             <td>
                 <button type="button" class="btn btn-default btn-danger" onclick="DelData();">删 除</button>
             </td>

@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Share/_BootStrapLayout.cshtml";
+}
+@section head
+{
+    <style type="text/css">
+        .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+
+        .table thead th label {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+            background-color: rgb(242, 242, 242);
+        }
+
+        .table tbody tr td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table thead .select {
+            width: 9%;
+        }
+
+        .table thead .time {
+            width: 7%;
+        }
+
+        .table thead .file {
+            width: 20%;
+        }
+
+        .table thead .del {
+            width: 5%;
+        }
+
+        .table .chk input {
+            width: 16px;
+            height: 16px;
+        }
+
+        .layui-layer-btn {
+            text-align: center;
+        }
+    </style>
+}
+<div>
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="margin-top: 40px;">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+                <li class="active">区域列表</li>
+            </ul>
+            <button type="button" class="btn btn-default btn-primary" onclick="AddPop();"><i class="layui-icon">&#xe608;</i> 添 加</button>
+            <table class="table table-bordered  table-striped table-hover" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th class="id">编  号</th>
+                        <th class="phone">手机号码</th>
+                        <th class="name">用户名</th>
+                        <th class="realname">真实姓名</th>
+                        <th class="status">审核状态</th>
+                        <th class="role">角 色</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+

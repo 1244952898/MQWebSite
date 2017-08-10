@@ -13,5 +13,10 @@ namespace mq.ui.employeebg.Controllers
         {
             return View();
         }
+
+        public ActionResult List()
+        {
+            return View();
+        }
     }
 }

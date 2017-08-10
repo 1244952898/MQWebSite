@@ -26,10 +26,10 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="bigint" Nullable="false" />
           <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsDel" Type="int" />
           <Property Name="AddTime" Type="datetime" />
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="T_BG_Department">
           <Key>
@@ -148,6 +148,7 @@
           <Property Name="OpenDate" Type="datetime" />
           <Property Name="WithdrawDate" Type="datetime" />
           <Property Name="AreaId" Type="bigint" />
+          <Property Name="State" Type="bigint" />
         </EntityType>
         <EntityType Name="T_BG_UpFiles">
           <Key>
@@ -270,6 +271,26 @@
           <Property Name="EditorName" Type="nvarchar" MaxLength="20" />
           <Property Name="EditorRealName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“POS.dbo.V_Shop_Area_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Shop_Area_User">
+          <Key>
+            <PropertyRef Name="LeaderID" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="LeaderID" Type="int" Nullable="false" />
+          <Property Name="AreaId" Type="bigint" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="30" />
+          <Property Name="Areas" Type="bigint" />
+          <Property Name="WithdrawDate" Type="datetime" />
+          <Property Name="State" Type="bigint" />
+          <Property Name="OpenDate" Type="datetime" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="20" />
+        </EntityType>
         <EntityContainer Name="POSModelStoreContainer">
           <EntitySet Name="T_BG_ActiveFile" EntityType="Self.T_BG_ActiveFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Area" EntityType="Self.T_BG_Area" Schema="dbo" store:Type="Tables" />
@@ -336,6 +357,22 @@
     [V_BG_PublishFile_User].[EditorRealName] AS [EditorRealName]
     FROM [dbo].[V_BG_PublishFile_User] AS [V_BG_PublishFile_User]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_Shop_Area_User" EntityType="Self.V_Shop_Area_User" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Shop_Area_User].[LeaderID] AS [LeaderID], 
+    [V_Shop_Area_User].[AreaId] AS [AreaId], 
+    [V_Shop_Area_User].[ID] AS [ID], 
+    [V_Shop_Area_User].[Name] AS [Name], 
+    [V_Shop_Area_User].[Address] AS [Address], 
+    [V_Shop_Area_User].[Tel] AS [Tel], 
+    [V_Shop_Area_User].[Areas] AS [Areas], 
+    [V_Shop_Area_User].[WithdrawDate] AS [WithdrawDate], 
+    [V_Shop_Area_User].[State] AS [State], 
+    [V_Shop_Area_User].[OpenDate] AS [OpenDate], 
+    [V_Shop_Area_User].[AreaName] AS [AreaName], 
+    [V_Shop_Area_User].[UserName] AS [UserName]
+    FROM [dbo].[V_Shop_Area_User] AS [V_Shop_Area_User]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -383,6 +420,7 @@
           <EntitySet Name="T_BG_DisplayPartition" EntityType="POSModel.T_BG_DisplayPartition" />
           <EntitySet Name="T_BG_Area" EntityType="POSModel.T_BG_Area" />
           <EntitySet Name="T_BG_Shop" EntityType="POSModel.T_BG_Shop" />
+          <EntitySet Name="V_Shop_Area_User" EntityType="POSModel.V_Shop_Area_User" />
         </EntityContainer>
         <EntityType Name="T_BG_User">
           <Key>
@@ -618,6 +656,25 @@
           <Property Name="OpenDate" Type="DateTime" Precision="3" />
           <Property Name="WithdrawDate" Type="DateTime" Precision="3" />
           <Property Name="AreaId" Type="Int64" />
+          <Property Name="State" Type="Int64" />
+        </EntityType>
+        <EntityType Name="V_Shop_Area_User">
+          <Key>
+            <PropertyRef Name="LeaderID" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="LeaderID" Type="Int32" Nullable="false" />
+          <Property Name="AreaId" Type="Int64" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Areas" Type="Int64" />
+          <Property Name="WithdrawDate" Type="DateTime" Precision="3" />
+          <Property Name="State" Type="Int64" />
+          <Property Name="OpenDate" Type="DateTime" Precision="3" />
+          <Property Name="AreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -888,6 +945,7 @@
           <EntitySetMapping Name="T_BG_Shop">
             <EntityTypeMapping TypeName="POSModel.T_BG_Shop">
               <MappingFragment StoreEntitySet="T_BG_Shop">
+                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="AreaId" ColumnName="AreaId" />
                 <ScalarProperty Name="WithdrawDate" ColumnName="WithdrawDate" />
                 <ScalarProperty Name="OpenDate" ColumnName="OpenDate" />
@@ -897,6 +955,24 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Shop_Area_User">
+            <EntityTypeMapping TypeName="POSModel.V_Shop_Area_User">
+              <MappingFragment StoreEntitySet="V_Shop_Area_User">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="OpenDate" ColumnName="OpenDate" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="WithdrawDate" ColumnName="WithdrawDate" />
+                <ScalarProperty Name="Areas" ColumnName="Areas" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="LeaderID" ColumnName="LeaderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
