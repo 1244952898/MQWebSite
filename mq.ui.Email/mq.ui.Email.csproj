@@ -157,10 +157,10 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LayuiMenu.cshtml" />
+    <Content Include="Views\Mail\Send.cshtml" />
     <Content Include="Views\Menu\LeftMenu.cshtml" />
     <Content Include="Views\Menu\LeftMenu1.cshtml" />
     <Content Include="Views\Menu\LeftMenu2.cshtml" />
-    <Content Include="Views\Mail\Send.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
