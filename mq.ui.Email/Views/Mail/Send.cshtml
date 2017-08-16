@@ -1,0 +1,90 @@
+﻿@using mq.application.webmvc
+@{
+    ViewBag.Title = "Send";
+    Layout = "~/Views/Shared/_LayuiMenu.cshtml";
+}
+
+<div class="layui-box box1">
+    <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a><cite>发送邮件</cite></a>
+    </span>
+</div>
+<div class="layui-box box1">
+    <form class="layui-form">
+        <div class="layui-form-item modify-lable">
+            <label class="layui-form-label lbls">收件人</label>
+            <div class="layui-input-inline">
+                <input type="text" name="send" id="send" lay-verify="send" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-input-block">
+                <button type="button" class="btn btn-default btn-primary">
+                    <i class="layui-icon">&#xe608;</i> 添 加
+                </button>
+                <button type="button" class="btn btn-default btn-primary">
+                    <i class="layui-icon">&#xe608;</i> 添 加
+                </button>
+            </div>
+        </div>
+     
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" id="submit" lay-filter="sendEmail">发 送</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重 置</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+    <script type="text/javascript">
+
+        layui.use(['form', 'layer', 'laydate'], function () {
+            var form = layui.form(), layer = layui.layer;
+
+            //自定义验证规则
+            form.verify({
+                send: function (value) {
+                    if (value == undefined || value == '' || value.length == 0) {
+                        return '邮箱不能为空！';
+                    }
+                },
+
+            });
+
+            //监听提交
+            form.on('submit(sendEmail)', function (data) {
+
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                });
+                return;
+                var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/AddShop";
+                var pars = data.field;
+                pars.shopname = encodeURIComponent(pars.shopname);
+                pars.address = encodeURIComponent(pars.address);
+                $.post(url, pars, function (datas) {
+                    if (datas.ErrorCode == "E000") {
+                        layer.msg("保存成功", {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            layer.closeAll();
+                        });
+                    } else {
+                        layer.alert(data.ErrorMessage, {
+                            icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                            skin: 'layer-ext-moon'
+                        });
+                    }
+                    layer.closeAll();
+                });
+                return false;
+            });
+
+
+        });
+
+        function name() {
+        }
+    </script>

@@ -1,0 +1,186 @@
+﻿@using System.Web.Optimization
+@using koala.application.common
+@using mq.application.webmvc
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/libs/layui/layui/css/layui", "~/libs/bootstrap3.3.7/css/bootstrap")
+    @Scripts.Render("~/js/jquery", "~/libs/layui/layui/layui", "~/libs/bootstrap3.3.7/js/bootstrap")
+    @RenderSection("head", false)
+    <style type="text/css">
+          .col-sm-2 {
+            width: 10%;
+            margin-top: 7px;
+        }
+         .logo img {
+             width: 51px;
+             height: 47px;
+         }
+
+        .dx-header {
+            border-bottom: 0 !important;
+            height: 70px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+            background-color: #fff;
+        }
+
+        .dx-header .layui-main {
+            margin: 0;
+        }
+
+        .dx-header .logo {
+            position: absolute;
+            width: 210px;
+            z-index: 2;
+            line-height: 70px;
+            text-align: center;
+        }
+
+        .dx-header .title {
+            font-size: 24px;
+            color: #c4c4c4;
+            position: absolute;
+            left: 235px;
+            line-height: 70px;
+        }
+
+        .dx-nav {
+            position: absolute;
+            right: 0;
+        }
+
+        .dx-nav li {
+            float: left;
+            color: #d8d8d8;
+            font-size: 14px;
+            line-height: 70px;
+            padding: 0 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dx-nav li span:first-child {
+            margin-right: 10px;
+            display: inline-block;
+            width: 38px;
+            height: 38px;
+            background-color: #424e5c;
+            border-radius: 50%;
+            line-height: 38px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .dx-nav li i {
+            font-size: 18px;
+            color: #242b33;
+        }
+
+        .dx-nav li:last-child {
+            padding-right: 30px;
+        }
+
+        .icon-moban162 {
+            font-family: iconfont !important;
+            font-size: 16px;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-1.png') no-repeat ;
+            background-position:center center;
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-moban162:hover {
+            background:url('@(DomainUrlHelper.SourchPath)/Images/userInfo-myicon2-2.png') no-repeat ;
+            background-position:center center;
+        }
+
+        .icon-moban163 {
+            background:url('@(DomainUrlHelper.SourchPath)/Images/closed.png') no-repeat;
+            -ms-background-size: 20px 20px;
+            background-size: 20px 20px;
+            background-position:center center;
+        }
+
+        .icon-moban163:hover {
+            -ms-background-size: 20px 20px;
+            background-size: 20px 20px;
+            background:url('@(DomainUrlHelper.SourchPath)/Images/close_a.png') no-repeat;
+            background-position:center center;
+        }
+
+        .layui-nav-item {
+            background-color: rgb(52, 57, 61);
+        }
+        .layui-nav-child dd {
+            background-color: rgb(64, 69, 75);
+        }
+        .layui-nav-child dd a{
+            padding-left: 40px !important;
+        }
+        .layui-nav-tree {
+            position: fixed;
+            height: 100%;
+        }
+        .mainbody .row .col-md-2 {
+            width: 200px;
+        }
+        .mainbody .row .col-md-10 {
+            margin: 15px 0 0 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mainbody">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <header class="layui-layout layui-layout-admin">
+                    <div class="layui-header dx-header header header-demo">
+                        <div class="layui-main">
+                            <a class="logo" href="/">
+                                <img src="@(DomainUrlHelper.SourchPath)/Images/MXlogo.jpg" alt="layui">
+                            </a>
+                            <h2 class="title">麦尔奎斯后台管理系统</h2>
+                            <ul class="dx-nav">
+                                <li>
+                                    <a href="https://github.com/Xuffy/layui-wms" target="_blank" style="color: #d8d8d8">欢迎您，@LoginHelper.UserName</a>
+                                </li>
+                                <li class="layui-this">
+                                    <span class="icon-moban162">
+                                        <i class="iconfont"></i>
+                                    </span>
+                                    <span>修改密码</span>
+                                </li>
+                                <li onclick="">
+                                    <span class="icon-moban163">
+                                        <i class="iconfont icon-tuichu"></i>
+                                    </span>
+                                    <span>退出登录</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-2 column">
+                @Html.Action("LeftMenu2", "Menu")
+            </div>
+            <div class="col-md-10 column">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
