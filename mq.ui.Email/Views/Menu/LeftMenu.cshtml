@@ -1,1 +1,46 @@
-﻿
+﻿@using mq.application.common
+@model IEnumerable<mq.model.dbentity.T_BG_Menu>
+@{
+    var grade1 = Model.Where(o => o.Grade == 1).ToList();
+    var grade2 = Model.Where(o => o.Grade == 2);
+    var channelId = ViewBag.ChannelId;
+}
+<div class="left sidebar">
+    @if (grade1.Any())
+    {
+        foreach (var menu in Model)
+        {
+            var index = 0;
+            var thisGrade2 = grade2.Where(m => m.Parent_ID == menu.ID);
+            var selectIndex = thisGrade2.ToList().FindIndex(m => m.ID == channelId);
+            var fcls = selectIndex >= 0 ? "cur" : string.Empty;
+
+            <div class="item @MenuHelper.IconClass(menu.Name)  @fcls">
+                <a href="javascript:void(0)" class="title">@menu.Name<i></i></a>
+                <span class="angle"></span>
+                <ul style="@(string.IsNullOrEmpty(fcls) ? "" : "display:block")">
+                    @foreach (var item2 in thisGrade2)
+                    {
+                        index++;
+                        var cls = index == 1 ? "first" : "";
+                        var urlStr = string.Format("{0}{1}{2}", Url.Content("~/"), string.IsNullOrEmpty(item2.URL) ? "" : item2.URL, !string.IsNullOrEmpty(item2.URL) && item2.URL.IndexOf("?", StringComparison.Ordinal) != -1 ? string.Format("&cid={0}", item2.ID) : string.Format("?cid={0}", item2.ID));
+                        if (item2.ID == channelId) { cls += " active"; }
+                        <li class="@cls"><a href="@urlStr">@item2.Name</a></li>
+                    }
+                    <li class="last"></li>
+                </ul>
+            </div>
+            <div class="divide"></div>
+        }
+    }
+</div>
+<script>
+    $(".sidebar .item").click(function () {
+        $(this).addClass("cur").siblings(".item").removeClass("cur");
+        $(this).find("ul").slideDown();
+        $(this).siblings(".item").find("ul").slideUp();
+    });
+    $(".sidebar ul li").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
+    });
+</script>
