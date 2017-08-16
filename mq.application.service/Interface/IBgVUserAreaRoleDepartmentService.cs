@@ -7,9 +7,8 @@ using mq.model.dbentity;
 
 namespace mq.application.service
 {
-    public interface IBgVShopAreaUserService
+    public interface IBgVUserAreaRoleDepartmentService
     {
-        List<V_Shop_Area_User> List(long areaId);
-        List<V_Shop_Area_User> PublicList(string likeWords);
+        List<V_User_Area_Role_Department_Shop> GetList();
     }
 }

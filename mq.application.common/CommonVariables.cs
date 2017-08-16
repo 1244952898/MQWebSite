@@ -31,7 +31,7 @@ namespace koala.application.common
         {
             get
             {
-                return new string[] { "/api/", "/404", "/error", "home/login", "test" };
+                return new string[] { "/api/", "/404", "/error", "home/login", "test", "publicmessage/login/login" };
             }
         }
 

@@ -685,10 +685,6 @@ namespace mq.application.common
         /// <returns></returns>
         public static bool ExcludeUrl(string url, string[] urls = null, string[] homeTags = null)
         {
-            //测试中全部打开
-            return true;
-
-
             if (string.IsNullOrEmpty(url))
                 return false;
             string[] paths = CommonVariables.ExcludePaths;

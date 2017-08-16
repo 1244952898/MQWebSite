@@ -13,5 +13,6 @@ namespace mq.application.service.Interface
         bool Del(T_BG_Shop shop);
         bool Update(T_BG_Shop shop);
         List<T_BG_Shop> List(long areaId);
+        T_BG_Shop Get(long id);
     }
 }

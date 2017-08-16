@@ -97,6 +97,7 @@
     <Compile Include="Implement\BgLoginLogRepository.cs" />
     <Compile Include="Implement\BgMenuRepository.cs" />
     <Compile Include="Implement\BgPublishFileRepository.cs" />
+    <Compile Include="Implement\BgRoleRepository.cs" />
     <Compile Include="Implement\BgShopRepository.cs" />
     <Compile Include="Implement\BgUpFilesRepository.cs" />
     <Compile Include="Implement\BGUserRepository.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Implement\BgVDisplayGuideFileRepository.cs" />
     <Compile Include="Implement\BgVPublishFileUserRepository.cs" />
     <Compile Include="Implement\BgVShopAreaUserRepository.cs" />
+    <Compile Include="Implement\BgVUserAreaRoleDepartmentRepository.cs" />
     <Compile Include="Interface\IBgAreaRepository.cs" />
     <Compile Include="Interface\IBgDisplayGuideFileRepository.cs" />
     <Compile Include="Implement\UserRepository.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Interface\IBgPublishFileRepository.cs" />
     <Compile Include="Interface\IBgLoginLogRepository.cs" />
     <Compile Include="Interface\IBgMenuRepository.cs" />
+    <Compile Include="Interface\IBgRoleRepository.cs" />
     <Compile Include="Interface\IBgShopRepository.cs" />
     <Compile Include="Interface\IBgUpFilesRepository.cs" />
     <Compile Include="Interface\IBgUserRepository.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Interface\IBgVDisplayGuideFileRepository.cs" />
     <Compile Include="Interface\IBgVPublishFileUserRepository.cs" />
     <Compile Include="Interface\IBgVShopAreaUserRepositoiry.cs" />
+    <Compile Include="Interface\IBgVUserAreaRoleDepartmentRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="IRepositoryBase.cs" />
     <Compile Include="MPConnection.cs" />

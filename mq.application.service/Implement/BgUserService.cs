@@ -47,5 +47,43 @@ namespace mq.application.service.Implement
             pmain.Predicates.Add(Predicates.Field<T_BG_User>(f => f.RoleID, Operator.Eq, 1));
             return _bgUserRepository.QueryList(pmain,null).ToList();
         }
+
+        public bool Add(T_BG_User user)
+        {
+            try
+            {
+                return _bgUserRepository.Add(user)>0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool Check(string username)
+        {
+            try
+            {
+                PredicateGroup pmain = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+                pmain.Predicates.Add(Predicates.Field<T_BG_User>(f => f.Name, Operator.Eq, username));
+                return _bgUserRepository.IsExist(pmain);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool Update(T_BG_User user)
+        {
+            try
+            {
+              return _bgUserRepository.Update(user);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
