@@ -58,6 +58,7 @@ namespace MQWebSite
 
             bundles.Add(new StyleBundle("~/css/publicmessage/PublicFiles", string.Format("{0}/css/publicmessage/PublicFiles.css", sourchPath)).Include("~/css/publicmessage/PublicFiles.css"));
 
+            bundles.Add(new StyleBundle("~/css/LoginCss", string.Format("{0}/css/LoginCss.css", sourchPath)).Include("~/css/LoginCss.css"));
             #endregion
 
             #region ScriptBundle

@@ -1,0 +1,90 @@
+﻿@using mq.application.webmvc
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Share/_Menu.cshtml";
+}
+@section head
+{
+    <style type="text/css">
+        .box1 {
+            margin: 10px;
+            padding: 15px;
+            background-color: #f2f2f2;
+        }
+
+        .layui-main .box1 table thead tr th {
+            text-align: center;
+        }
+    </style>
+
+}
+<div class="layui-main" style="margin-left: 200px;width: 80%">
+    <div class="layui-box box1">
+        <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a><cite>商店列表</cite></a>
+        </span>
+    </div>
+    <div class="layui-box box1 layui-inline">
+        <label class="layui-form-label" style="padding-left: 0px;">店铺名称：</label>
+        <div class="layui-unselect layui-form-select" style="float: left">
+            <div class="layui-select-title" style="width: 300px;">
+                <input type="text" placeholder="请输入店铺名称" value="" id="words" class="layui-input layui-unselect" style="z-index: 1;">
+                <i class="layui-icon" style="font-size: 30px; z-index: 2; color: #1E9FFF; float: right; margin-top: -35px;" onclick="GetPartialData();">&#xe615;</i>
+            </div>
+        </div>
+        <table class="layui-table" lay-skin="line row" lay-even style="margin-top: 66px;">
+            <colgroup>
+                <col width="5%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="20%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead style="border-bottom: 2px solid #393D49">
+                <tr style="background-color: #d2f2d2">
+                    <th>店铺代码</th>
+                    <th>店 铺</th>
+                    <th>区 域</th>
+                    <th>负责人</th>
+                    <th>地 址</th>
+                    <th>面 积</th>
+                    <th>店铺电话</th>
+                </tr>
+            </thead>
+            <tbody id="dataPartial" style="text-align: center"></tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+
+    layui.use(['layer'], function () {
+        GetPartialData();
+    });
+
+    function GetPartialData() {
+        var words = $('#words').val();
+        var url = "@(DomainUrlHelper.PublicMessagePath)/Shop/ListPartial?likeWWords=" + words;
+        var layId;
+        $.ajax({
+            type: 'POST',
+            url: url,
+            cache: false,
+            beforeSend: function () {
+                layId = layer.load(2);
+            },
+            success: function (data) {
+                $('#dataPartial').html(data);
+            },
+            complete: function () {
+                layer.close(layId);
+            }
+        });
+
+        //$.post(url, { 'likeWWords': words }, function (data) {
+        //    $('#dataPartial').html(data);
+        //});
+    }
+</script>

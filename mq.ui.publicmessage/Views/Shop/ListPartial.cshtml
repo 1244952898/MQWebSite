@@ -1,0 +1,19 @@
+﻿@model List<mq.model.dbentity.V_Shop_Area_User>
+
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var shop in Model)
+    {
+        <tr>
+            <td>@shop.ID</td>
+            <td>@shop.Name</td>
+            <td>@shop.AreaName</td>
+            <td>@shop.UserName</td>
+            <td>@shop.Address</td>
+            <td>@shop.Areas</td>
+            <td>@shop.Tel</td>
+        </tr>
+    }
+}
+
+

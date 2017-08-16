@@ -148,8 +148,10 @@
     <Compile Include="Controllers\ActiveFileController.cs" />
     <Compile Include="Controllers\DisplayGuideController.cs" />
     <Compile Include="Controllers\DisplayPartitionController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PublicMsgController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\TestApiController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
@@ -172,6 +174,10 @@
     <Content Include="Views\Test\A.cshtml" />
     <Content Include="Views\DisplayPartition\Add.cshtml" />
     <Content Include="Views\DisplayPartition\List.cshtml" />
+    <Content Include="Views\Shop\List.cshtml" />
+    <Content Include="Views\Shop\ListPartial.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
