@@ -68,7 +68,13 @@
     <Compile Include="employeebg\JsonDisplayGuideAptGetListData.cs" />
     <Compile Include="employeebg\JsonGuideFleSaveEntity.cs" />
     <Compile Include="employeebg\JsonShopAddShopEntity.cs" />
+    <Compile Include="employeebg\JsonShopDelShopEntity.cs" />
+    <Compile Include="employeebg\JsonShopGetShopEntity.cs" />
+    <Compile Include="employeebg\JsonUserAddUserEntity.cs" />
+    <Compile Include="employeebg\JsonUserGetShopListEntity.cs" />
+    <Compile Include="employeebg\JsonUserPassEntity.cs" />
     <Compile Include="employeebg\ShopAddEntity.cs" />
+    <Compile Include="employeebg\UserAddEntity.cs" />
     <Compile Include="FileUploadEntity.cs" />
     <Compile Include="JsonActiveFileApiGetList.cs" />
     <Compile Include="JsonAddFileEntity.cs" />

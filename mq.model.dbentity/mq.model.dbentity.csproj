@@ -168,6 +168,9 @@
     <Compile Include="V_Shop_Area_User.cs">
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="V_User_Area_Role_Department_Shop.cs">
+      <DependentUpon>mqEntity.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="mqEntity.edmx">

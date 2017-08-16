@@ -291,6 +291,31 @@
           <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
           <Property Name="UserName" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“POS.dbo.V_User_Area_Role_Department_Shop”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_User_Area_Role_Department_Shop">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="AreaId" Type="bigint" />
+          <Property Name="DepartmentId" Type="bigint" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="ApproveName" Type="nvarchar" MaxLength="20" />
+          <Property Name="ApproveTime" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ShopID" Type="int" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="PassWord" Type="nvarchar" MaxLength="20" />
+          <Property Name="RealName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="30" />
+          <Property Name="IsDel" Type="int" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="30" />
+          <Property Name="ShopName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityContainer Name="POSModelStoreContainer">
           <EntitySet Name="T_BG_ActiveFile" EntityType="Self.T_BG_ActiveFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Area" EntityType="Self.T_BG_Area" Schema="dbo" store:Type="Tables" />
@@ -373,6 +398,28 @@
     [V_Shop_Area_User].[UserName] AS [UserName]
     FROM [dbo].[V_Shop_Area_User] AS [V_Shop_Area_User]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_User_Area_Role_Department_Shop" EntityType="Self.V_User_Area_Role_Department_Shop" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_User_Area_Role_Department_Shop].[AreaId] AS [AreaId], 
+    [V_User_Area_Role_Department_Shop].[DepartmentId] AS [DepartmentId], 
+    [V_User_Area_Role_Department_Shop].[AddTime] AS [AddTime], 
+    [V_User_Area_Role_Department_Shop].[ApproveName] AS [ApproveName], 
+    [V_User_Area_Role_Department_Shop].[ApproveTime] AS [ApproveTime], 
+    [V_User_Area_Role_Department_Shop].[Status] AS [Status], 
+    [V_User_Area_Role_Department_Shop].[ShopID] AS [ShopID], 
+    [V_User_Area_Role_Department_Shop].[RoleID] AS [RoleID], 
+    [V_User_Area_Role_Department_Shop].[PassWord] AS [PassWord], 
+    [V_User_Area_Role_Department_Shop].[RealName] AS [RealName], 
+    [V_User_Area_Role_Department_Shop].[Name] AS [Name], 
+    [V_User_Area_Role_Department_Shop].[Phone] AS [Phone], 
+    [V_User_Area_Role_Department_Shop].[ID] AS [ID], 
+    [V_User_Area_Role_Department_Shop].[Email] AS [Email], 
+    [V_User_Area_Role_Department_Shop].[IsDel] AS [IsDel], 
+    [V_User_Area_Role_Department_Shop].[AreaName] AS [AreaName], 
+    [V_User_Area_Role_Department_Shop].[RoleName] AS [RoleName], 
+    [V_User_Area_Role_Department_Shop].[ShopName] AS [ShopName]
+    FROM [dbo].[V_User_Area_Role_Department_Shop] AS [V_User_Area_Role_Department_Shop]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -421,6 +468,7 @@
           <EntitySet Name="T_BG_Area" EntityType="POSModel.T_BG_Area" />
           <EntitySet Name="T_BG_Shop" EntityType="POSModel.T_BG_Shop" />
           <EntitySet Name="V_Shop_Area_User" EntityType="POSModel.V_Shop_Area_User" />
+          <EntitySet Name="V_User_Area_Role_Department_Shop" EntityType="POSModel.V_User_Area_Role_Department_Shop" />
         </EntityContainer>
         <EntityType Name="T_BG_User">
           <Key>
@@ -675,6 +723,29 @@
           <Property Name="OpenDate" Type="DateTime" Precision="3" />
           <Property Name="AreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_User_Area_Role_Department_Shop">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="AreaId" Type="Int64" />
+          <Property Name="DepartmentId" Type="Int64" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="ApproveName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ApproveTime" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ShopID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="PassWord" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="RealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="IsDel" Type="Int32" />
+          <Property Name="AreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ShopName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -973,6 +1044,30 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AreaId" ColumnName="AreaId" />
                 <ScalarProperty Name="LeaderID" ColumnName="LeaderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_User_Area_Role_Department_Shop">
+            <EntityTypeMapping TypeName="POSModel.V_User_Area_Role_Department_Shop">
+              <MappingFragment StoreEntitySet="V_User_Area_Role_Department_Shop">
+                <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ShopID" ColumnName="ShopID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ApproveTime" ColumnName="ApproveTime" />
+                <ScalarProperty Name="ApproveName" ColumnName="ApproveName" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

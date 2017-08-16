@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="POSModel.T_BG_Area" Width="1.5" PointX="12.375" PointY="4.75" />
         <EntityTypeShape EntityType="POSModel.T_BG_Shop" Width="1.5" PointX="5.375" PointY="12.75" />
         <EntityTypeShape EntityType="POSModel.V_Shop_Area_User" Width="1.5" PointX="12.375" PointY="7.75" />
+        <EntityTypeShape EntityType="POSModel.V_User_Area_Role_Department_Shop" Width="1.5" PointX="12.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
