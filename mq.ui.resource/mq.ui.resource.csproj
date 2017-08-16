@@ -99,6 +99,7 @@
     <Content Include="css\header-and-footer.css" />
     <Content Include="css\ie8.css" />
     <Content Include="css\jquery.bs_pagination.min.css" />
+    <Content Include="css\LoginCss.css" />
     <Content Include="css\main.css" />
     <Content Include="css\mainerror.css" />
     <Content Include="css\menuCss.css" />
@@ -201,6 +202,7 @@
     <Content Include="html\product.html" />
     <Content Include="Images\404.png" />
     <Content Include="Images\about.jpg" />
+    <Content Include="Images\banner.jpg" />
     <Content Include="Images\banner1.jpg" />
     <Content Include="Images\banner2.jpg" />
     <Content Include="Images\bbpg.png" />
