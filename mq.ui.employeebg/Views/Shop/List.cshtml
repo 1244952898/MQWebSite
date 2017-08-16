@@ -4,11 +4,16 @@
     ViewBag.Title = "商店列表";
     Layout = "~/Views/Share/_BootStrapLayout.cshtml";
     <style type="text/css">
-        .layui-form-label {
+        .lbls {
             width: 130px !important;
         }
+
         .layui-input-block {
             margin-left: 130px !important;
+        }
+
+        .layui-table th, td {
+            text-align: center;
         }
     </style>
 }
@@ -24,68 +29,94 @@
             <button type="button" class="btn btn-default btn-primary" onclick="Add();">
                 <i class="layui-icon">&#xe608;</i> 添 加
             </button>
-            <table class="table table-bordered  table-striped table-hover" style="margin-top: 20px;">
-                <thead>
-                <tr>
-                    <th class="code">店铺代码</th>
-                    <th class="name">店 铺</th>
-                    <th class="area">区 域</th>
-                    <th class="user">负责人</th>
-                    <th class="address">地 址</th>
-                    <th class="file">面 积</th>
-                    <th class="state">状 态</th>
-                    <th class="time">开业时间</th>
-                    <th class="del">删 除</th>
-                </tr>
-                </thead>
-                <tbody id="dataPartial">
 
-                </tbody>
+            <table class="layui-table" lay-skin="line row" lay-even>
+                <colgroup>
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr style="background-color: #d2f2d2">
+                        <th class="code">店铺代码</th>
+                        <th class="name">店 铺</th>
+                        <th class="area">区 域</th>
+                        <th class="user">负责人</th>
+                        <th class="address">地 址</th>
+                        <th class="file">面 积</th>
+                        <th class="state">状 态</th>
+                        <th class="time">开业时间</th>
+                        <th class="modify">修 改</th>
+                        <th class="del">删 除</th>
+                    </tr>
+                </thead>
+                <tbody id="dataPartial" style="text-align: center"></tbody>
             </table>
-            <button type="button" class="btn btn-default btn-primary" onclick="Add();">添 加</button>
+
+
         </div>
     </div>
 </div>
 
-<form class="layui-form layui-form-pane" style="display: none;margin: 15px" id="shop-add">
+<form class="layui-form layui-form-pane" style="display: none; margin: 15px" id="shop-add">
+
+    <div class="layui-form-item modify-lable">
+        <label class="layui-form-label lbls">
+            店铺代码：
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" name="id" id="id" disabled="" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">店铺代码自动生成，无法修改</div>
+    </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">
+        <label class="layui-form-label lbls">
             <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i> 店铺名称：
         </label>
         <div class="layui-input-inline">
-            <input type="text" name="name" lay-verify="required|name" placeholder="请输入店铺名称" autocomplete="off" class="layui-input">
+            <input type="text" name="shopname" id="shopname" lay-verify="required|name" placeholder="请输入店铺名称" autocomplete="off" class="layui-input">
         </div>
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">店铺地址：</label>
+        <label class="layui-form-label lbls">店铺地址：</label>
         <div class="layui-input-block">
-            <input type="text" name="address" lay-verify="" autocomplete="off" placeholder="请输入店铺地址" class="layui-input">
+            <input type="text" name="address" id="address" lay-verify="" autocomplete="off" placeholder="请输入店铺地址" class="layui-input">
         </div>
     </div>
-    
+
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">店铺面积：</label>
+            <label class="layui-form-label lbls">店铺面积：</label>
             <div class="layui-input-inline">
-                <input type="tel" name="areas" lay-verify="number" autocomplete="off" placeholder="请输入店铺面积" class="layui-input">
+                <input type="tel" name="areas" id="areas" lay-verify="number" autocomplete="off" placeholder="请输入店铺面积" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">店铺电话：</label>
+            <label class="layui-form-label lbls">店铺电话：</label>
             <div class="layui-input-inline">
-                <input type="tel" name="tel" lay-verify="number" autocomplete="off" placeholder="请输入店铺电话" class="layui-input">
+                <input type="tel" name="tel" id="tel" lay-verify="number" autocomplete="off" placeholder="请输入店铺电话" class="layui-input">
             </div>
         </div>
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">
+        <label class="layui-form-label lbls">
             <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i> 店 长：
         </label>
         <div class="layui-input-block" style="width: 50%">
-            <select name="leaderId" lay-filter="aihao" lay-verify="required">
+            <select name="leaderId" id="leaderId" lay-filter="leader" lay-verify="required">
                 @if (Model.userList != null && Model.userList.Count > 0)
                 {
                     for (int i = 0; i < Model.userList.Count; i++)
@@ -95,16 +126,14 @@
                 }
             </select>
         </div>
-        @*<div class="layui-inline">
-                 <button class="layui-btn">立即提交</button>
-            </div>*@
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">
+        <label class="layui-form-label lbls">
             <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i> 区 域：
         </label>
         <div class="layui-input-block" style="width: 50%">
-            <select name="areaId" lay-filter="areaId" lay-verify="required">
+            <select name="areaId" id="areaId" lay-filter="area" lay-verify="required">
                 @if (Model.areaList != null && Model.areaList.Count > 0)
                 {
                     for (int i = 0; i < Model.areaList.Count; i++)
@@ -114,29 +143,53 @@
                 }
             </select>
         </div>
-      
+
     </div>
+
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">开业日期：</label>
+            <label class="layui-form-label lbls">开业日期：</label>
             <div class="layui-input-block">
-                <input type="text" name="date" id="openDate" autocomplete="off" class="layui-input" onclick="layui.laydate({ elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss', min: laydate.now(), max: '2099-12-31 23:59:59'})">
+                <input type="text" name="date" id="openDate" autocomplete="off" class="layui-input" onclick="layui.laydate({ elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss', min: laydate.now(), max: '2099-12-31 23:59:59' })" placeholder="请输入开业日期">
             </div>
         </div>
     </div>
+
+    <div class="layui-form-item modify-lable">
+        <label class="layui-form-label lbls">店铺状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="state" id="state" lay-skin="switch" lay-text="营业|撤销">
+        </div>
+    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button class="layui-btn" lay-submit="" id="submit" lay-filter="demo1">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 </form>
-
 <script type="text/javascript">
+
+    //layui.define(function (exports) {
+    //    //do something
+    //    exports('demo', function (a) {
+    //        alert(a);
+    //    });
+    //});
+
+    //layui.define(['layer', 'laypage'], function (exports) {
+    //    //do something
+
+    //    exports('demo1', function () {
+    //        alert('Hello World222!');
+    //    });
+    //});
 
     layui.use(['form', 'layer', 'laydate'], function () {
         var form = layui.form()
             , layer = layui.layer;
+
         GetPartialData();
         //自定义验证规则
         form.verify({
@@ -162,19 +215,20 @@
         });
 
         //监听提交
-        form.on('submit(demo1)', function (data) {
+        form.on('submit(add)', function (data) {
 
             var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/AddShop";
             var pars = data.field;
-            alert(pars);
+            pars.shopname = encodeURIComponent(pars.shopname);
+            pars.address = encodeURIComponent(pars.address);
             $.post(url, pars, function (datas) {
                 if (datas.ErrorCode == "E000") {
-                    layer.msg(data.ErrorMessage, {
+                    layer.msg("保存成功", {
                         icon: 1,
-                        skin: 'layer-ext-moon',
                         time: 1000
                     }, function () {
-                        location.reload();
+                        GetPartialData();
+                        layer.closeAll();
                     });
                 } else {
                     layer.alert(data.ErrorMessage, {
@@ -182,7 +236,33 @@
                         skin: 'layer-ext-moon'
                     });
                 }
+                layer.closeAll();
+            });
+            return false;
+        });
 
+        form.on('submit(mdfy)', function (data) {
+
+            var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/ModifyShop";
+            var pars = data.field;
+            pars.shopname = encodeURIComponent(pars.shopname);
+            pars.address = encodeURIComponent(pars.address);
+            $.post(url, pars, function (datas) {
+                if (datas.ErrorCode == "E000") {
+                    layer.msg("保存成功", {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        GetPartialData();
+                        layer.closeAll();
+                    });
+                } else {
+                    layer.alert(data.ErrorMessage, {
+                        icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                        skin: 'layer-ext-moon'
+                    });
+                }
+               
             });
             return false;
         });
@@ -190,10 +270,12 @@
     });
 
     function Add() {
+        $('#submit').attr('lay-filter', 'add');
+        $('.modify-lable').hide();
         layui.layer.open({
             type: 1,
             title: '添加商铺',
-            area: ['600px', '600px'],
+            area: ['600px', '700px'],
             offset: ['100px', '300px'],
             skin: 'layui-layer-lan',
             fixed: false, //不固定
@@ -202,6 +284,66 @@
         });
     }
 
+    function Modify(id) {
+        $('#submit').attr('lay-filter', 'mdfy');
+        $('.modify-lable').show();
+        var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/GetShop?id=" + id;
+        $.post(url, function (data) {
+            if (data.ErrorCode == "E000") {
+                $('#id').val(data.Shop.ID);
+                $('#shopname').val(data.Shop.Name);
+                $('#address').val(data.Shop.Address);
+                $('#areas').val(data.Shop.Areas);
+                $('#tel').val(data.Shop.Tel);
+                $('#leaderId').val(data.Shop.LeaderID);
+
+                $('#areaId').val(data.Shop.AreaId);
+                layui.form().render('select');
+
+                $('#openDate').val(data.OpenDate);
+                if (data.Shop.State == 0) {
+                    $('#state').attr("checked", true);
+                } else {
+                    $('#state').attr("checked", false);
+                }
+                layui.form().render('checkbox');
+
+                layui.layer.open({
+                    type: 1,
+                    title: '添加商铺',
+                    area: ['600px', '650px'],
+                    offset: ['50px', '400px'],
+                    skin: 'layui-layer-lan',
+                    fixed: false, //不固定
+                    scrollbar: false,
+                    content: $('#shop-add')
+                });
+
+            } else {
+                layer.alert(data.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon'
+                });
+            }
+        });
+    }
+
+    function DelData(id) {
+        var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/DelShop?id=" + id;
+        $.post(url, function (data) {
+            if (data.ErrorCode == "E000") {
+                layer.msg("删除成功", function() {
+                    GetPartialData();
+                });
+            } else {
+                layer.alert(data.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon'
+                });
+            }
+            
+        });
+    }
     function checkMobile() {
         var sMobile = document.mobileform.mobile.value;
         if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))) {
@@ -213,9 +355,8 @@
 
     function GetPartialData() {
         var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/ListPartial";
-        $.post(url, function(data) {
+        $.post(url, function (data) {
             $('#dataPartial').html(data);
         });
     }
 </script>
-

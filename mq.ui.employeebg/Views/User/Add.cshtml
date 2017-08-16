@@ -1,4 +1,7 @@
-﻿@{
+﻿@using mq.application.webmvc
+@using mq.model.dbentity
+@model mq.model.viewentity.employeebg.UserAddEntity
+@{
     ViewBag.Title = "添加用户";
     Layout = "~/Views/Share/_Menu.cshtml";
 }
@@ -9,6 +12,18 @@
             padding: 15px;
             background-color: #f2f2f2;
         }
+
+        .layui-form-item .layui-input-inline {
+            width: 290px;
+        }
+
+        .layui-form-label {
+            width: 110px;
+        }
+
+        .layui-icon {
+            margin-right: 5px;
+        }
     </style>
 
 }
@@ -16,22 +31,25 @@
     <div class="layui-box box1">
         <span class="layui-breadcrumb">
             <a href="">首页</a>
-            <a href="">用户列表</a>
-            <a><cite>添加用户</cite></a>
+            <a><cite>注册用户</cite></a>
         </span>
     </div>
     <div class="layui-box box1">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label">用户名:</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="required|username" placeholder="请输入用户名" class="layui-input">
+                <label class="layui-form-label">
+                    <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>用户名:
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" id="username" lay-verify="required|username|usercheck|ttt" placeholder="请输入用户名" class="layui-input" onblur="CheckUserName()">
                 </div>
-                <div class="layui-form-mid layui-word-aux">请填写6到12位用户名，必须为字母或者数字</div>
+                <div class="layui-form-mid layui-word-aux" id="usernamemsg">请填写6到12位用户名，必须为字母或者数字</div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">密 码:</label>
+                <label class="layui-form-label">
+                    <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>密 码:
+                </label>
                 <div class="layui-input-inline">
                     <input type="password" name="password" lay-verify="required|username" placeholder="请输入密码" autocomplete="off" class="layui-input">
                 </div>
@@ -40,68 +58,110 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">真实姓名:</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="required|username" placeholder="请输入真实姓名" class="layui-input">
+                <div class="layui-input-inline">
+                    <input type="text" name="realname" lay-verify="" placeholder="请输入真实姓名" class="layui-input">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">手机号码：</label>
+                    <label class="layui-form-label">
+                        <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>手机号码：
+                    </label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                        <input type="tel" name="phone" lay-verify="required|phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+            </div>
+
+            <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">邮箱：</label>
+                    <label class="layui-form-label">
+                        <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>邮箱：
+                    </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="email" lay-verify="required|email" autocomplete="off" class="layui-input">
+                        <input type="text" name="email" lay-verify="required|email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
                     </div>
+                    <div class="layui-form-mid layui-word-aux">请输入真实邮箱，用于找回密码或者接收文件</div>
                 </div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">角色：</label>
-                <div class="layui-input-block">
-                    <select name="interest" lay-filter="juese">
-                        <option value=""></option>
-                        <option value="0">写作</option>
-                        <option value="1" selected="">阅读</option>
-                        <option value="2">游戏</option>
-                        <option value="3">音乐</option>
-                        <option value="4">旅行</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">所属地区：</label>
+                <label class="layui-form-label">
+                    <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>角色：
+                </label>
                 <div class="layui-input-inline">
-                    <select name="quiz1">
-                        <option value="">请选择省</option>
-                        <option value="浙江" selected="">浙江省</option>
-                        <option value="你的工号">江西省</option>
-                        <option value="你最喜欢的老师">福建省</option>
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <select name="quiz2">
-                        <option value="">所属店铺</option>
-                        <option value="杭州">杭州</option>
-                        <option value="宁波" disabled="">宁波</option>
-                        <option value="温州">温州</option>
-                        <option value="温州">台州</option>
-                        <option value="温州">绍兴</option>
+                    <select name="roleid" lay-filter="juese">
+                        @if (Model.RoleList != null && Model.RoleList.Count > 0)
+                        {
+                            for (int i = 0; i < Model.RoleList.Count; i++)
+                            {
+                                <option value="@Model.RoleList[i].ID" @(i == 0 ? "selected=\"\"" : "")>@Model.RoleList[i].Name</option>
+                            }
+                        }
                     </select>
                 </div>
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>部门：
+                </label>
+                <div class="layui-input-inline">
+                    <select name="departmentid" lay-filter="juese">
+                        @if (Model.DepartmentList != null && Model.DepartmentList.Count > 0)
+                        {
+                            for (int i = 0; i < Model.DepartmentList.Count; i++)
+                            {
+                                <option value="@Model.DepartmentList[i].Id" @(i == 0 ? "selected=\"\"" : "")>@Model.DepartmentList[i].DepartmentName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>所属地区：
+                </label>
+                <div class="layui-input-inline">
+                    <select name="areaid" lay-filter="area" lay-verify="required">
+                        <option value="">请选择地区</option>
+                        @if (Model.AreaList != null && Model.AreaList.Count > 0)
+                        {
+                            for (int i = 0; i < Model.AreaList.Count; i++)
+                            {
+                                <option value="@Model.AreaList[i].ID" @(i == 0 ? "selected=\"\"" : "")>@Model.AreaList[i].AreaName</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                @*<label class="layui-form-label">
+                        <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>所属商铺：
+                    </label>*@
+                <div class="layui-input-inline">
+                    <select name="shopid" id="shop" lay-verify="required">
+                        <option value="">请选择商铺</option>
+                        @if (Model.ShopList != null && Model.ShopList.Count > 0)
+                        {
+                            foreach (T_BG_Shop shop in Model.ShopList)
+                            {
+                                <option value="@shop.ID">@shop.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即注册</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
+
         </form>
         <script>
             layui.use(['form', 'layedit', 'laydate'], function () {
@@ -111,22 +171,101 @@
                 //自定义验证规则
                 form.verify({
                     pass: [/(.+){6,12}$/, '密码必须6到12位'],
-                    username: [/^[a-zA-Z0-9]{6,12}$/, '必须为6到12位数字或者字母']
+                    username: [/^[a-zA-Z0-9]{6,12}$/, '必须为6到12位数字或者字母'],
+                    usercheck: function (value, item) { //value：表单的值、item：表单的DOM对象
+                        var result = false;
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            url: '@DomainUrlHelper.EmployeeBgPath/User/CheckUserName?username=' + encodeURIComponent(value),
+                            success: function (data) {
+                                if (data.ErrorCode == "E001") {
+                                    result = true;
+                                }
+                            },
+                            error: function (a, b, c) {
+                            }
+                        });
+                        if (result) {
+                            return '该用户名已存在！';
+                        }
+                      
+                    }
                 });
 
+                form.on('select(area)', function (data) {
+                    var id = data.value;
+                    $.ajax({
+                        type: 'POST',
+                        url: '@DomainUrlHelper.EmployeeBgPath/User/GetShopList?areaId=' + id,
+                        //data: { Filename: fn },
+                        cache: false,
+                        //dataType: 'json',
+                        success: function (data) {
+                            var ht = '<option value="">请选择市</option>' + data;
+                            $('#shop').html(ht);
+                            layui.form().render('select');
+                        },
+                        error: function (a, b, c) {
+                        }
+                    });
+                });
 
                 //监听提交
+                var layId;
                 form.on('submit(demo1)', function (data) {
-                    layer.alert(JSON.stringify(data.field), {
-                        title: '最终的提交信息'
+                    var pars = data.field;
+                    pars.username = encodeURIComponent(pars.username);
+                    pars.realname = encodeURIComponent(pars.realname);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@DomainUrlHelper.EmployeeBgPath/User/AddUser',
+                        data: pars,
+                        cache: false,
+                        //dataType: 'json',
+                        beforeSend: function () {
+                            layId = layer.load(2);
+                        },
+                        success: function (dat) {
+                            if (dat.ErrorCode == "E000") {
+                                layer.msg('添加成功');
+                            } else {
+                                layer.alert(dat.ErrorMessage, {
+                                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                                    skin: 'layer-ext-moon'
+                                });
+                            }
+                        },
+                        error: function (a, b, c) {
+                        },
+                        complete: function () {
+                            layer.close(layId);
+                        }
                     });
                     return false;
                 });
-
-
             });
+
+            function CheckUserName() {
+                var username = $('#username').val();
+                if (undefined == username || username == '') {
+                    layer.msg('用户名不能为空！', {
+                        icon: 2,
+                        time: 1000
+                    });
+                    $('#usernamemsg').text('用户名不能为空！').css('color', 'red');
+                    return;
+                }
+                $.post('@DomainUrlHelper.EmployeeBgPath/User/CheckUserName', { 'username': username }, function (data) {
+                    if (data.ErrorCode == "E000") {
+                        $('#usernamemsg').text('请填写6到12位用户名，必须为字母或者数字！').css('color', 'rgb(153,153,153)');
+                    } else {
+                        $('#usernamemsg').text('该用户名已存在！').css('color', 'red');
+                    }
+                });
+            }
         </script>
     </div>
-
 
 </div>

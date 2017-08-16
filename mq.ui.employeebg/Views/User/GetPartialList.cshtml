@@ -1,0 +1,31 @@
+﻿@model List<mq.model.dbentity.V_User_Area_Role_Department_Shop>
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.ID</td>
+            <td>@user.Name</td>
+            <td>@user.Phone</td>
+            <td>@user.AreaName</td>
+            <td>@user.ShopName</td>
+            <td>@user.RoleName</td>
+            <td>
+                @if (user.Status == 0)
+                {
+                    <button type="button" class="layui-btn layui-btn-warm" onclick="layui.Pass('@user.ID',1);">未通过</button>
+                }
+                else
+                {
+                    <button type="button" class="layui-btn layui-btn-disabled" onclick="layui.Pass('@user.ID',0);">已通过</button>
+                }
+            </td>
+            <td>
+                @if (user.AddTime != null)
+                {
+                    @user.AddTime.Value.ToString("yyyy/MM/dd hh:mm:ss")
+                }
+            </td>
+        </tr>
+    }
+}

@@ -1,0 +1,10 @@
+﻿@using mq.model.dbentity
+@model  List<T_BG_Shop>    
+
+@if (Model != null && Model.Count > 0)
+{
+    foreach (T_BG_Shop bgShop in Model)
+    {
+        <option value="@bgShop.ID">@bgShop.Name</option>
+    }
+}

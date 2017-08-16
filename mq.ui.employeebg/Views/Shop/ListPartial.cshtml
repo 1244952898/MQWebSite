@@ -9,15 +9,16 @@
             <td>@shop.Name</td>
             <td>@shop.AreaName</td>
             <td>@shop.UserName</td>
+            <td>@shop.Address</td>
             <td>@shop.Areas</td>
             <td>
                 @if (shop.State == 0)
                 {
-                    <button type="button" class="btn btn-default btn-danger layui-btn-disabled">营业中</button>
+                    <button type="button" class="layui-btn layui-btn-warm" onclick="Modify('@shop.ID');">营业中</button>
                 }
                 else
                 {
-                    <button type="button" class="btn btn-default btn-danger layui-btn-disabled">已撤销</button>
+                    <button type="button" class="layui-btn layui-btn-disabled" onclick="Modify('@shop.ID');">已撤销</button>
                 }
             </td>
             <td>
@@ -25,9 +26,12 @@
                 {
                     @shop.OpenDate.Value.ToString("yyyy/MM/dd hh:mm:ss")
                 }
-                </td>
+            </td>
             <td>
-                <button type="button" class="btn btn-default btn-danger" onclick="DelData();">删 除</button>
+                <button type="button" class="btn btn-default btn-danger" onclick="Modify('@shop.ID');">修 改</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-default btn-danger" onclick="DelData('@shop.ID');">删 除</button>
             </td>
         </tr>
     }

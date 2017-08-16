@@ -186,6 +186,8 @@
     <Content Include="Views\Shop\ListPartial.cshtml" />
     <Content Include="Views\User\Add.cshtml" />
     <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\User\GetShopList.cshtml" />
+    <Content Include="Views\User\GetPartialList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
