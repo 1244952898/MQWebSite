@@ -1,107 +1,171 @@
 ﻿@using System.Web.Optimization
 @using koala.application.common
 @using mq.application.webmvc
+@model  List<mq.model.dbentity.T_BG_User>
 @{
-    ViewBag.Title = "Send";
+    ViewBag.Title = "发送邮件";
     Layout = "~/Views/Shared/_LayuiMenu.cshtml";
 }
 @section head
 {
-    @Scripts.Render("~/libs/plupload-3.0-beta1/js/plupload");
+    @Scripts.Render("~/libs/plupload-3.0-beta1/js/plupload")
     <style type="text/css">
         .box1 {
             background-color: #eeeeee;
             padding: 10px;
         }
+        #userList tr th {
+            text-align: center;
+        }
     </style>
 }
-<div class="layui-box box1">
-    <span class="layui-breadcrumb">
-        <a href="">首页</a>
-        <a><cite>发送邮件</cite></a>
-    </span>
-</div>
-<div class="layui-box box1" style="margin-top: 10px;">
-    <form class="layui-form">
-        <div class="layui-form-item modify-lable">
-            <label class="layui-form-label lbls">收件人</label>
-            <div class="layui-input-inline" style="width: 700px;">
-                <input type="text" name="send" id="send" lay-verify="send" autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-input-block">
-                <button type="button" class="layui-btn"><i class="layui-icon">&#xe608;</i> 添 加</button>
-                <button type="button" class="layui-btn layui-btn-primary">
-                    <i class="layui-icon" style="color: red">&#x1006;</i>清 空
-                </button>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">主 题</label>
-            <div class="layui-input-inline" style="width: 1100px;">
-                <input type="text" name="title" lay-verify="title" placeholder="请输入邮件主题" class="layui-input">
-            </div>
-        </div>
-
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-            </label>
-            <div class="layui-inline">
-                <div class="layui-input-inline" style="width: 1100px; height: 38px; line-height: 38px; font-weight: bold">
-                    <i class="layui-icon" style="color: blue">&#xe64d;</i>附 件
-                    <button class="layui-btn layui-btn-mini" id="uploader">
-                        <i class="layui-icon">&#xe654;</i>上 传
+<div class="layui-body" style="margin: 15px 0 0 15px">
+    <div class="layui-box box1">
+        <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a><cite>发送邮件</cite></a>
+        </span>
+    </div>
+    <div class="layui-box box1" style="margin-top: 10px;">
+        <form class="layui-form">
+            <div class="layui-form-item modify-lable">
+                <label class="layui-form-label lbls">收件人</label>
+                <div class="layui-input-inline" style="width: 700px;">
+                    <input type="text" placeholder="请点击添加按钮添加邮箱" name="send" id="emails" lay-verify="send" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" onclick="operUsers()">
+                        <i class="layui-icon">&#xe608;</i> 添 加
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="clearEmail();">
+                        <i class="layui-icon" style="color: red">&#x1006;</i>清 空
                     </button>
                 </div>
-               
-                <div style="border: 1px seagreen;">
-                    <div class="layui-form-mid layui-word-aux">
-                        <i class="layui-icon" style="color: blue">&#xe61d;</i>
-                    </div>
-                    <div class="layui-form-mid layui-word-aux">
-                        
-                        <label id="filename" style="display: none">文件名</label>
-                        <button id="delBtn" style="display: none" class="layui-btn layui-btn-primary layui-btn-mini ">
-                            <i class="layui-icon" style="color: red">&#xe640;</i>
-                        </button>
+            </div>
 
-                        <div class="layui-progress" lay-showpercent="true" lay-filter="progress" style="display: none">
-                            <div id="persent" class="layui-progress-bar" lay-percent="0%"></div>
-                        </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">主 题</label>
+                <div class="layui-input-inline" style="width: 1100px;">
+                    <input type="text" id="" name="title" lay-verify="title" placeholder="请输入邮件主题" class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                </label>
+                <div class="layui-inline">
+                    <div class="layui-input-inline" style="left: 0;width: 1100px; height: 38px; line-height: 38px; font-weight: bold; cursor: pointer" id="uploader">
+                        <i class="layui-icon" style="color: blue">&#xe64d;</i>上传附件
+                        @*<button class="layui-btn layui-btn-mini">
+                                <i class="layui-icon">&#xe654;</i>上 传
+                            </button>*@
                     </div>
-                    @*<div class="layui-form-mid layui-word-aux">请输入真实邮箱，用于找回密码或者接收文件
-                            <button class="layui-btn layui-btn-primary layui-btn-mini">
+
+                    <div style="border: 1px seagreen;">
+                        <div class="layui-form-mid layui-word-aux">
+                            <i class="layui-icon" style="color: blue">&#xe61d;</i>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">
+
+                            <label id="filename" style="display: none" name="cesjishuju">文件名</label>
+                            <button id="delBtn" style="display: none" class="layui-btn layui-btn-primary layui-btn-mini " onclick="DelFile();">
                                 <i class="layui-icon" style="color: red">&#xe640;</i>
                             </button>
-                        </div>*@
+
+
+                        </div>
+                        <div class="layui-progress" lay-showpercent="true" lay-filter="progress" style="display: none; width: 333px">
+                            <div id="persent" class="layui-progress-bar" lay-percent="10%"></div>
+                        </div>
+                            @*<div class="layui-form-mid layui-word-aux">请输入真实邮箱，用于找回密码或者接收文件
+                    <button class="layui-btn layui-btn-primary layui-btn-mini">
+                        <i class="layui-icon" style="color: red">&#xe640;</i>
+                    </button>
+                </div>*@
+                        
+                    </div>
                 </div>
-
             </div>
-        </div>
 
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">内 容</label>
-            <div class="layui-input-inline" style="width: 1100px;background-color: white">
-                <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_editor" style="height: 400px;"></textarea>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内 容</label>
+                <div class="layui-input-inline" style="width: 1100px; background-color: white">
+                    <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_editor" style="height: 400px;"></textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit="" id="submit" lay-filter="sendEmail">发 送</button>
-                @*<button type="reset" class="layui-btn layui-btn-primary">重 置</button>*@
-            </div>
-        </div>
-    </form>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" id="submit" lay-filter="sendEmail">发 送</button>
+                </div>
+            </div>     
+        </form>
+
+    </div>
+</div>
+<div class="layui-box" id="userList" style="display:none;margin:0 20px 0 20px">
+    <table class="layui-table" lay-skin="line row" lay-even>
+        <colgroup>
+            <col width="7%">
+            <col width="10%">
+            <col width="13%">
+        </colgroup>
+        <thead style="border-bottom: 2px solid #393D49">
+            <tr style="background-color: #d2f2d2">
+                <th>用户代码</th>
+                <th>用户名</th>
+                <th>邮 箱</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var user in Model)
+                {
+                    <tr data-email="@user.Email">
+                        <td>@user.ID</td>
+                        <td>@user.Name</td>
+                        <td>@user.Email</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    @*<table class="layui-table">
+            <tbody style="text-align: center">
+            <tr>
+                <td>用户代码</td>
+                <td>用户名</td>
+                <td>邮 箱</td>
+            </tr>
+            <tr>
+                <td>用户代码</td>
+                <td>用户名</td>
+                <td>邮 箱</td>
+            </tr>
+                <tr>
+                    <td>用户代码</td>
+                    <td>用户名</td>
+                    <td>邮 箱</td>
+                </tr>
+            </tbody>
+        </table>*@
 
 </div>
 
-<script type="text/javascript">
 
-    layui.use(['form', 'layer', 'layedit'], function () {
+<input type="hidden" id="fileurl" value="" />
+<input type="hidden" id="fileorgname" value="" />
+<input type="hidden" id="fileext" value="" />
+<script type="text/javascript">
+    var element;
+    layui.use(['form', 'layer', 'layedit', 'element'], function () {
         var form = layui.form(), layer = layui.layer;
         var layedit = layui.layedit;
+        element = layui.element();
+
         //构建一个默认的编辑器
         var index = layedit.build('LAY_editor', {
             tool: ['strong', 'italic', 'underline', 'del', '|', 'left', 'center', 'right', 'link', 'unlink', 'face', 'help']
@@ -126,15 +190,22 @@
 
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
-            });
-            return;
-            var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/AddShop";
+            })
+            return false;
+
+            var url = "@(DomainUrlHelper.EmailPath)/Mail/SendEmail";
             var pars = data.field;
-            pars.shopname = encodeURIComponent(pars.shopname);
-            pars.address = encodeURIComponent(pars.address);
+            alert(pars);
+            pars.title = encodeURIComponent(pars.title);
+            pars.content = encodeURIComponent(pars.content);
+
+            pars.fileurl = encodeURIComponent($('#fileurl').val());
+            pars.fileorgname = encodeURIComponent($('#fileorgname').val());
+            pars.fileext = $('#fileext').val();
+          
             $.post(url, pars, function (datas) {
                 if (datas.ErrorCode == "E000") {
-                    layer.msg("保存成功", {
+                    layer.msg("发送成功", {
                         icon: 1,
                         time: 1000
                     }, function () {
@@ -151,13 +222,77 @@
             return false;
         });
 
+        //上传初始化
         uploader.init();
+
+        //弹窗用户点击
+        $('#userList tr').click(function () {
+            var mail = $(this).attr('data-email');
+            var txt = $('#emails').val();
+
+            if (txt == undefined || txt == "") {
+                $('#emails').val(mail);
+                $(this).css('background-color', '#c2c2c2');
+            }
+            else if ($.inArray(mail, txt.split(';')) >= 0) {
+
+                layui.layer.alert('该邮箱账号已经在发送邮件中', {
+                    icon: 2,
+                    skin: 'layer-ext-moon'
+                });
+            } else {
+                $('#emails').val(txt + ';' + mail);
+                $(this).css('background-color', '#c2c2c2');
+            }
+
+        });
+
     });
-  
+
+    //清空邮箱
+    function clearEmail() {
+        $('#userList tr').css('background-color','');
+        $('#emails').val('');
+    }
+
+    //添加用户邮箱
+    function operUsers() {
+        layui.layer.open({
+            type: 1,
+            title: '添加邮件',
+            area: ['800px', 'auto'],
+            skin: 'layui-layer-lan',
+            btnAlign: 'c',
+            //fixed: false, //不固定
+            //scrollbar: false,
+            btn: ['确定']
+            , yes: function (index, layero) {
+                layer.close(index);
+            },
+            content: $('#userList')
+        });
+    }
+
+    //删除文件
+    function DelFile() {
+        var path = encodeURIComponent($('#fileurl').val());
+        $.post('@(DomainUrlHelper.UploadPath)/EmailUppload/DelEmailFile?filePath=' + encodeURIComponent(path), function (data) {
+            if (data.ErrorCode == "E0000") {
+                $('#uploader').css('left', '0');
+                layui.layer.msg('删除成功！');
+            } else {
+                layui.layer.alert(data.ErrorMessage, {
+                    icon: 2,
+                    skin: 'layer-ext-moon'
+                });
+            }
+        });
+        
+    }
+
     var uploader = new plupload.Uploader({
         browse_button: 'uploader',
         url: '@(DomainUrlHelper.UploadPath)/EmailUppload/SendFile?key=@(LoginHelper.UserId)',
-        //filters: [{ title: "Image files", extensions: "jpg,gif,png" }],
         max_file_size: '5mb',
         multi_selection: false,
         flash_swf_url: '@(DomainUrlHelper.SourchPath)/libs/plupload-3.0-beta1/js/Moxie.swf', // Flash settings
@@ -177,14 +312,17 @@
 
                 if (jsonData.ErrorCode == "00000") {
 
-                    $('#filename').show();
+                    $('#filename').text(jsonData.Attach).show();
                     $('#delBtn').show();
-                    
+                    $('#uploader').css('left', '-99999px');
+
                     layer.msg('上传成功', { icon: 1, time: 2000 }, function () {
                     });
-                    $('#FileUrl').val(jsonData.FileUrl);
-                    $('#FileName').val(jsonData.FileName);
-                    $('#oldFileName').text(jsonData.OldFileName);
+
+                    $('#fileorgname').val(jsonData.Attach);
+                    $('#fileurl').val(jsonData.FilePath);
+                    $('#fileext').val(jsonData.FileType);
+
                 } else {
                     layer.msg('同上', {
                         icon: 2,
@@ -197,7 +335,7 @@
             UploadComplete: function (up, files) {
             },
             Error: function (up, err) {
-                console.log(err);
+                alert(err);
             }
         }
     });
