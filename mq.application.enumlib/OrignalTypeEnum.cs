@@ -21,6 +21,11 @@ namespace mq.application.enumlib
         /// <summary>
         /// 2:陈列指引
         /// </summary>
-        GuideFile=3
+        GuideFile=3,
+
+        /// <summary>
+        /// 邮件附件
+        /// </summary>
+        EmailFile=4
     }
 }

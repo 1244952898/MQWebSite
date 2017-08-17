@@ -12,6 +12,7 @@ namespace mq.application.common
         static readonly string PublicFileCollectionRoot = CommonHelper.GetConfigValue("PublicFileUploadDocumentRoot").ToString("");
         static readonly string ActiveFileCollectionRoot = CommonHelper.GetConfigValue("ActiveFileUploadDocumentRoot").ToString("");
         static readonly string GuideFileCollectionRoot = CommonHelper.GetConfigValue("GuideFileUploadDocumentRoot").ToString("");
+        static readonly string EmailFileCollectionRoot = CommonHelper.GetConfigValue("EmailFileUploadDocumentRoot").ToString("");
 
         /// <summary>
         /// 生成保存的文件名
@@ -50,6 +51,10 @@ namespace mq.application.common
             {
                 strRoot = GuideFileCollectionRoot.TrimEnd('\\');
             }
+            else if (type.Equals(OrignalTypeEnum.EmailFile.ToString(), StringComparison.InvariantCultureIgnoreCase) || type == "4")
+            {
+                strRoot = EmailFileCollectionRoot.TrimEnd('\\');
+            }
             else
             {
                 //默认放到这个下面
@@ -66,6 +71,27 @@ namespace mq.application.common
                     lPre = 0;
                 strRoot += string.Format(@"\{0}\{1}", lPre % 1000, lPre);
             }
+            return strRoot;
+        }
+
+        public static string GetEmailSavePath(string fileEx, string type = "EmailFile")
+        {
+            string strRoot = string.Empty;
+            type = type ?? string.Empty;
+
+            if (type.Equals(OrignalTypeEnum.EmailFile.ToString(), StringComparison.InvariantCultureIgnoreCase) || type == "4")
+            {
+                strRoot = EmailFileCollectionRoot.TrimEnd('\\');
+            }
+            else
+            {
+                return String.Empty;
+            }
+            if (!string.IsNullOrWhiteSpace(fileEx))
+            {
+                strRoot += @"\" + fileEx;
+            }
+            strRoot += @"\" + Guid.NewGuid().ToString("N");
             return strRoot;
         }
     }
