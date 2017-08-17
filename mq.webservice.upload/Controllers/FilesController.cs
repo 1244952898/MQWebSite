@@ -31,20 +31,18 @@ namespace mq.webservice.upload.Controllers
         public JsonResult Post(string id)
         {
             string userid = CommonHelper.GetPostValue("key");
-            //string sign = CommonHelper.GetPostValue("sign");
-            string action = CommonHelper.GetPostValue("action");
             string filename = CommonHelper.GetPostValue("fn");
             string type = CommonHelper.GetPostValue("type").ToString("PublicFile");
-            long cid = CommonHelper.GetPostValue("cid").ToLong(-1);
-
-            userid = "1";
 
             OrignalTypeEnum saveType = type.Equals("GuideFile") || type.Equals("3")
                 ? OrignalTypeEnum.GuideFile
                 : type.Equals("ActiveFile") || type.Equals("1")
                     ? OrignalTypeEnum.ActiveFile
                     : OrignalTypeEnum.PublicFile;
-
+            //
+            //这个方法暂时这样，需要优化
+            //
+            userid = LoginHelper.UserId.ToString();
             long lUserId = userid.ToLong(-1);
             //string.IsNullOrEmpty(sign) || 
             if (string.IsNullOrEmpty(userid) || lUserId <= 0)
@@ -65,20 +63,13 @@ namespace mq.webservice.upload.Controllers
                     {
                         return Json(new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "上传的文档为空！" });
                     }
-                    //11111111111111111
+                   
                     FileExtension[] fileExs = new FileExtension[] { FileExtension.DOC, FileExtension.DOCX, FileExtension.PDF };
                     string fileExt = FileValidation.FileExtension(file, fileExs);
                     if (string.IsNullOrEmpty(fileExt))
                     {
                         return Json(new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "请上传WORD、PDF格式的文档！" });
                     }
-                    //22222222222222222
-                    //string fileexs = ".doc,.docx,.pdf";
-                    //string fileext1 = Path.GetExtension(file.FileName);
-                    //if (!fileexs.Contains(fileext1))
-                    //{
-                    //    return new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "请上传WORD、PDF格式的文档！" };
-                    //}
 
                     string originFileName = Regex.Replace(file.FileName, "." + fileExt, "." + fileExt, RegexOptions.IgnoreCase);
                     string savename = Guid.NewGuid().ToString("N");
@@ -210,7 +201,7 @@ namespace mq.webservice.upload.Controllers
                         return Json(new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "服务器不能解析上传的pdf，请选择其他文件重新上传！" });
                     }
 
-                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, filetype = 0, addtime = DateTime.Now, type = saveType.ToInt(0) };
+                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, addtime = DateTime.Now, type = saveType.ToInt(0) };
 
                     string fileorigin = originFileName.ReplaceSqlTag();
                     long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt, saveType.ToInt(0));
