@@ -1,90 +1,204 @@
-﻿@using mq.application.webmvc
+﻿@using System.Web.Optimization
+@using koala.application.common
+@using mq.application.webmvc
 @{
     ViewBag.Title = "Send";
     Layout = "~/Views/Shared/_LayuiMenu.cshtml";
 }
-
+@section head
+{
+    @Scripts.Render("~/libs/plupload-3.0-beta1/js/plupload");
+    <style type="text/css">
+        .box1 {
+            background-color: #eeeeee;
+            padding: 10px;
+        }
+    </style>
+}
 <div class="layui-box box1">
     <span class="layui-breadcrumb">
         <a href="">首页</a>
         <a><cite>发送邮件</cite></a>
     </span>
 </div>
-<div class="layui-box box1">
+<div class="layui-box box1" style="margin-top: 10px;">
     <form class="layui-form">
         <div class="layui-form-item modify-lable">
             <label class="layui-form-label lbls">收件人</label>
-            <div class="layui-input-inline">
+            <div class="layui-input-inline" style="width: 700px;">
                 <input type="text" name="send" id="send" lay-verify="send" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-input-block">
-                <button type="button" class="btn btn-default btn-primary">
-                    <i class="layui-icon">&#xe608;</i> 添 加
-                </button>
-                <button type="button" class="btn btn-default btn-primary">
-                    <i class="layui-icon">&#xe608;</i> 添 加
+                <button type="button" class="layui-btn"><i class="layui-icon">&#xe608;</i> 添 加</button>
+                <button type="button" class="layui-btn layui-btn-primary">
+                    <i class="layui-icon" style="color: red">&#x1006;</i>清 空
                 </button>
             </div>
         </div>
-     
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">主 题</label>
+            <div class="layui-input-inline" style="width: 1100px;">
+                <input type="text" name="title" lay-verify="title" placeholder="请输入邮件主题" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+            </label>
+            <div class="layui-inline">
+                <div class="layui-input-inline" style="width: 1100px; height: 38px; line-height: 38px; font-weight: bold">
+                    <i class="layui-icon" style="color: blue">&#xe64d;</i>附 件
+                    <button class="layui-btn layui-btn-mini" id="uploader">
+                        <i class="layui-icon">&#xe654;</i>上 传
+                    </button>
+                </div>
+               
+                <div style="border: 1px seagreen;">
+                    <div class="layui-form-mid layui-word-aux">
+                        <i class="layui-icon" style="color: blue">&#xe61d;</i>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        
+                        <label id="filename" style="display: none">文件名</label>
+                        <button id="delBtn" style="display: none" class="layui-btn layui-btn-primary layui-btn-mini ">
+                            <i class="layui-icon" style="color: red">&#xe640;</i>
+                        </button>
+
+                        <div class="layui-progress" lay-showpercent="true" lay-filter="progress" style="display: none">
+                            <div id="persent" class="layui-progress-bar" lay-percent="0%"></div>
+                        </div>
+                    </div>
+                    @*<div class="layui-form-mid layui-word-aux">请输入真实邮箱，用于找回密码或者接收文件
+                            <button class="layui-btn layui-btn-primary layui-btn-mini">
+                                <i class="layui-icon" style="color: red">&#xe640;</i>
+                            </button>
+                        </div>*@
+                </div>
+
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">内 容</label>
+            <div class="layui-input-inline" style="width: 1100px;background-color: white">
+                <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_editor" style="height: 400px;"></textarea>
+            </div>
+        </div>
+
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="" id="submit" lay-filter="sendEmail">发 送</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重 置</button>
+                @*<button type="reset" class="layui-btn layui-btn-primary">重 置</button>*@
             </div>
         </div>
     </form>
 
 </div>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        layui.use(['form', 'layer', 'laydate'], function () {
-            var form = layui.form(), layer = layui.layer;
-
-            //自定义验证规则
-            form.verify({
-                send: function (value) {
-                    if (value == undefined || value == '' || value.length == 0) {
-                        return '邮箱不能为空！';
-                    }
-                },
-
-            });
-
-            //监听提交
-            form.on('submit(sendEmail)', function (data) {
-
-                layer.alert(JSON.stringify(data.field), {
-                    title: '最终的提交信息'
-                });
-                return;
-                var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/AddShop";
-                var pars = data.field;
-                pars.shopname = encodeURIComponent(pars.shopname);
-                pars.address = encodeURIComponent(pars.address);
-                $.post(url, pars, function (datas) {
-                    if (datas.ErrorCode == "E000") {
-                        layer.msg("保存成功", {
-                            icon: 1,
-                            time: 1000
-                        }, function () {
-                            layer.closeAll();
-                        });
-                    } else {
-                        layer.alert(data.ErrorMessage, {
-                            icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
-                            skin: 'layer-ext-moon'
-                        });
-                    }
-                    layer.closeAll();
-                });
-                return false;
-            });
-
-
+    layui.use(['form', 'layer', 'layedit'], function () {
+        var form = layui.form(), layer = layui.layer;
+        var layedit = layui.layedit;
+        //构建一个默认的编辑器
+        var index = layedit.build('LAY_editor', {
+            tool: ['strong', 'italic', 'underline', 'del', '|', 'left', 'center', 'right', 'link', 'unlink', 'face', 'help']
         });
 
-        function name() {
+        //自定义验证规则
+        form.verify({
+            send: function (value) {
+                if (value == undefined || value == '' || value.length == 0) {
+                    return '邮箱不能为空！';
+                }
+            },
+            title: function (value) {
+                if (value == undefined || value == '' || value.length == 0) {
+                    return '邮箱不能为空！';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(sendEmail)', function (data) {
+
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            });
+            return;
+            var url = "@(DomainUrlHelper.EmployeeBgPath)/Shop/AddShop";
+            var pars = data.field;
+            pars.shopname = encodeURIComponent(pars.shopname);
+            pars.address = encodeURIComponent(pars.address);
+            $.post(url, pars, function (datas) {
+                if (datas.ErrorCode == "E000") {
+                    layer.msg("保存成功", {
+                        icon: 1,
+                        time: 1000
+                    }, function () {
+                        layer.closeAll();
+                    });
+                } else {
+                    layer.alert(data.ErrorMessage, {
+                        icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                        skin: 'layer-ext-moon'
+                    });
+                }
+                layer.closeAll();
+            });
+            return false;
+        });
+
+        uploader.init();
+    });
+  
+    var uploader = new plupload.Uploader({
+        browse_button: 'uploader',
+        url: '@(DomainUrlHelper.UploadPath)/EmailUppload/SendFile?key=@(LoginHelper.UserId)',
+        //filters: [{ title: "Image files", extensions: "jpg,gif,png" }],
+        max_file_size: '5mb',
+        multi_selection: false,
+        flash_swf_url: '@(DomainUrlHelper.SourchPath)/libs/plupload-3.0-beta1/js/Moxie.swf', // Flash settings
+        silverlight_xap_url: '@(DomainUrlHelper.SourchPath)/libs/plupload-3.0-beta1/js/Moxie.xap', // Silverlight settings
+        init: {
+            FilesAdded: function () {
+                uploader.start();
+                $('#persent').parent().show();
+            },
+            UploadProgress: function (up, file) {
+                element.progress('progress', file.percent + '%');
+            },
+            FileUploaded: function (up, file, result) {
+                $('#persent').parent().hide();
+
+                var jsonData = eval("(" + result.response + ")");
+
+                if (jsonData.ErrorCode == "00000") {
+
+                    $('#filename').show();
+                    $('#delBtn').show();
+                    
+                    layer.msg('上传成功', { icon: 1, time: 2000 }, function () {
+                    });
+                    $('#FileUrl').val(jsonData.FileUrl);
+                    $('#FileName').val(jsonData.FileName);
+                    $('#oldFileName').text(jsonData.OldFileName);
+                } else {
+                    layer.msg('同上', {
+                        icon: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function () {
+                        //do something
+                    });
+                }
+            },
+            UploadComplete: function (up, files) {
+            },
+            Error: function (up, err) {
+                console.log(err);
+            }
         }
-    </script>
+    });
+</script>

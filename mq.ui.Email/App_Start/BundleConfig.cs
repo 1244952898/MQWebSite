@@ -118,10 +118,13 @@ namespace mq.ui.Email
 
             //AngularJs
             bundles.Add(new ScriptBundle("~/js/AngularJs/angular", string.Format("{0}/js/AngularJs/angular.min.js", sourchPath)).Include("~/js/AngularJs/angular.min.js"));
+
+            bundles.Add(new ScriptBundle("~/libs/plupload-3.0-beta1/js/plupload", string.Format("{0}/libs/plupload-3.0-beta1/js/plupload.min.js", sourchPath)).Include("~/libs/plupload-3.0-beta1/js/plupload.min.js"));
+
             #endregion
 
             #region libs
-
+                 bundles.Add(new ScriptBundle("~/libs/plupload-3.0-beta1/js/plupload", string.Format("{0}/libs/plupload-3.0-beta1/js/plupload.min.js", sourchPath)).Include("~/libs/plupload-3.0-beta1/js/plupload.min.js"));
             //1.webupload
             bundles.Add(new StyleBundle("~/libs/webuploader/webuploaderCss", string.Format("{0}/libs/webuploader/webuploader.css", sourchPath)).Include("~/libs/webuploader/webuploader.css"));
             bundles.Add(new ScriptBundle("~/libs/webuploader/webuploaderJs", string.Format("{0}/libs/webuploader/webuploader.js", sourchPath)).Include("~/libs/webuploader/webuploader.js"));
