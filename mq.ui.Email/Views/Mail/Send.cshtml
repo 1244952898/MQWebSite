@@ -29,9 +29,11 @@
     <div class="layui-box box1" style="margin-top: 10px;">
         <form class="layui-form">
             <div class="layui-form-item modify-lable">
-                <label class="layui-form-label lbls">收件人</label>
+                <label class="layui-form-label lbls">
+                    <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>收件人
+                </label>
                 <div class="layui-input-inline" style="width: 700px;">
-                    <input type="text" placeholder="请点击添加按钮添加邮箱" name="send" id="emails" lay-verify="send" autocomplete="off" class="layui-input">
+                    <input type="text" placeholder="请点击添加按钮添加邮箱" name="usernames" id="usernames" lay-verify="send" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-input-block">
                     <button type="button" class="layui-btn" onclick="operUsers()">
@@ -49,6 +51,19 @@
                     <input type="text" id="" name="title" lay-verify="title" placeholder="请输入邮件主题" class="layui-input">
                 </div>
             </div>
+
+            <div class="layui-form-item" pane>
+                <label class="layui-form-label">邮件发送</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="sendEmail" lay-skin="switch">
+                    <div class="layui-unselect layui-form-switch" lay-skin="_switch">
+                        <em></em>
+                        <i></i>
+                    </div>
+                </div>
+                <div class="layui-form-mid layui-word-aux" style="color: red">设置是否同时将将邮件发送到这些用户的登记邮箱(如QQ,新浪,outlook等邮箱)里！</div>
+            </div>
+
 
 
             <div class="layui-form-item">
@@ -123,7 +138,7 @@
             {
                 foreach (var user in Model)
                 {
-                    <tr data-email="@user.Email">
+                    <tr data-name="@user.Name">
                         <td>@user.ID</td>
                         <td>@user.Name</td>
                         <td>@user.Email</td>
@@ -167,7 +182,7 @@
         element = layui.element();
 
         //构建一个默认的编辑器
-        var index = layedit.build('LAY_editor', {
+        var editIndex = layedit.build('LAY_editor', {
             tool: ['strong', 'italic', 'underline', 'del', '|', 'left', 'center', 'right', 'link', 'unlink', 'face', 'help']
         });
 
@@ -175,27 +190,43 @@
         form.verify({
             send: function (value) {
                 if (value == undefined || value == '' || value.length == 0) {
-                    return '邮箱不能为空！';
+                    return '收件人不能为空！';
                 }
             },
             title: function (value) {
-                if (value == undefined || value == '' || value.length == 0) {
-                    return '邮箱不能为空！';
-                }
+               
+            },
+            content: function (value) {
+                layedit.sync(editIndex);
             }
         });
 
         //监听提交
         form.on('submit(sendEmail)', function (data) {
 
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
-            return false;
-
             var url = "@(DomainUrlHelper.EmailPath)/Mail/SendEmail";
             var pars = data.field;
-            alert(pars);
+
+            if (pars.title=='') {
+                layer.confirm('邮件未填写标题，确认发送邮件吗？', {
+                    btn: ['确定', '取消'] //可以无限个按钮
+                }, function (index, layero) {
+                    alert(index);
+                }, function (index) {
+                    alert(index);
+                });
+            }
+
+            if (pars.content == '') {
+                layer.confirm('邮件未填写内容，确认发送邮件吗？', {
+                    btn: ['确定', '取消'] //可以无限个按钮
+                }, function (index, layero) {
+                    alert(index);
+                }, function (index) {
+                    alert(index);
+                });
+            }
+
             pars.title = encodeURIComponent(pars.title);
             pars.content = encodeURIComponent(pars.content);
 
@@ -227,24 +258,23 @@
 
         //弹窗用户点击
         $('#userList tr').click(function () {
-            var mail = $(this).attr('data-email');
-            var txt = $('#emails').val();
+            var username = $(this).attr('data-name');
+            var txt = $('#usernames').val();
 
             if (txt == undefined || txt == "") {
-                $('#emails').val(mail);
+                $('#usernames').val(username);
                 $(this).css('background-color', '#c2c2c2');
             }
-            else if ($.inArray(mail, txt.split(';')) >= 0) {
+            else if ($.inArray(username, txt.split(';')) >= 0) {
 
-                layui.layer.alert('该邮箱账号已经在发送邮件中', {
+                layui.layer.alert('该用户账号已经在发送邮件人中', {
                     icon: 2,
                     skin: 'layer-ext-moon'
                 });
             } else {
-                $('#emails').val(txt + ';' + mail);
+                $('#usernames').val(txt + ';' + username);
                 $(this).css('background-color', '#c2c2c2');
             }
-
         });
 
     });
@@ -252,7 +282,7 @@
     //清空邮箱
     function clearEmail() {
         $('#userList tr').css('background-color','');
-        $('#emails').val('');
+        $('#usernames').val('');
     }
 
     //添加用户邮箱
