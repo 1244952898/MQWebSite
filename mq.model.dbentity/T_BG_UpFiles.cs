@@ -21,7 +21,6 @@ namespace mq.model.dbentity
         public string fileoriginname { get; set; }
         public string filepath { get; set; }
         public string ext { get; set; }
-        public Nullable<int> filetype { get; set; }
         public string proofreading { get; set; }
         public string proofpath { get; set; }
         public Nullable<System.DateTime> addtime { get; set; }

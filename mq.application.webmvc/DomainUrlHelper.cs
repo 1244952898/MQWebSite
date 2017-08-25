@@ -65,8 +65,6 @@ namespace mq.application.webmvc
             }
         }
 
-
-
         private static string _publicMessagePath = string.Empty;
         public static string PublicMessagePath
         {
@@ -78,6 +76,16 @@ namespace mq.application.webmvc
             }
         }
 
+        private static string _emailPath = string.Empty;
+        public static string EmailPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_emailPath))
+                    _emailPath = CommonHelper.GetConfigValue("EmailPathAction").TrimEnd('/');
+                return _emailPath;
+            }
+        }
 
     }
 }

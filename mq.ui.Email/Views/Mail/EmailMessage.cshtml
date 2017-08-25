@@ -1,0 +1,118 @@
+﻿@using mq.application.webmvc
+@model mq.model.dbentity.T_BG_Email
+@{
+    ViewBag.Title = "邮件详细信息";
+    Layout = "~/Views/Shared/_LayoutLayUI.cshtml";
+}
+@section head{
+    <style type="text/css">
+        .layui-body .layui-col-md {
+            margin-bottom: 10px;
+            background-color: #eeeeee;
+        }
+
+        .layui-col-md {
+            padding: 10px 0 10px 10px;
+        }
+
+        table thead tr th {
+            background-color: #5FB878;
+        }
+
+        .layui-body .layui-row .layui-table tbody tr td {
+            text-align: center;
+        }
+    </style>
+}
+<div class="layui-body" style="padding: 15px 0 0 15px;">
+    <div class="layui-row">
+        <div class="layui-col-md">
+            <span class="layui-breadcrumb">
+                <a href="/">首页</a>
+                <a href="@(DomainUrlHelper.EmailPath)email/mail/SendList">已发邮件列表</a>
+                <a><cite>邮件详细信息</cite></a>
+            </span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="5%">
+                    <col width="10%">
+                    <col width="5%">
+                    <col width="28%">
+                    <col width="5%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="14%">
+                    <col width="5%">
+                    <col>
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="layui-bg-green">发件人</td>
+                        <td>@(Model.SendUserName)(@(Model.SendUserId))</td>
+                        <td class="layui-bg-green">主 题</td>
+                        <td>@(Model.Title)</td>
+                        <td class="layui-bg-green">附件</td>
+                        <td>
+
+                            @if (!string.IsNullOrEmpty(Model.FileUrl))
+                            {
+                                <a href="@Url.Action("DownloadFilePath", new { filepath = Model.FileUrl, filename = Model.FileName, filetype = Model.FileExt })">
+                                    <i class="layui-icon" style="font-size: 26px; color: #1E9FFF;">&#xe622;</i>
+                                </a>
+                            }
+
+                        </td>
+                        <td class="layui-bg-green">接收时间</td>
+                        <td>@(Model.AddTime.ToString("yyyy/MM/dd"))</td>
+                        <td class="layui-bg-green">级别</td>
+                        <td>人生就像行</td>
+                    </tr>
+                    <tr>
+                        <td class="layui-bg-green">
+                            收件人
+                        </td>
+                        <td colspan="9">
+                            <div class="layui-input-block" style="margin-left: 0">
+                                <input type="text" class="layui-input" value="@(Model.Recievers)" readonly="readonly">
+                            </div>
+                        </td>
+                    </tr>
+                    @*<tr>
+                            <td class="layui-bg-green" style="vertical-align: middle">
+                                内容
+                            </td>
+                            <td colspan="9">
+                                <textarea id="content" style="display: none;">@Html.Raw(Model.Context)</textarea>
+                            </td>
+                        </tr>*@
+                    <tr>
+                        <td class="layui-bg-green" style="vertical-align: middle;">
+                            内容
+                        </td>
+                        <td colspan="9" style="background-color:rgb(242,242,242)">
+                            <div class="layui-input-block" style=" width: 800px; height: 400px; text-align: left; background-color: white;border: 1px solid skyblue">
+                                @Html.Raw(Model.Context)
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('layedit', function () {
+        var layedit = layui.layedit;
+        layedit.build('content', {
+            tool: [],
+            hideTool: true,
+            height: 330 //设置编辑器高度
+        });
+
+
+    });
+</script>

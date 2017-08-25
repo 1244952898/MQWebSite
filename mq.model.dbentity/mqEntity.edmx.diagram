@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="POSModel.T_BG_Menu" Width="1.5" PointX="3.75" PointY="5.75" />
         <EntityTypeShape EntityType="POSModel.T_BG_Role" Width="1.5" PointX="5.75" PointY="4.75" />
         <EntityTypeShape EntityType="POSModel.T_BG_Role_Menu" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="POSModel.T_BG_UpFiles" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="POSModel.T_BG_PublishFile" Width="1.5" PointX="6.375" PointY="7.75" />
         <EntityTypeShape EntityType="POSModel.V_BG_PublishFile_User" Width="2.875" PointX="8.375" PointY="4.75" />
         <EntityTypeShape EntityType="POSModel.T_BG_ActiveFile" Width="1.5" PointX="0.75" PointY="9.75" />
@@ -24,6 +23,10 @@
         <EntityTypeShape EntityType="POSModel.T_BG_Shop" Width="1.5" PointX="5.375" PointY="12.75" />
         <EntityTypeShape EntityType="POSModel.V_Shop_Area_User" Width="1.5" PointX="12.375" PointY="7.75" />
         <EntityTypeShape EntityType="POSModel.V_User_Area_Role_Department_Shop" Width="1.5" PointX="12.375" PointY="11.75" />
+        <EntityTypeShape EntityType="POSModel.T_BG_UpFiles" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="POSModel.T_BG_Email" Width="1.5" PointX="7.375" PointY="13.75" />
+        <EntityTypeShape EntityType="POSModel.T_BG_EmailReciever" Width="1.5" PointX="9.375" PointY="13.75" />
+        <EntityTypeShape EntityType="POSModel.V_BG_Email_Reciever" Width="1.5" PointX="14.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

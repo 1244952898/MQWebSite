@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using koala.application.common;
+using log4net;
 using mq.application.common;
 using mq.application.enumlib;
 using mq.application.service;
@@ -18,6 +19,7 @@ namespace mq.webservice.upload.Controllers
 {
     public class FilesController : Controller
     {
+        ILog logger = LogManager.GetLogger(typeof(EmailUpploadController));
         private readonly IBgUserService _bgUserService;
         private readonly IBgUpFilesService _bgUpFilesService;
 
@@ -99,7 +101,7 @@ namespace mq.webservice.upload.Controllers
                         return Json(new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "服务器不能解析上传的pdf，请选择其他文件重新上传！" });
                     }
 
-                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, filetype = 0, addtime = DateTime.Now, type = saveType.ToInt(0) };
+                    T_BG_UpFiles bgUpFiles = new T_BG_UpFiles { filename = fn, filehash = FileHelper.GetFileHash(newFilePath), userid = lUserId, fileoriginname = originFileName, filepath = newFilePath, ext = fileExt, addtime = DateTime.Now, type = saveType.ToInt(0) };
 
                     string fileorigin = originFileName.ReplaceSqlTag();
                     long cnt = _bgUpFilesService.GetListByUserIdAndFileNameAndExt(originFileName, lUserId, fileExt, saveType.ToInt(0));
@@ -252,6 +254,7 @@ namespace mq.webservice.upload.Controllers
             bool delResult = _bgUpFilesService.DelFile(upFiles);
             if (!delResult)
             {
+                logger.ErrorFormat("邮件文件删除失败，Id：{0} \r\n  filename:{1} \r\n filepath:{2}", upFiles.Id, upFiles.filename, upFiles.filepath);
                 return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "删除表里数据失败！" });
             } 
             return Json(new FileUploadEntity { ErrorCode = "E0000", ErrorMessage = "删除成功" });

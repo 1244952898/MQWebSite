@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using koala.application.common;
 using mq.application.common;
 using mq.application.service;
@@ -45,9 +46,10 @@ namespace mq.ui.Email.Controllers
         {
             string errorCode = CommonHelper.GetPostValue("ErrorCode");
             string errorMessage = CommonHelper.GetPostValue("ErrorMsg");
+            errorMessage = HttpUtility.UrlDecode(errorMessage);
             ViewBag.errorCode = errorCode;
             ViewBag.errorMessage = errorMessage;
-            return View("~/Views/Share/Error.cshtml");
+            return View("~/Views/Shared/Error.cshtml");
         }
     }
 }

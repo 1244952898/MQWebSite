@@ -12,6 +12,7 @@ using match.application.common;
 using mq.application.common;
 using mq.application.service;
 using mq.application.service.Interface;
+using mq.application.webmvc;
 using mq.model.dbentity;
 
 namespace mq.ui.Email.Controllers
@@ -42,8 +43,35 @@ namespace mq.ui.Email.Controllers
         public ActionResult SendList()
         {
             long userId = LoginHelper.UserId;
+            List<T_BG_Email> list = _bgEmailService.List(userId);
+            return View(list);
+        }
+
+        public ActionResult RecieveList()
+        {
+            long userId = LoginHelper.UserId;
             List<V_BG_Email_Reciever> list = _bgVEmailRecieverService.GetList(userId);
             return View(list);
+        }
+
+        public ActionResult EmailMessage()
+        {
+            long emailId = CommonHelper.GetPostValue("MailId").ToLong(-1L);
+
+            if (emailId < 0)
+            {
+                var url = DomainUrlHelper.EmailPath + "/Menu/Error?errorCode=404&errorMessage=" +
+                          HttpUtility.UrlEncode("未发现该邮件！");
+                return Redirect(url);
+            }
+            T_BG_Email email = _bgEmailService.Get(emailId);
+            if (email == null)
+            {
+                var url = DomainUrlHelper.EmailPath + "/Menu/Error?errorCode=404&errorMessage=" +
+                          HttpUtility.UrlEncode("未查询到该邮件！");
+                return Redirect(url);
+            }
+            return View(email);
         }
 
         public JsonResult SendEmail()
@@ -90,7 +118,7 @@ namespace mq.ui.Email.Controllers
                 return Json(new { ErrorCode = "E001", ErrorMessage = "邮件信息添加失败！" });
             }
 
-            List<T_BG_EmailReciever> emailRecieverList = recieverUsers.Select(user => new T_BG_EmailReciever { EmailId = result,state = 0,RevieverUserId = user.ToLong(-1L) }).ToList();
+            List<T_BG_EmailReciever> emailRecieverList = recieverUsers.Select(user => new T_BG_EmailReciever { EmailId = result, state = 0, RevieverUserId = user.ToLong(-1L) }).ToList();
 
             bool reslt = _bgEmailRecieverService.BatchAdd(emailRecieverList);
             if (reslt)
@@ -170,32 +198,6 @@ namespace mq.ui.Email.Controllers
             else
             {
                 return Json(new { ErrorCode = "E004", ErrorMessage = "邮件删除失败！" });
-            }
-        }
-
-        //public JsonResult GetJsonData()
-        //{
-        //    List<T_BG_User> users = _bgUserService.GetList();
-        //    List<T_BG_Shop> shops = _bgShopService.List();
-        //}
-
-        public void DownloadFilePathResult()
-        {
-            string filepath = CommonHelper.GetPostValue("filepath");
-            string filename = CommonHelper.GetPostValue("filename");
-            filepath = HttpUtility.UrlDecode(filepath);
-            filename = HttpUtility.UrlDecode(filename);
-        
-            try
-            {
-                WebClient client = new WebClient();
-                string receivePath = @"F:\";
-                client.DownloadFile(filepath, receivePath+Path.GetFileName(filepath));
-            }
-            catch (Exception)
-            {
-
-                throw;
             }
         }
 

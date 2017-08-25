@@ -13,6 +13,10 @@ namespace CreateKey
     {
         static void Main(string[] args)
         {
+            Product p=new Product();
+
+            p.Validate2();
+
             int b = 32;
             ThreadStart pts = new ThreadStart(() =>
             {

@@ -129,6 +129,12 @@
     <Compile Include="T_BG_DisplayPartition.cs">
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_BG_Email.cs">
+      <DependentUpon>mqEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_BG_EmailReciever.cs">
+      <DependentUpon>mqEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_BG_LoginLog.cs">
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
@@ -160,6 +166,9 @@
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="V_BG_DisplayGuideFile_User.cs">
+      <DependentUpon>mqEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_BG_Email_Reciever.cs">
       <DependentUpon>mqEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="V_BG_PublishFile_User.cs">

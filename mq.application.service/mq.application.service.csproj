@@ -92,6 +92,8 @@
     <Compile Include="Implement\BgAreaService.cs" />
     <Compile Include="Implement\BgDepartmentService.cs" />
     <Compile Include="Implement\BgDisplayPartitionService.cs" />
+    <Compile Include="Implement\BgEmailRecieverService.cs" />
+    <Compile Include="Implement\BgEmailService.cs" />
     <Compile Include="Implement\BgLoginLogService.cs" />
     <Compile Include="Implement\BgMenuService.cs" />
     <Compile Include="Implement\BgPublishFileService.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Implement\BgUserService.cs" />
     <Compile Include="Implement\BgVActiveFileDepartmentService.cs" />
     <Compile Include="Implement\BgVDisplayGuideFileService.cs" />
+    <Compile Include="Implement\BgVEmailRecieverService.cs" />
     <Compile Include="Implement\BgVPublishFileUserService.cs" />
     <Compile Include="Implement\BgVShopAreaUserService.cs" />
     <Compile Include="Implement\BgVUserAreaRoleDepartmentService.cs" />
@@ -112,6 +115,8 @@
     <Compile Include="Interface\IBgActiveFileService.cs" />
     <Compile Include="Interface\IBgDepartmentService.cs" />
     <Compile Include="Interface\IBgDisplayPartitionService.cs" />
+    <Compile Include="Interface\IBgEmailRecieverService.cs" />
+    <Compile Include="Interface\IBgEmailService.cs" />
     <Compile Include="Interface\IBgLoginLogService.cs" />
     <Compile Include="Interface\IBgMenuService.cs" />
     <Compile Include="Interface\IBgPublishFileService.cs" />
@@ -121,6 +126,7 @@
     <Compile Include="Interface\IBgUserService.cs" />
     <Compile Include="Interface\IBgVActiveFileDepartmentService.cs" />
     <Compile Include="Interface\IBgVDisplayGuideFileService.cs" />
+    <Compile Include="Interface\IBgVEmailRecieverService.cs" />
     <Compile Include="Interface\IBgVPublishFileUserService.cs" />
     <Compile Include="Interface\IBgVShopAreaUserService.cs" />
     <Compile Include="Interface\IBgVUserAreaRoleDepartmentService.cs" />

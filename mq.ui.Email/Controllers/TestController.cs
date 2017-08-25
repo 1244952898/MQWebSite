@@ -20,6 +20,7 @@ namespace mq.ui.Email.Controllers
 
         public ActionResult SendEmail()
         {
+            
             string file = @"F:\MQWebSite\MQWebSite.git\trunk\mq.ui.resource\Images\404.png";
             MailMessage message = new MailMessage("1244952898@qq.com", "18710098386@sina.cn", "title", "body");
             Attachment data = new Attachment(file, MediaTypeNames.Application.Octet);
@@ -71,5 +72,15 @@ namespace mq.ui.Email.Controllers
         {
             return View();
         }
+
+        public ActionResult NewMain()
+        {
+            return View();
+        }
+
+        public ActionResult NewMain1()
+        {
+            return View();
+        }  
     }
 }

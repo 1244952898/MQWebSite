@@ -55,7 +55,7 @@ namespace mq.application.service.Implement
             }
         }
 
-        public List<T_BG_Shop> List(long areaId)
+        public List<T_BG_Shop> List(long areaId=-1)
         {
             try
             {

@@ -14,5 +14,6 @@ namespace mq.application.service
         T_BG_UpFiles GetListByFilename(string filename);
         bool DelFile(T_BG_UpFiles file);
         bool DelFileByFileNewName(string newName);
+        T_BG_UpFiles GetListByFilePathForEmail(string filepath, long userid);
     }
 }

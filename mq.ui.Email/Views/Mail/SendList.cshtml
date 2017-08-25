@@ -1,0 +1,138 @@
+﻿@using mq.application.webmvc
+@using mq.model.dbentity
+@model List<T_BG_Email>
+@{
+    ViewBag.Title = "已发邮件";
+    Layout = "~/Views/Shared/_LayoutLayUI.cshtml";
+}
+@section head{
+    <style type="text/css">
+        .layui-body .layui-col-md {
+            margin-bottom: 10px;
+            background-color: #eeeeee;
+        }
+        .layui-col-md {
+            padding: 10px 0 10px 10px;
+        }
+       table thead tr th {
+            background-color: #5FB878;
+        }
+    </style>
+}
+
+<div class="layui-body" style="padding: 15px 0 0 15px;">
+    <div class="layui-row">
+        <div class="layui-col-md" >
+            <span class="layui-breadcrumb">
+                <a href="/">首页</a>
+                <a><cite>已发邮件</cite></a>
+            </span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md" >
+            <table lay-filter="emails" id="tb">
+                <thead>
+                    <tr>
+                        <th lay-data="{field:'Id', width:70, align:'center'}">序 号</th>
+                        <th lay-data="{field:'FileUrl', width:80, align:'center'}">附 件</th>
+                        <th lay-data="{field:'Recievers', width:500, align:'center'}">收件人</th>
+                        <th lay-data="{field:'Title', width:600, align:'center'}">主 题</th>
+                        <th lay-data="{field:'AddTime', width:180,sort:true, align:'center'}">发送时间</th>
+                        @*<th lay-data="{field:'State', width:100, align:'center'}">状态</th>*@
+                        <th lay-data="{fixed:'right', width:150, align:'center',toolbar:'#barModel'}">删 除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var bgEmail in Model)
+                        {
+                            <tr>
+                                <td>@bgEmail.Id</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(bgEmail.FileUrl))
+                                    {
+
+
+                                        <a href="@Url.Action("DownloadFilePath", new {filepath = bgEmail.FileUrl, filename = bgEmail.FileName, filetype = bgEmail.FileExt})">
+                                            <i class="layui-icon" style="font-size: 26px; color: #1E9FFF;">&#xe622;</i>
+                                        </a>
+                                    }
+                                </td>
+                                <td>@bgEmail.Recievers</td>
+                                <td>
+                                    <a href="@Url.Action("EmailMessage", new { MailId = bgEmail.Id })" style="color: skyblue">
+                                        @bgEmail.Title
+                                    </a>
+                                </td>
+                                <td>@bgEmail.AddTime.ToString("yyyy-MM-dd hh:mm:ss")</td>
+                                @*<td>@(bgEmail.state == 0 ? "未读" : "已读")</td>*@
+                                <td></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/html" id="barModel">
+    <i class="layui-icon" style="font-size: 30px;color: red" lay-event="del">&#xe640;</i>
+</script>
+
+
+<script type="text/javascript">
+    layui.use(['element', 'table'], function () {
+        var table = layui.table;
+        //转换静态表格
+        table.init('emails', {
+            page: true,
+            skin: 'row',
+            even: true,
+            limits: [10, 20, 40, 80]
+             , limit: 10 //默认采用60
+        });
+
+        table.on('tool(emails)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值
+
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    var id = data.Id;
+                    var layId;
+                    $.ajax({
+                        type: 'POST',
+                        url: '@DomainUrlHelper.EmailPath/Mail/DelEmail?id=' + id,
+                        beforeSend: function () {
+                            layId = layer.load(2);
+                        },
+                        success: function (dat) {
+                            if (dat.ErrorCode == "E000") {
+                                layer.msg('添加成功', function () {
+                                    obj.del(); //删除对应行（tr）的DOM结构
+                                });
+                            } else {
+                                layer.alert(dat.ErrorMessage, {
+                                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                                    skin: 'layer-ext-moon'
+                                });
+                            }
+                        },
+                        error: function (a, b, c) {
+                        },
+                        complete: function () {
+                            layer.closeAll();
+                        }
+                    });
+
+
+                });
+            }
+        });
+
+    });
+</script>

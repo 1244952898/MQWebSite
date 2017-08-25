@@ -161,6 +161,12 @@
     <Content Include="Views\Menu\LeftMenu.cshtml" />
     <Content Include="Views\Menu\LeftMenu1.cshtml" />
     <Content Include="Views\Menu\LeftMenu2.cshtml" />
+    <Content Include="Views\Test\NewMain.cshtml" />
+    <Content Include="Views\Test\NewMain1.cshtml" />
+    <Content Include="Views\Shared\_LayoutLayUI.cshtml" />
+    <Content Include="Views\Mail\SendList.cshtml" />
+    <Content Include="Views\Mail\EmailMessage.cshtml" />
+    <Content Include="Views\Mail\RecieveList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -156,6 +156,11 @@ namespace mq.ui.Email
 
             //7 angular-1.6.5
             bundles.Add(new ScriptBundle("~/libs/angular-1.6.5/angular", string.Format("{0}/libs/angular-1.6.5/angular.min.js", sourchPath)).Include("~/libs/angular-1.6.5/angular.min.js"));
+
+            //layui 2.0
+            bundles.Add(new StyleBundle("~/libs/layui-2.0/css/layui", string.Format("{0}/libs/layui-2.0/css/layui.css", sourchPath)).Include("~/libs/layui-2.0/css/layui.css"));
+            bundles.Add(new ScriptBundle("~/libs/layui-2.0/layui", string.Format("{0}/libs/layui-2.0/layui.js", sourchPath)).Include("~/libs/layui-2.0/layui.js"));
+
             #endregion
         }
     }

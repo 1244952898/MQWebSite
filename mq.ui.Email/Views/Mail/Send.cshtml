@@ -23,11 +23,12 @@
     <div class="layui-box box1">
         <span class="layui-breadcrumb">
             <a href="">首页</a>
+            <a href="@(DomainUrlHelper.EmailPath)/mail/SendList">已发邮件列表</a>
             <a><cite>发送邮件</cite></a>
         </span>
     </div>
     <div class="layui-box box1" style="margin-top: 10px;">
-        <form class="layui-form">
+        <div class="layui-form">
             <div class="layui-form-item modify-lable">
                 <label class="layui-form-label lbls">
                     <i class="layui-icon" style="font-size: 3px; color: #ff0000;">&#xe600;</i>收件人
@@ -47,15 +48,15 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">主 题</label>
-                <div class="layui-input-inline" style="width: 1100px;">
+                <div class="layui-input-inline" style="width: 600px;">
                     <input type="text" id="" name="title" lay-verify="title" placeholder="请输入邮件主题" class="layui-input">
                 </div>
             </div>
 
-            <div class="layui-form-item" pane>
+            <div class="layui-form-item">
                 <label class="layui-form-label">邮件发送</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="sendEmail" lay-skin="switch">
+                    <input type="checkbox" name="sendSet" lay-skin="switch">
                     <div class="layui-unselect layui-form-switch" lay-skin="_switch">
                         <em></em>
                         <i></i>
@@ -70,7 +71,7 @@
                 <label class="layui-form-label">
                 </label>
                 <div class="layui-inline">
-                    <div class="layui-input-inline" style="left: 0;width: 1100px; height: 38px; line-height: 38px; font-weight: bold; cursor: pointer" id="uploader">
+                    <div class="layui-input-inline" style="left: 0;width: 700px; height: 38px; line-height: 38px; font-weight: bold; cursor: pointer" id="uploader">
                         <i class="layui-icon" style="color: blue">&#xe64d;</i>上传附件
                         @*<button class="layui-btn layui-btn-mini">
                                 <i class="layui-icon">&#xe654;</i>上 传
@@ -105,17 +106,17 @@
 
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">内 容</label>
-                <div class="layui-input-inline" style="width: 1100px; background-color: white">
+                <div class="layui-input-inline" style="width: 800px; background-color: white">
                     <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_editor" style="height: 400px;"></textarea>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" id="submit" lay-filter="sendEmail">发 送</button>
+                    <button class="layui-btn" lay-submit lay-filter="sendEmail">发 送</button>
                 </div>
             </div>     
-        </form>
+        </div>
 
     </div>
 </div>
@@ -147,27 +148,6 @@
             }
         </tbody>
     </table>
-
-    @*<table class="layui-table">
-            <tbody style="text-align: center">
-            <tr>
-                <td>用户代码</td>
-                <td>用户名</td>
-                <td>邮 箱</td>
-            </tr>
-            <tr>
-                <td>用户代码</td>
-                <td>用户名</td>
-                <td>邮 箱</td>
-            </tr>
-                <tr>
-                    <td>用户代码</td>
-                    <td>用户名</td>
-                    <td>邮 箱</td>
-                </tr>
-            </tbody>
-        </table>*@
-
 </div>
 
 
@@ -183,7 +163,7 @@
 
         //构建一个默认的编辑器
         var editIndex = layedit.build('LAY_editor', {
-            tool: ['strong', 'italic', 'underline', 'del', '|', 'left', 'center', 'right', 'link', 'unlink', 'face', 'help']
+            tool: ['strong', 'italic', 'underline', 'del', '|', 'left', 'center', 'right', 'link', 'unlink', 'face']
         });
 
         //自定义验证规则
@@ -194,7 +174,7 @@
                 }
             },
             title: function (value) {
-               
+                
             },
             content: function (value) {
                 layedit.sync(editIndex);
@@ -206,51 +186,40 @@
 
             var url = "@(DomainUrlHelper.EmailPath)/Mail/SendEmail";
             var pars = data.field;
-
-            if (pars.title=='') {
-                layer.confirm('邮件未填写标题，确认发送邮件吗？', {
-                    btn: ['确定', '取消'] //可以无限个按钮
-                }, function (index, layero) {
-                    alert(index);
-                }, function (index) {
-                    alert(index);
-                });
-            }
-
-            if (pars.content == '') {
-                layer.confirm('邮件未填写内容，确认发送邮件吗？', {
-                    btn: ['确定', '取消'] //可以无限个按钮
-                }, function (index, layero) {
-                    alert(index);
-                }, function (index) {
-                    alert(index);
-                });
-            }
-
             pars.title = encodeURIComponent(pars.title);
             pars.content = encodeURIComponent(pars.content);
 
             pars.fileurl = encodeURIComponent($('#fileurl').val());
             pars.fileorgname = encodeURIComponent($('#fileorgname').val());
             pars.fileext = $('#fileext').val();
-          
-            $.post(url, pars, function (datas) {
-                if (datas.ErrorCode == "E000") {
-                    layer.msg("发送成功", {
-                        icon: 1,
-                        time: 1000
-                    }, function () {
-                        layer.closeAll();
-                    });
-                } else {
-                    layer.alert(data.ErrorMessage, {
-                        icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
-                        skin: 'layer-ext-moon'
-                    });
-                }
-                layer.closeAll();
-            });
-            return false;
+
+            if (pars.title == '' && pars.content == '') {
+                layui.layer.alert('邮件标题和内容不能同时为空！', {
+                    icon: 2,
+                    skin: 'layer-ext-moon'
+                }, function () {
+                    layer.closeAll();
+                    return; 
+                });
+            } else if (pars.title=='') {
+                layer.confirm('邮件未填写标题，确认发送邮件吗？', {
+                    btn: ['确定', '取消'] //可以无限个按钮
+                }, function (index, layero) {
+                    SendEmail(url, pars);
+                }, function (index) {
+                    return;
+                });
+            } else if (pars.title!=''&&pars.content == '') {
+                layer.confirm('邮件未填写内容，确认发送邮件吗？', {
+                    btn: ['确定', '取消'] //可以无限个按钮
+                }, function (index, layero) {
+                    SendEmail(url, pars);
+                }, function (index) {
+                    return;
+                });
+            } else {
+                SendEmail(url, pars);
+            }
         });
 
         //上传初始化
@@ -278,6 +247,29 @@
         });
 
     });
+
+   // 发送邮件
+    function SendEmail(url, pars) {
+        $.post(url, pars, function (datas) {
+            if (datas.ErrorCode == "E000") {
+                layer.msg("发送成功", {
+                    icon: 1,
+                    time: 3000
+                }, function () {
+                    location.href = '@DomainUrlHelper.EmailPath/Mail/SendList';
+                    layer.closeAll();
+                });
+            } else {
+                layer.alert(datas.ErrorMessage, {
+                    icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                    skin: 'layer-ext-moon'
+                }, function () {
+                    layer.closeAll();
+                });
+            }
+           
+        });
+    }
 
     //清空邮箱
     function clearEmail() {

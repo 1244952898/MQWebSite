@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using koala.application.common;
+using log4net;
 using mq.application.common;
 using mq.application.enumlib;
 using mq.application.service;
@@ -17,6 +18,7 @@ namespace mq.webservice.upload.Controllers
 {
     public class EmailUpploadController : Controller
     {
+        ILog logger = LogManager.GetLogger(typeof(EmailUpploadController));
         private readonly IBgUserService _bgUserService;
         private readonly IBgUpFilesService _bgUpFilesService;
 
@@ -63,7 +65,7 @@ namespace mq.webservice.upload.Controllers
 
                     string fileExt = Path.GetExtension(file.FileName);
                     string originFileName = Regex.Replace(file.FileName, "." + fileExt, "." + fileExt, RegexOptions.IgnoreCase);
-                    string savePath = OriginalSaveHelper.GetSavePath(originFileName, fileExt, type);
+                    string savePath = OriginalSaveHelper.GetEmailSavePath(fileExt.Replace(".", ""), type);
                     if (string.IsNullOrEmpty(savePath))
                     {
                         return Json(new FileUploadEntity { ErrorCode = "10000", ErrorMessage = "上传的路径获取失败！" });
@@ -94,6 +96,35 @@ namespace mq.webservice.upload.Controllers
             }
             else
                 return Json(new FileUploadEntity { ErrorCode = "10002", ErrorMessage = "请选择附件！" });
+        }
+
+        public JsonResult DelEmailFile()
+        {
+            string filePath = CommonHelper.GetPostValue("filePath");
+            filePath = HttpUtility.UrlDecode(filePath);
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "未获得文件地址" });
+            }
+            T_BG_UpFiles upFiles = _bgUpFilesService.GetListByFilePathForEmail(filePath,LoginHelper.UserId);
+            if (upFiles == null)
+            {
+                return Json(new FileUploadEntity { ErrorCode = "E0000", ErrorMessage = "未获得文件信息" });
+            }
+           
+            string msg;
+            bool result = FileHelper.DelFile(filePath, out msg);
+            if (!result)
+            {
+                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = msg });
+            }
+            bool delResult = _bgUpFilesService.DelFile(upFiles);
+            if (!delResult)
+            {
+                logger.ErrorFormat("邮件文件删除失败，Id：{0} \r\n  filename:{1} \r\n filepath:{2}", upFiles.Id, upFiles.filename, upFiles.filepath);
+                return Json(new FileUploadEntity { ErrorCode = "E0001", ErrorMessage = "删除表里数据失败！" });
+            }
+            return Json(new FileUploadEntity { ErrorCode = "E0000", ErrorMessage = "删除成功" });
         }
     }
 }

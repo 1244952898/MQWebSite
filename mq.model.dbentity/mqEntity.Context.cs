@@ -31,7 +31,6 @@ namespace mq.model.dbentity
         public virtual DbSet<T_BG_Menu> T_BG_Menu { get; set; }
         public virtual DbSet<T_BG_Role> T_BG_Role { get; set; }
         public virtual DbSet<T_BG_Role_Menu> T_BG_Role_Menu { get; set; }
-        public virtual DbSet<T_BG_UpFiles> T_BG_UpFiles { get; set; }
         public virtual DbSet<T_BG_PublishFile> T_BG_PublishFile { get; set; }
         public virtual DbSet<V_BG_PublishFile_User> V_BG_PublishFile_User { get; set; }
         public virtual DbSet<T_BG_ActiveFile> T_BG_ActiveFile { get; set; }
@@ -44,5 +43,9 @@ namespace mq.model.dbentity
         public virtual DbSet<T_BG_Shop> T_BG_Shop { get; set; }
         public virtual DbSet<V_Shop_Area_User> V_Shop_Area_User { get; set; }
         public virtual DbSet<V_User_Area_Role_Department_Shop> V_User_Area_Role_Department_Shop { get; set; }
+        public virtual DbSet<T_BG_UpFiles> T_BG_UpFiles { get; set; }
+        public virtual DbSet<T_BG_Email> T_BG_Email { get; set; }
+        public virtual DbSet<T_BG_EmailReciever> T_BG_EmailReciever { get; set; }
+        public virtual DbSet<V_BG_Email_Reciever> V_BG_Email_Reciever { get; set; }
     }
 }

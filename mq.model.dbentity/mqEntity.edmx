@@ -70,6 +70,32 @@
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="OldFileName" Type="nvarchar" MaxLength="400" />
         </EntityType>
+        <EntityType Name="T_BG_Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SendUserId" Type="bigint" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="Context" Type="text" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="FileUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FileExt" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDel" Type="int" Nullable="false" />
+          <Property Name="Lvl" Type="int" />
+          <Property Name="SendUserName" Type="nvarchar" MaxLength="20" />
+          <Property Name="Recievers" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="T_BG_EmailReciever">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailId" Type="bigint" Nullable="false" />
+          <Property Name="RevieverUserId" Type="bigint" Nullable="false" />
+          <Property Name="state" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="T_BG_LoginLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -161,7 +187,6 @@
           <Property Name="fileoriginname" Type="nvarchar" MaxLength="400" />
           <Property Name="filepath" Type="nvarchar" MaxLength="800" />
           <Property Name="ext" Type="nvarchar" MaxLength="10" />
-          <Property Name="filetype" Type="int" />
           <Property Name="proofreading" Type="nvarchar" MaxLength="250" />
           <Property Name="proofpath" Type="nvarchar" MaxLength="800" />
           <Property Name="addtime" Type="datetime" />
@@ -250,6 +275,32 @@
           <Property Name="IsDel" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“POS.dbo.V_BG_Email_Reciever”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BG_Email_Reciever">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="SendUserId" />
+            <PropertyRef Name="AddTime" />
+            <PropertyRef Name="IsDel" />
+            <PropertyRef Name="state" />
+            <PropertyRef Name="RevieverUserId" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="SendUserId" Type="bigint" Nullable="false" />
+          <Property Name="Context" Type="text" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="FileUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FileExt" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDel" Type="int" Nullable="false" />
+          <Property Name="Lvl" Type="int" />
+          <Property Name="SendUserName" Type="nvarchar" MaxLength="20" />
+          <Property Name="Recievers" Type="nvarchar" MaxLength="200" />
+          <Property Name="state" Type="int" Nullable="false" />
+          <Property Name="RevieverUserId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“POS.dbo.V_BG_PublishFile_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_BG_PublishFile_User">
           <Key>
@@ -322,6 +373,8 @@
           <EntitySet Name="T_BG_Department" EntityType="Self.T_BG_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_DisplayGuideFile" EntityType="Self.T_BG_DisplayGuideFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_DisplayPartition" EntityType="Self.T_BG_DisplayPartition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_Email" EntityType="Self.T_BG_Email" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BG_EmailReciever" EntityType="Self.T_BG_EmailReciever" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_LoginLog" EntityType="Self.T_BG_LoginLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_Menu" EntityType="Self.T_BG_Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_BG_PublishFile" EntityType="Self.T_BG_PublishFile" Schema="dbo" store:Type="Tables" />
@@ -362,6 +415,24 @@
     [V_BG_DisplayGuideFile_User].[AddTime] AS [AddTime], 
     [V_BG_DisplayGuideFile_User].[IsDel] AS [IsDel]
     FROM [dbo].[V_BG_DisplayGuideFile_User] AS [V_BG_DisplayGuideFile_User]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_BG_Email_Reciever" EntityType="Self.V_BG_Email_Reciever" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BG_Email_Reciever].[Id] AS [Id], 
+    [V_BG_Email_Reciever].[Title] AS [Title], 
+    [V_BG_Email_Reciever].[SendUserId] AS [SendUserId], 
+    [V_BG_Email_Reciever].[Context] AS [Context], 
+    [V_BG_Email_Reciever].[AddTime] AS [AddTime], 
+    [V_BG_Email_Reciever].[FileUrl] AS [FileUrl], 
+    [V_BG_Email_Reciever].[FileName] AS [FileName], 
+    [V_BG_Email_Reciever].[FileExt] AS [FileExt], 
+    [V_BG_Email_Reciever].[IsDel] AS [IsDel], 
+    [V_BG_Email_Reciever].[Lvl] AS [Lvl], 
+    [V_BG_Email_Reciever].[SendUserName] AS [SendUserName], 
+    [V_BG_Email_Reciever].[Recievers] AS [Recievers], 
+    [V_BG_Email_Reciever].[state] AS [state], 
+    [V_BG_Email_Reciever].[RevieverUserId] AS [RevieverUserId]
+    FROM [dbo].[V_BG_Email_Reciever] AS [V_BG_Email_Reciever]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BG_PublishFile_User" EntityType="Self.V_BG_PublishFile_User" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -456,7 +527,6 @@
           <EntitySet Name="T_BG_Menu" EntityType="POSModel.T_BG_Menu" />
           <EntitySet Name="T_BG_Role" EntityType="POSModel.T_BG_Role" />
           <EntitySet Name="T_BG_Role_Menu" EntityType="POSModel.T_BG_Role_Menu" />
-          <EntitySet Name="T_BG_UpFiles" EntityType="POSModel.T_BG_UpFiles" />
           <EntitySet Name="T_BG_PublishFile" EntityType="POSModel.T_BG_PublishFile" />
           <EntitySet Name="V_BG_PublishFile_User" EntityType="POSModel.V_BG_PublishFile_User" />
           <EntitySet Name="T_BG_ActiveFile" EntityType="POSModel.T_BG_ActiveFile" />
@@ -469,6 +539,10 @@
           <EntitySet Name="T_BG_Shop" EntityType="POSModel.T_BG_Shop" />
           <EntitySet Name="V_Shop_Area_User" EntityType="POSModel.V_Shop_Area_User" />
           <EntitySet Name="V_User_Area_Role_Department_Shop" EntityType="POSModel.V_User_Area_Role_Department_Shop" />
+          <EntitySet Name="T_BG_UpFiles" EntityType="POSModel.T_BG_UpFiles" />
+          <EntitySet Name="T_BG_Email" EntityType="POSModel.T_BG_Email" />
+          <EntitySet Name="T_BG_EmailReciever" EntityType="POSModel.T_BG_EmailReciever" />
+          <EntitySet Name="V_BG_Email_Reciever" EntityType="POSModel.V_BG_Email_Reciever" />
         </EntityContainer>
         <EntityType Name="T_BG_User">
           <Key>
@@ -536,23 +610,6 @@
           <Property Name="MenuID" Type="Int32" Nullable="false" />
           <Property Name="AddTime" Type="DateTime" Precision="3" />
           <Property Name="IsDel" Type="Int32" />
-        </EntityType>
-        <EntityType Name="T_BG_UpFiles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="filename" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="filehash" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="userid" Type="Int64" />
-          <Property Name="fileoriginname" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="filepath" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
-          <Property Name="ext" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="filetype" Type="Int32" />
-          <Property Name="proofreading" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="proofpath" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
-          <Property Name="addtime" Type="DateTime" Precision="3" />
-          <Property Name="type" Type="Int32" />
         </EntityType>
         <EntityType Name="T_BG_PublishFile">
           <Key>
@@ -747,6 +804,72 @@
           <Property Name="RoleName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="ShopName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="T_BG_UpFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="filename" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="filehash" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="userid" Type="Int64" />
+          <Property Name="fileoriginname" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="filepath" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+          <Property Name="ext" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="proofreading" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="proofpath" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+          <Property Name="addtime" Type="DateTime" Precision="3" />
+          <Property Name="type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_BG_Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SendUserId" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Context" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FileUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FileExt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDel" Type="Int32" Nullable="false" />
+          <Property Name="Lvl" Type="Int32" />
+          <Property Name="SendUserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Recievers" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_BG_EmailReciever">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailId" Type="Int64" Nullable="false" />
+          <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_BG_Email_Reciever">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="SendUserId" />
+            <PropertyRef Name="AddTime" />
+            <PropertyRef Name="IsDel" />
+            <PropertyRef Name="state" />
+            <PropertyRef Name="RevieverUserId" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SendUserId" Type="Int64" Nullable="false" />
+          <Property Name="Context" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FileUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FileExt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDel" Type="Int32" Nullable="false" />
+          <Property Name="Lvl" Type="Int32" />
+          <Property Name="SendUserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Recievers" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -846,24 +969,6 @@
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_BG_UpFiles">
-            <EntityTypeMapping TypeName="POSModel.T_BG_UpFiles">
-              <MappingFragment StoreEntitySet="T_BG_UpFiles">
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="addtime" ColumnName="addtime" />
-                <ScalarProperty Name="proofpath" ColumnName="proofpath" />
-                <ScalarProperty Name="proofreading" ColumnName="proofreading" />
-                <ScalarProperty Name="filetype" ColumnName="filetype" />
-                <ScalarProperty Name="ext" ColumnName="ext" />
-                <ScalarProperty Name="filepath" ColumnName="filepath" />
-                <ScalarProperty Name="fileoriginname" ColumnName="fileoriginname" />
-                <ScalarProperty Name="userid" ColumnName="userid" />
-                <ScalarProperty Name="filehash" ColumnName="filehash" />
-                <ScalarProperty Name="filename" ColumnName="filename" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1068,6 +1173,71 @@
                 <ScalarProperty Name="AddTime" ColumnName="AddTime" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_UpFiles">
+            <EntityTypeMapping TypeName="POSModel.T_BG_UpFiles">
+              <MappingFragment StoreEntitySet="T_BG_UpFiles">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="addtime" ColumnName="addtime" />
+                <ScalarProperty Name="proofpath" ColumnName="proofpath" />
+                <ScalarProperty Name="proofreading" ColumnName="proofreading" />
+                <ScalarProperty Name="ext" ColumnName="ext" />
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+                <ScalarProperty Name="fileoriginname" ColumnName="fileoriginname" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="filehash" ColumnName="filehash" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_Email">
+            <EntityTypeMapping TypeName="POSModel.T_BG_Email">
+              <MappingFragment StoreEntitySet="T_BG_Email">
+                <ScalarProperty Name="Recievers" ColumnName="Recievers" />
+                <ScalarProperty Name="SendUserName" ColumnName="SendUserName" />
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="FileExt" ColumnName="FileExt" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SendUserId" ColumnName="SendUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_EmailReciever">
+            <EntityTypeMapping TypeName="POSModel.T_BG_EmailReciever">
+              <MappingFragment StoreEntitySet="T_BG_EmailReciever">
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BG_Email_Reciever">
+            <EntityTypeMapping TypeName="POSModel.V_BG_Email_Reciever">
+              <MappingFragment StoreEntitySet="V_BG_Email_Reciever">
+                <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="Recievers" ColumnName="Recievers" />
+                <ScalarProperty Name="SendUserName" ColumnName="SendUserName" />
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="FileExt" ColumnName="FileExt" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+                <ScalarProperty Name="SendUserId" ColumnName="SendUserId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

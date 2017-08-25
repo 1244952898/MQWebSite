@@ -143,6 +143,10 @@ namespace MQWebSite
 
             //6. pluploader
             bundles.Add(new ScriptBundle("~/libs/plupload-3.0-beta1/js/plupload", string.Format("{0}/libs/plupload-3.0-beta1/js/plupload.min.js", sourchPath)).Include("~/libs/plupload-3.0-beta1/js/plupload.min.js"));
+
+            //layui 2.0
+            bundles.Add(new StyleBundle("~/libs/layui-2.0/css/layui", string.Format("{0}/libs/layui-2.0/css/layui.css", sourchPath)).Include("~/libs/layui-2.0/css/layui.css"));
+            bundles.Add(new ScriptBundle("~/libs/layui-2.0/layui", string.Format("{0}/libs/layui-2.0/layui.js", sourchPath)).Include("~/libs/layui-2.0/layui.js"));
             #endregion
         }
     }

@@ -42,6 +42,14 @@ namespace mq.application.service
             return _bgUpFilesRepository.GetModel(pmain);
         }
 
+        public T_BG_UpFiles GetListByFilePathForEmail(string filepath,long userid)
+        {
+            PredicateGroup pmain = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pmain.Predicates.Add(Predicates.Field<T_BG_UpFiles>(f => f.filepath, Operator.Eq, filepath));
+            pmain.Predicates.Add(Predicates.Field<T_BG_UpFiles>(f => f.userid, Operator.Eq, userid));
+            return _bgUpFilesRepository.GetModel(pmain);
+        }
+
         public bool DelFile(T_BG_UpFiles file)
         {
             return _bgUpFilesRepository.Delete(file);

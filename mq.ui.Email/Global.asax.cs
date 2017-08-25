@@ -8,6 +8,9 @@ using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
 using System.Web.Optimization;
+using koala.application.common;
+using mq.application.common;
+using mq.application.webmvc;
 
 namespace mq.ui.Email
 {
@@ -29,5 +32,46 @@ namespace mq.ui.Email
             //控制器工厂替换成AutoFac的工厂
             AutofacConfig.Register();
         }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            //过滤非法请求或攻击
+            if (HttpContext.Current.Request.UserAgent != null && (HttpContext.Current.Request.UserAgent.ToLower().Contains("spider") || HttpContext.Current.Request.UserAgent.ToLower().Contains("yahoo")) && (HttpContext.Current.Request.Url.ToString().ToLower().Contains("/web/searchcollection") || HttpContext.Current.Request.Url.ToString().ToLower().Contains("/web/searcharticle"))) //Web/SearchArticle
+            {
+                Response.Clear();
+                Response.StatusCode = 404;
+                Response.ContentEncoding = System.Text.Encoding.UTF8;
+                Response.AddHeader("Content-Type", "text/html; charset=utf-8");
+                Response.Write("别抓了");
+                Response.End();
+            }
+
+
+            //对无需登录页面返回
+            if (CommonHelper.ExcludeUrl(Request.Url.ToString().ToLower()))
+                return;
+
+            if (LoginHelper.isOnline())
+            {
+            }
+            else
+            {
+                if (Request.AcceptTypes != null && Request.AcceptTypes.Any(t => t.Contains("application/json")))
+                {
+                    Response.Clear();
+                    Response.ContentEncoding = System.Text.Encoding.UTF8;
+                    Response.AddHeader("Content-Type", "application/json; charset=utf-8");
+                    Response.Write("{\"ErrorCode\":\"E1001\",\"ErrorMesssage\":\"登录超时\"}");
+                    Response.End();
+                }
+                else
+                {
+                    string url = DomainUrlHelper.MqWebSiteBg + "/home/login";
+                    //UrlHelper.GenerateUrl("Login", "login", "home", null, RouteTable.Routes, Request.RequestContext, true)
+                    Response.Redirect(url);
+                }
+            }
+        }
+
     }
 }
