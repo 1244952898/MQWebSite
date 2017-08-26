@@ -41,6 +41,7 @@
                         <th lay-data="{field:'Title', width:600, align:'center'}">主 题</th>
                         <th lay-data="{field:'AddTime', width:180,sort:true, align:'center'}">发送时间</th>
                         <th lay-data="{field:'State', width:100, align:'center'}">状态</th>
+                        <th lay-data="{fixed:'right', width:150, align:'center',toolbar:'#barModel'}">删 除</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +50,7 @@
                         foreach (var bgEmail in Model)
                         {
                             <tr>
-                                <td>@bgEmail.Id</td>
+                                <td>@bgEmail.RecieverEmailId</td>
                                 <td>
                                     @if (!string.IsNullOrEmpty(bgEmail.FileUrl))
                                     {
@@ -61,7 +62,7 @@
                                 <td>@(bgEmail.SendUserId)(@(bgEmail.SendUserName))</td>
                                 <td>@bgEmail.Title</td>
                                 <td>@bgEmail.AddTime.ToString("yyyy-MM-dd hh:mm:ss")</td>
-                                <td>@(bgEmail.state == 0 ? "未读" : "已读")</td>
+                                <td>@(bgEmail.State == 0 ? "未读" : "已读")</td>
                                 <td></td>
                             </tr>
                         }

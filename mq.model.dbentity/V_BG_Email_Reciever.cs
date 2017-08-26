@@ -26,7 +26,8 @@ namespace mq.model.dbentity
         public Nullable<int> Lvl { get; set; }
         public string SendUserName { get; set; }
         public string Recievers { get; set; }
-        public int state { get; set; }
+        public int State { get; set; }
         public long RevieverUserId { get; set; }
+        public long RecieverEmailId { get; set; }
     }
 }

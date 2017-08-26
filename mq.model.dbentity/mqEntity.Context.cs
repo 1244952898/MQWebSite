@@ -45,7 +45,7 @@ namespace mq.model.dbentity
         public virtual DbSet<V_User_Area_Role_Department_Shop> V_User_Area_Role_Department_Shop { get; set; }
         public virtual DbSet<T_BG_UpFiles> T_BG_UpFiles { get; set; }
         public virtual DbSet<T_BG_Email> T_BG_Email { get; set; }
-        public virtual DbSet<T_BG_EmailReciever> T_BG_EmailReciever { get; set; }
         public virtual DbSet<V_BG_Email_Reciever> V_BG_Email_Reciever { get; set; }
+        public virtual DbSet<T_BG_EmailReciever> T_BG_EmailReciever { get; set; }
     }
 }

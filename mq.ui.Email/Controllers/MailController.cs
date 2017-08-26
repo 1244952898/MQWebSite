@@ -49,8 +49,8 @@ namespace mq.ui.Email.Controllers
 
         public ActionResult RecieveList()
         {
-            long userId = LoginHelper.UserId;
-            List<V_BG_Email_Reciever> list = _bgVEmailRecieverService.GetList(userId);
+            string  userName = LoginHelper.UserName;
+            List<V_BG_Email_Reciever> list = _bgVEmailRecieverService.GetList(userName);
             return View(list);
         }
 
@@ -118,7 +118,7 @@ namespace mq.ui.Email.Controllers
                 return Json(new { ErrorCode = "E001", ErrorMessage = "邮件信息添加失败！" });
             }
 
-            List<T_BG_EmailReciever> emailRecieverList = recieverUsers.Select(user => new T_BG_EmailReciever { EmailId = result, state = 0, RevieverUserId = user.ToLong(-1L) }).ToList();
+            List<T_BG_EmailReciever> emailRecieverList = recieverUsers.Select(user => new T_BG_EmailReciever { EmailId = result, State = 0, RevieverUserId = user.ToLong(-1L) }).ToList();
 
             bool reslt = _bgEmailRecieverService.BatchAdd(emailRecieverList);
             if (reslt)
@@ -192,6 +192,34 @@ namespace mq.ui.Email.Controllers
             email.IsDel = 1;
 
             if (_bgEmailService.Update(email))
+            {
+                return Json(new { ErrorCode = "E000", ErrorMessage = "邮件删除成功！" });
+            }
+            else
+            {
+                return Json(new { ErrorCode = "E004", ErrorMessage = "邮件删除失败！" });
+            }
+        }
+
+        public JsonResult DelRecieverEmail()
+        {
+            long recieverEmailId = CommonHelper.GetPostValue("recieverEmailId").ToLong(-1L);
+            if (recieverEmailId <= 0)
+            {
+                return Json(new { ErrorCode = "E001", ErrorMessage = "参数缺失！" });
+            }
+            T_BG_EmailReciever emailReciever = _bgEmailRecieverService.Get(recieverEmailId);
+            if (emailReciever == null)
+            {
+                return Json(new { ErrorCode = "E002", ErrorMessage = "未发现该邮件！" });
+            }
+            if (emailReciever.IsDel == 1)
+            {
+                return Json(new { ErrorCode = "E000", ErrorMessage = "该邮件已经被删除！" });
+            }
+
+            emailReciever.IsDel = 1;
+            if (_bgEmailRecieverService.Update(emailReciever))
             {
                 return Json(new { ErrorCode = "E000", ErrorMessage = "邮件删除成功！" });
             }

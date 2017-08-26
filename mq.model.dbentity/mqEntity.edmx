@@ -94,7 +94,8 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmailId" Type="bigint" Nullable="false" />
           <Property Name="RevieverUserId" Type="bigint" Nullable="false" />
-          <Property Name="state" Type="int" Nullable="false" />
+          <Property Name="State" Type="int" Nullable="false" />
+          <Property Name="IsDel" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="T_BG_LoginLog">
           <Key>
@@ -282,8 +283,9 @@
             <PropertyRef Name="SendUserId" />
             <PropertyRef Name="AddTime" />
             <PropertyRef Name="IsDel" />
-            <PropertyRef Name="state" />
+            <PropertyRef Name="State" />
             <PropertyRef Name="RevieverUserId" />
+            <PropertyRef Name="RecieverEmailId" />
           </Key>
           <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" />
@@ -297,8 +299,9 @@
           <Property Name="Lvl" Type="int" />
           <Property Name="SendUserName" Type="nvarchar" MaxLength="20" />
           <Property Name="Recievers" Type="nvarchar" MaxLength="200" />
-          <Property Name="state" Type="int" Nullable="false" />
+          <Property Name="State" Type="int" Nullable="false" />
           <Property Name="RevieverUserId" Type="bigint" Nullable="false" />
+          <Property Name="RecieverEmailId" Type="bigint" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“POS.dbo.V_BG_PublishFile_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -430,8 +433,9 @@
     [V_BG_Email_Reciever].[Lvl] AS [Lvl], 
     [V_BG_Email_Reciever].[SendUserName] AS [SendUserName], 
     [V_BG_Email_Reciever].[Recievers] AS [Recievers], 
-    [V_BG_Email_Reciever].[state] AS [state], 
-    [V_BG_Email_Reciever].[RevieverUserId] AS [RevieverUserId]
+    [V_BG_Email_Reciever].[State] AS [State], 
+    [V_BG_Email_Reciever].[RevieverUserId] AS [RevieverUserId], 
+    [V_BG_Email_Reciever].[RecieverEmailId] AS [RecieverEmailId]
     FROM [dbo].[V_BG_Email_Reciever] AS [V_BG_Email_Reciever]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BG_PublishFile_User" EntityType="Self.V_BG_PublishFile_User" store:Type="Views" store:Schema="dbo">
@@ -541,8 +545,8 @@
           <EntitySet Name="V_User_Area_Role_Department_Shop" EntityType="POSModel.V_User_Area_Role_Department_Shop" />
           <EntitySet Name="T_BG_UpFiles" EntityType="POSModel.T_BG_UpFiles" />
           <EntitySet Name="T_BG_Email" EntityType="POSModel.T_BG_Email" />
-          <EntitySet Name="T_BG_EmailReciever" EntityType="POSModel.T_BG_EmailReciever" />
           <EntitySet Name="V_BG_Email_Reciever" EntityType="POSModel.V_BG_Email_Reciever" />
+          <EntitySet Name="T_BG_EmailReciever" EntityType="POSModel.T_BG_EmailReciever" />
         </EntityContainer>
         <EntityType Name="T_BG_User">
           <Key>
@@ -837,23 +841,15 @@
           <Property Name="SendUserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Recievers" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="T_BG_EmailReciever">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmailId" Type="Int64" Nullable="false" />
-          <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
-          <Property Name="state" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="V_BG_Email_Reciever">
           <Key>
             <PropertyRef Name="Id" />
             <PropertyRef Name="SendUserId" />
             <PropertyRef Name="AddTime" />
             <PropertyRef Name="IsDel" />
-            <PropertyRef Name="state" />
+            <PropertyRef Name="State" />
             <PropertyRef Name="RevieverUserId" />
+            <PropertyRef Name="RecieverEmailId" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -867,8 +863,19 @@
           <Property Name="Lvl" Type="Int32" />
           <Property Name="SendUserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Recievers" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="state" Type="Int32" Nullable="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
           <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
+          <Property Name="RecieverEmailId" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_BG_EmailReciever">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailId" Type="Int64" Nullable="false" />
+          <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+          <Property Name="IsDel" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1211,21 +1218,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="T_BG_EmailReciever">
-            <EntityTypeMapping TypeName="POSModel.T_BG_EmailReciever">
-              <MappingFragment StoreEntitySet="T_BG_EmailReciever">
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="V_BG_Email_Reciever">
             <EntityTypeMapping TypeName="POSModel.V_BG_Email_Reciever">
               <MappingFragment StoreEntitySet="V_BG_Email_Reciever">
+                <ScalarProperty Name="RecieverEmailId" ColumnName="RecieverEmailId" />
                 <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
-                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Recievers" ColumnName="Recievers" />
                 <ScalarProperty Name="SendUserName" ColumnName="SendUserName" />
                 <ScalarProperty Name="Lvl" ColumnName="Lvl" />
@@ -1237,6 +1235,17 @@
                 <ScalarProperty Name="Context" ColumnName="Context" />
                 <ScalarProperty Name="SendUserId" ColumnName="SendUserId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_EmailReciever">
+            <EntityTypeMapping TypeName="POSModel.T_BG_EmailReciever">
+              <MappingFragment StoreEntitySet="T_BG_EmailReciever">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

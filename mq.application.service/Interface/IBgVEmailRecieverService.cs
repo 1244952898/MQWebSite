@@ -9,7 +9,7 @@ namespace mq.application.service
 {
     public interface IBgVEmailRecieverService
     {
-        List<V_BG_Email_Reciever> GetList(long userid);
+        List<V_BG_Email_Reciever> GetList(string userName);
 
         V_BG_Email_Reciever Get(long userid);
     }
