@@ -36,21 +36,44 @@ namespace mq.ui.Email.Controllers
         // GET: Mail
         public ActionResult Send()
         {
+            //emailid>0 (有参数) 代表的是回复邮件的
+            long emailid = CommonHelper.GetPostValue("emailid").ToLong(-1L);
+            ViewBag.id = emailid;
             List<T_BG_User> users = _bgUserService.GetList();
             return View(users);
+        }
+
+        public ActionResult RecieveList()
+        {
+            string userName = LoginHelper.UserName;
+            List<V_BG_Email_Reciever> list = _bgVEmailRecieverService.GetList(userName);
+            return View(list);
+        }
+
+        public ActionResult RecieveEmailMessage()
+        {
+            long recieverId = CommonHelper.GetPostValue("RecieverMailId").ToLong(-1L);
+
+            if (recieverId < 0)
+            {
+                var url = DomainUrlHelper.EmailPath + "/Menu/Error?errorCode=404&errorMessage=" +
+                          HttpUtility.UrlEncode("未发现该邮件！"); 
+                return Redirect(url);
+            }
+            V_BG_Email_Reciever email = _bgVEmailRecieverService.GetByRecieverMailId(recieverId);
+            if (email == null)
+            {
+                var url = DomainUrlHelper.EmailPath + "/Menu/Error?errorCode=404&errorMessage=" +
+                          HttpUtility.UrlEncode("未查询到该邮件！");
+                return Redirect(url);
+            }
+            return View(email);
         }
 
         public ActionResult SendList()
         {
             long userId = LoginHelper.UserId;
             List<T_BG_Email> list = _bgEmailService.List(userId);
-            return View(list);
-        }
-
-        public ActionResult RecieveList()
-        {
-            string  userName = LoginHelper.UserName;
-            List<V_BG_Email_Reciever> list = _bgVEmailRecieverService.GetList(userName);
             return View(list);
         }
 
@@ -172,7 +195,7 @@ namespace mq.ui.Email.Controllers
 
         }
 
-        public JsonResult DelEmail()
+        public JsonResult DelSendEmail()
         {
             long id = CommonHelper.GetPostValue("id").ToLong(-1L);
             if (id <= 0)

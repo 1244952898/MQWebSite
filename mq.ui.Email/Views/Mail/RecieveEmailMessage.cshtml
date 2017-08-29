@@ -1,5 +1,6 @@
-﻿@using mq.application.webmvc
-@model mq.model.dbentity.T_BG_Email
+﻿@using koala.application.common
+@using mq.application.webmvc
+@model mq.model.dbentity.V_BG_Email_Reciever
 @{
     ViewBag.Title = "邮件详细信息";
     Layout = "~/Views/Shared/_LayoutLayUI.cshtml";
@@ -29,8 +30,8 @@
         <div class="layui-col-md">
             <span class="layui-breadcrumb">
                 <a href="/">首页</a>
-                <a href="@(DomainUrlHelper.EmailPath)/mail/SendList">已发邮件列表</a>
-                <a><cite>邮件详细信息</cite></a>
+                <a href="@(DomainUrlHelper.EmailPath)/mail/RecieveList">收到邮件列表</a>
+                <a><cite>收到邮件的详细信息</cite></a>
             </span>
         </div>
     </div>
@@ -52,7 +53,7 @@
                 <tbody>
                     <tr>
                         <td class="layui-bg-green">发件人</td>
-                        <td>@(Model.SendUserName)(@(Model.SendUserId))</td>
+                        <td>@(Model.SendUserName)(@(Model.RecieverEmailId))</td>
                         <td class="layui-bg-green">主 题</td>
                         <td>@(Model.Title)</td>
                         <td class="layui-bg-green">附件</td>
@@ -60,7 +61,7 @@
 
                             @if (!string.IsNullOrEmpty(Model.FileUrl))
                             {
-                                <a href="@Url.Action("DownloadFilePath", new { filepath = Model.FileUrl, filename = Model.FileName, filetype = Model.FileExt })">
+                                <a href="@Url.Action("DownloadFilePath", new {filepath = Model.FileUrl, filename = Model.FileName, filetype = Model.FileExt})">
                                     <i class="layui-icon" style="font-size: 26px; color: #1E9FFF;">&#xe622;</i>
                                 </a>
                             }
@@ -69,15 +70,13 @@
                         <td class="layui-bg-green">接收时间</td>
                         <td>@(Model.AddTime.ToString("yyyy/MM/dd"))</td>
                         <td class="layui-bg-green">级别</td>
-                        <td>人生就像行</td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td class="layui-bg-green">
-                            收件人
-                        </td>
+                        <td class="layui-bg-green">收件人</td>
                         <td colspan="9">
                             <div class="layui-input-block" style="margin-left: 0">
-                                <input type="text" class="layui-input" value="@(Model.Recievers)" readonly="readonly">
+                                <input type="text" class="layui-input" value="@(LoginHelper.UserName)(@LoginHelper.UserId)" readonly="readonly">
                             </div>
                         </td>
                     </tr>
@@ -93,14 +92,21 @@
                         <td class="layui-bg-green" style="vertical-align: middle;">
                             内容
                         </td>
-                        <td colspan="9" style="background-color:rgb(242,242,242)">
-                            <div class="layui-input-block" style=" width: 800px; height: 400px; text-align: left; background-color: white;border: 1px solid skyblue">
+                        <td colspan="9" style="background-color: rgb(242, 242, 242)">
+                            <div class="layui-input-block" style="width: 800px; height: 400px; text-align: left; background-color: white; border: 1px solid skyblue">
                                 @Html.Raw(Model.Context)
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="layui-col-md">
+            <button class="layui-btn layui-btn-normal" onclick="TurnUrl(1)">回复/转发</button>
+            <button class="layui-btn layui-btn-normal" onclick="TurnUrl(2)">返回</button>
         </div>
     </div>
 </div>
@@ -113,6 +119,17 @@
             height: 330 //设置编辑器高度
         });
 
+        $.post('@DomainUrlHelper.EmailPath/Api/MailApi/UpdateRead?recieverEmailId=@Model.RecieverEmailId');
 
     });
+
+    function TurnUrl(id) {
+        var url;
+        if (id==1) {
+            url = '@(DomainUrlHelper.EmailPath)/mail/send?emailid=@Model.Id';
+        } else {
+            url = '@(DomainUrlHelper.EmailPath)/mail/SendList';
+        }
+        location.href = url;
+    }
 </script>

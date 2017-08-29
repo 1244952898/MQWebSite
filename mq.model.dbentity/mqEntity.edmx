@@ -286,6 +286,7 @@
             <PropertyRef Name="State" />
             <PropertyRef Name="RevieverUserId" />
             <PropertyRef Name="RecieverEmailId" />
+            <PropertyRef Name="RevieverIsDel" />
           </Key>
           <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" />
@@ -302,6 +303,7 @@
           <Property Name="State" Type="int" Nullable="false" />
           <Property Name="RevieverUserId" Type="bigint" Nullable="false" />
           <Property Name="RecieverEmailId" Type="bigint" Nullable="false" />
+          <Property Name="RevieverIsDel" Type="int" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“POS.dbo.V_BG_PublishFile_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -435,7 +437,8 @@
     [V_BG_Email_Reciever].[Recievers] AS [Recievers], 
     [V_BG_Email_Reciever].[State] AS [State], 
     [V_BG_Email_Reciever].[RevieverUserId] AS [RevieverUserId], 
-    [V_BG_Email_Reciever].[RecieverEmailId] AS [RecieverEmailId]
+    [V_BG_Email_Reciever].[RecieverEmailId] AS [RecieverEmailId], 
+    [V_BG_Email_Reciever].[RevieverIsDel] AS [RevieverIsDel]
     FROM [dbo].[V_BG_Email_Reciever] AS [V_BG_Email_Reciever]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BG_PublishFile_User" EntityType="Self.V_BG_PublishFile_User" store:Type="Views" store:Schema="dbo">
@@ -500,32 +503,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="POSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="T_User">
-          <Key>
-            <PropertyRef Name="Code" />
-            <PropertyRef Name="Type" />
-          </Key>
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="DepartmentId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="Birthday" Type="DateTime" Precision="3" />
-          <Property Name="IDCard" Type="String" MaxLength="18" FixedLength="true" Unicode="true" />
-          <Property Name="StatusCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="BasePay" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="OtherAllance" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Post" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AddTime" Type="DateTime" Precision="3" />
-          <Property Name="Frozen" Type="Boolean" />
-          <Property Name="OperationLvl" Type="Int32" />
-          <Property Name="PassWord" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="IsSaler" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="POSEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="T_User" EntityType="Self.T_User" />
           <EntitySet Name="T_BG_User" EntityType="POSModel.T_BG_User" />
           <EntitySet Name="T_BG_LoginLog" EntityType="POSModel.T_BG_LoginLog" />
           <EntitySet Name="T_BG_Menu" EntityType="POSModel.T_BG_Menu" />
@@ -545,8 +523,9 @@
           <EntitySet Name="V_User_Area_Role_Department_Shop" EntityType="POSModel.V_User_Area_Role_Department_Shop" />
           <EntitySet Name="T_BG_UpFiles" EntityType="POSModel.T_BG_UpFiles" />
           <EntitySet Name="T_BG_Email" EntityType="POSModel.T_BG_Email" />
-          <EntitySet Name="V_BG_Email_Reciever" EntityType="POSModel.V_BG_Email_Reciever" />
           <EntitySet Name="T_BG_EmailReciever" EntityType="POSModel.T_BG_EmailReciever" />
+          <EntitySet Name="V_BG_Email_Reciever" EntityType="POSModel.V_BG_Email_Reciever" />
+          <EntitySet Name="T_User" EntityType="POSModel.T_User" />
         </EntityContainer>
         <EntityType Name="T_BG_User">
           <Key>
@@ -841,6 +820,16 @@
           <Property Name="SendUserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Recievers" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="T_BG_EmailReciever">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailId" Type="Int64" Nullable="false" />
+          <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+          <Property Name="IsDel" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="V_BG_Email_Reciever">
           <Key>
             <PropertyRef Name="Id" />
@@ -850,6 +839,7 @@
             <PropertyRef Name="State" />
             <PropertyRef Name="RevieverUserId" />
             <PropertyRef Name="RecieverEmailId" />
+            <PropertyRef Name="RevieverIsDel" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -866,16 +856,31 @@
           <Property Name="State" Type="Int32" Nullable="false" />
           <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
           <Property Name="RecieverEmailId" Type="Int64" Nullable="false" />
+          <Property Name="RevieverIsDel" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="T_BG_EmailReciever">
+        <EntityType Name="T_User">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Type" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmailId" Type="Int64" Nullable="false" />
-          <Property Name="RevieverUserId" Type="Int64" Nullable="false" />
-          <Property Name="State" Type="Int32" Nullable="false" />
-          <Property Name="IsDel" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="3" />
+          <Property Name="IDCard" Type="String" MaxLength="18" FixedLength="true" Unicode="true" />
+          <Property Name="StatusCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BasePay" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="OtherAllance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Post" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="Frozen" Type="Boolean" />
+          <Property Name="OperationLvl" Type="Int32" />
+          <Property Name="PassWord" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsSaler" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -883,30 +888,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="POSModelStoreContainer" CdmEntityContainer="POSEntities">
-          <EntitySetMapping Name="T_User">
-            <EntityTypeMapping TypeName="POSModel.T_User">
-              <MappingFragment StoreEntitySet="T_User">
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
-                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
-                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
-                <ScalarProperty Name="BasePay" ColumnName="BasePay" />
-                <ScalarProperty Name="OtherAllance" ColumnName="OtherAllance" />
-                <ScalarProperty Name="Post" ColumnName="Post" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
-                <ScalarProperty Name="Frozen" ColumnName="Frozen" />
-                <ScalarProperty Name="OperationLvl" ColumnName="OperationLvl" />
-                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
-                <ScalarProperty Name="IsSaler" ColumnName="IsSaler" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="T_BG_User">
             <EntityTypeMapping TypeName="POSModel.T_BG_User">
               <MappingFragment StoreEntitySet="T_BG_User">
@@ -1218,9 +1199,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="T_BG_EmailReciever">
+            <EntityTypeMapping TypeName="POSModel.T_BG_EmailReciever">
+              <MappingFragment StoreEntitySet="T_BG_EmailReciever">
+                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_BG_Email_Reciever">
             <EntityTypeMapping TypeName="POSModel.V_BG_Email_Reciever">
               <MappingFragment StoreEntitySet="V_BG_Email_Reciever">
+                <ScalarProperty Name="RevieverIsDel" ColumnName="RevieverIsDel" />
                 <ScalarProperty Name="RecieverEmailId" ColumnName="RecieverEmailId" />
                 <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
                 <ScalarProperty Name="State" ColumnName="State" />
@@ -1239,14 +1232,27 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="T_BG_EmailReciever">
-            <EntityTypeMapping TypeName="POSModel.T_BG_EmailReciever">
-              <MappingFragment StoreEntitySet="T_BG_EmailReciever">
-                <ScalarProperty Name="IsDel" ColumnName="IsDel" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="RevieverUserId" ColumnName="RevieverUserId" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="T_User">
+            <EntityTypeMapping TypeName="POSModel.T_User">
+              <MappingFragment StoreEntitySet="T_User">
+                <ScalarProperty Name="IsSaler" ColumnName="IsSaler" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="OperationLvl" ColumnName="OperationLvl" />
+                <ScalarProperty Name="Frozen" ColumnName="Frozen" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="OtherAllance" ColumnName="OtherAllance" />
+                <ScalarProperty Name="BasePay" ColumnName="BasePay" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

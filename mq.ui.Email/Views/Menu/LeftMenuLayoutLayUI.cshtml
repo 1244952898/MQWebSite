@@ -22,7 +22,7 @@
                     <dl class="layui-nav-child">
                         @foreach (var item2 in bgMenus)
                         {
-                            <dd class="@(fcls)"><a href="javascript:;">@(item2.Name)</a></dd>
+                            <dd class="@(fcls)"><a href="@(item2.URL)">@(item2.Name)</a></dd>
                         }
                     </dl>
                 }
@@ -30,13 +30,3 @@
         }
     }
 </ul>
-<script>
-    layui.use('element', function () {
-        var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
-
-        //监听导航点击
-        element.on('nav(demolf)', function (elem) {
-
-        });
-    });
-</script>

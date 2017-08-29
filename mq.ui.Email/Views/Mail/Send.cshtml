@@ -23,7 +23,11 @@
     <div class="layui-box box1">
         <span class="layui-breadcrumb">
             <a href="">首页</a>
-            <a href="@(DomainUrlHelper.EmailPath)/mail/SendList">已发邮件列表</a>
+            @if ((int)ViewBag.id > 0)
+            {
+                <a href="@(DomainUrlHelper.EmailPath)/mail/SendList">已发邮件列表</a>
+            }
+           
             <a><cite>发送邮件</cite></a>
         </span>
     </div>
@@ -48,12 +52,12 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">主 题</label>
-                <div class="layui-input-inline" style="width: 600px;">
-                    <input type="text" id="" name="title" lay-verify="title" placeholder="请输入邮件主题" class="layui-input">
+                <div class="layui-input-inline" style="width: 700px;">
+                    <input type="text" id="title" name="title" lay-verify="title" placeholder="请输入邮件主题" class="layui-input">
                 </div>
             </div>
 
-            <div class="layui-form-item">
+            @*<div class="layui-form-item">
                 <label class="layui-form-label">邮件发送</label>
                 <div class="layui-input-block">
                     <input type="checkbox" name="sendSet" lay-skin="switch">
@@ -63,7 +67,7 @@
                     </div>
                 </div>
                 <div class="layui-form-mid layui-word-aux" style="color: red">设置是否同时将将邮件发送到这些用户的登记邮箱(如QQ,新浪,outlook等邮箱)里！</div>
-            </div>
+            </div>*@
 
 
 
@@ -114,10 +118,10 @@
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit lay-filter="sendEmail">发 送</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" onclick="ClearTRext();">重置</button>
                 </div>
             </div>     
         </div>
-
     </div>
 </div>
 <div class="layui-box" id="userList" style="display:none;margin:0 20px 0 20px">
@@ -139,7 +143,7 @@
             {
                 foreach (var user in Model)
                 {
-                    <tr data-name="@user.Name">
+                    <tr data-name="@user.Name" id="@user.ID">
                         <td>@user.ID</td>
                         <td>@user.Name</td>
                         <td>@user.Email</td>
@@ -150,19 +154,83 @@
     </table>
 </div>
 
-
 <input type="hidden" id="fileurl" value="" />
 <input type="hidden" id="fileorgname" value="" />
 <input type="hidden" id="fileext" value="" />
 <script type="text/javascript">
+
+    function ClearTRext() {
+        //layui没有自动重置富文本编辑器
+        $('#usernames').val('');
+        $('#title').val('');
+        $('#LAY_editor').text('');
+        var name = '#LAY_layedit_' + editIndex;
+        $(name).contents().find('body').text('');
+    }
+
+    function GetModel(id) {
+
+        var layId;
+        $.ajax({
+            type: 'POST',
+            url: '@DomainUrlHelper.EmailPath/Api/MailApi/GetModel?EmailId=' + id,
+            beforeSend: function () {
+                layId = layer.load(2);
+            },
+            success: function (dat) {
+                if (dat.ErrorCode == "E000") {
+
+                    $('#usernames').val(dat.Email.SendUserName);
+                    var classid = '#' + dat.Email.SendUserId;
+                    $(classid).css('background-color', '#c2c2c2');
+
+                    $('#title').val(dat.Email.Title+'(回复)');
+
+                    //$('#filename').text(dat.Email.FileName).show();
+                    //$('#delBtn').show();
+                    //$('#uploader').css('left', '-99999px');
+                    //$('#fileorgname').val(dat.Email.FileName);
+                    //$('#fileurl').val(dat.Email.FileUrl);
+                    //$('#fileext').val(dat.Email.FileExt);
+
+                    $('#LAY_editor').text(dat.Email.Context);
+                    var name = '#LAY_layedit_' + editIndex;
+                    $(name).contents().find('body').html(dat.Email.Context);
+
+                } else {
+                    layer.alert(dat.ErrorMessage, {
+                        icon: 2, //第三方扩展皮肤0=！；1=对勾；2=X;3=?;4=锁；5=哭脸；6=笑脸；
+                        skin: 'layer-ext-moon'
+                    });
+                }
+            },
+            error: function (a, b, c) {
+            },
+            complete: function () {
+                layer.closeAll();
+            }
+        });
+
+        $('#LAY_editor').text('aa');
+        var name = '#LAY_layedit_' + editIndex;
+        $(name).contents().find('body').text('aa');
+    }
+
     var element;
+    var editIndex;
     layui.use(['form', 'layer', 'layedit', 'element'], function () {
         var form = layui.form(), layer = layui.layer;
         var layedit = layui.layedit;
         element = layui.element();
 
+        var id = '@(ViewBag.id)';
+        if (id > 0) {
+            GetModel(id);
+        }
+        
+
         //构建一个默认的编辑器
-        var editIndex = layedit.build('LAY_editor', {
+        editIndex = layedit.build('LAY_editor', {
             tool: ['strong', 'italic', 'underline', 'del', '|', 'left', 'center', 'right', 'link', 'unlink', 'face']
         });
 
@@ -180,6 +248,7 @@
                 layedit.sync(editIndex);
             }
         });
+
 
         //监听提交
         form.on('submit(sendEmail)', function (data) {
@@ -248,7 +317,7 @@
 
     });
 
-   // 发送邮件
+    // 发送邮件
     function SendEmail(url, pars) {
         $.post(url, pars, function (datas) {
             if (datas.ErrorCode == "E000") {

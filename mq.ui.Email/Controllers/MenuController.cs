@@ -20,7 +20,7 @@ namespace mq.ui.Email.Controllers
             int channelId = CommonHelper.GetPostValue("cid").ToInt(0);
             ViewBag.ChannelId = channelId;
             long userId = LoginHelper.UserId;
-            var menuList = _bgMenuService.GetBgMenuByUserId(1);
+            var menuList = _bgMenuService.GetBgMenuByUserId(userId);
             return PartialView(menuList);
         }
 
@@ -29,16 +29,16 @@ namespace mq.ui.Email.Controllers
             int channelId = CommonHelper.GetPostValue("cid").ToInt(0);
             ViewBag.ChannelId = channelId;
             long userId = LoginHelper.UserId;
-            var menuList = _bgMenuService.GetBgMenuByUserId(1);
+            var menuList = _bgMenuService.GetBgMenuByUserId(userId);
             return PartialView(menuList);
         }
 
-        public ActionResult LeftMenu2()
+        public ActionResult LeftMenuLayoutLayUI()
         {
             int channelId = CommonHelper.GetPostValue("cid").ToInt(0);
             ViewBag.ChannelId = channelId;
             long userId = LoginHelper.UserId;
-            var menuList = _bgMenuService.GetBgMenuByUserId(1);
+            var menuList = _bgMenuService.GetBgMenuByUserId(userId);
             return PartialView(menuList);
         }
 

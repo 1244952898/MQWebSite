@@ -105,7 +105,7 @@
                     var layId;
                     $.ajax({
                         type: 'POST',
-                        url: '@DomainUrlHelper.EmailPath/Mail/DelEmail?id=' + id,
+                        url: '@DomainUrlHelper.EmailPath/Mail/DelSendEmail?id=' + id,
                         beforeSend: function () {
                             layId = layer.load(2);
                         },

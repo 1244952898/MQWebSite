@@ -23,7 +23,7 @@ namespace mq.application.service
             {
                 PredicateGroup pmain = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
                 pmain.Predicates.Add(Predicates.Field<V_BG_Email_Reciever>(f => f.RevieverUserId, Operator.Eq, userName));
-                pmain.Predicates.Add(Predicates.Field<V_BG_Email_Reciever>(f => f.IsDel, Operator.Eq, 0));
+                pmain.Predicates.Add(Predicates.Field<V_BG_Email_Reciever>(f => f.RevieverIsDel, Operator.Eq, 0));
 
                 IList<ISort> sort = new List<ISort> { Predicates.Sort<V_BG_Email_Reciever>(o => o.AddTime, false) };
 
@@ -42,6 +42,22 @@ namespace mq.application.service
             {
                 PredicateGroup pmain = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
                 pmain.Predicates.Add(Predicates.Field<V_BG_Email_Reciever>(f => f.RevieverUserId, Operator.Eq, userid));
+                pmain.Predicates.Add(Predicates.Field<V_BG_Email_Reciever>(f => f.IsDel, Operator.Eq, 0));
+
+                return _bgVEmailRecieverRepository.GetModel(pmain);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public V_BG_Email_Reciever GetByRecieverMailId(long emailId)
+        {
+            try
+            {
+                PredicateGroup pmain = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+                pmain.Predicates.Add(Predicates.Field<V_BG_Email_Reciever>(f => f.RecieverEmailId, Operator.Eq, emailId));
                 pmain.Predicates.Add(Predicates.Field<V_BG_Email_Reciever>(f => f.IsDel, Operator.Eq, 0));
 
                 return _bgVEmailRecieverRepository.GetModel(pmain);

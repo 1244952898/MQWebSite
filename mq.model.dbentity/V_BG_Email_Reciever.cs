@@ -29,5 +29,6 @@ namespace mq.model.dbentity
         public int State { get; set; }
         public long RevieverUserId { get; set; }
         public long RecieverEmailId { get; set; }
+        public int RevieverIsDel { get; set; }
     }
 }

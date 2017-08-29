@@ -26,7 +26,7 @@
         <div class="layui-col-md">
             <span class="layui-breadcrumb">
                 <a href="/">首页</a>
-                <a><cite>收到邮件</cite></a>
+                <a><cite>收到邮件列表</cite></a>
             </span>
         </div>
     </div>
@@ -60,7 +60,9 @@
                                     }
                                 </td>
                                 <td>@(bgEmail.SendUserId)(@(bgEmail.SendUserName))</td>
-                                <td>@bgEmail.Title</td>
+                                <td>
+                                    <a href="@Url.Action("RecieveEmailMessage", new { RecieverMailId = bgEmail.RecieverEmailId })" style="color: skyblue">@bgEmail.Title</a>
+                                </td>
                                 <td>@bgEmail.AddTime.ToString("yyyy-MM-dd hh:mm:ss")</td>
                                 <td>@(bgEmail.State == 0 ? "未读" : "已读")</td>
                                 <td></td>
@@ -101,7 +103,7 @@
                     var layId;
                     $.ajax({
                         type: 'POST',
-                        url: '@DomainUrlHelper.EmailPath/Mail/DelEmail?id=' + id,
+                        url: '@DomainUrlHelper.EmailPath/Mail/DelRecieverEmail?recieverEmailId=' + id,
                         beforeSend: function () {
                             layId = layer.load(2);
                         },
