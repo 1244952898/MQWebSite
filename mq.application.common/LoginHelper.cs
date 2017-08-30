@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
-using mq.application.common;
+using koala.application.common;
 using mq.model.dbentity;
 
-namespace koala.application.common
+namespace mq.application.common
 {
     public class LoginHelper
     {
