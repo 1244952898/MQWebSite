@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Security;
-using System.Web.SessionState;
 using System.Web.Http;
 using System.Web.Optimization;
-using koala.application.common;
 using mq.application.common;
 using mq.application.webmvc;
 
@@ -66,7 +62,7 @@ namespace mq.ui.Email
                 }
                 else
                 {
-                    string url = DomainUrlHelper.MqWebSiteBg + "/home/login";
+                    string url = DomainUrlHelper.PublicMessagePath + "/Login/Login";
                     //UrlHelper.GenerateUrl("Login", "login", "home", null, RouteTable.Routes, Request.RequestContext, true)
                     Response.Redirect(url);
                 }

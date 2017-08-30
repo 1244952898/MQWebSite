@@ -7,7 +7,7 @@ using Autofac.Integration.WebApi;
 
 namespace mq.ui.Email
 {
-    public class AutofacConfig
+    public static class AutofacConfig
     {
         public static void Register()
         {
