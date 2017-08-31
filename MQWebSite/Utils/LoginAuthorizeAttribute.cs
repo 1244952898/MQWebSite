@@ -6,6 +6,7 @@ using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using System.Web.Routing;
 using koala.application.common;
+using mq.application.common;
 using mq.application.webmvc;
 using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
 using RedirectResult = System.Web.Http.Results.RedirectResult;

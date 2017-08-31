@@ -103,7 +103,7 @@ namespace mq.ui.EmployeeWebSite
                 }
                 else
                 {
-                    string url = DomainUrlHelper.MqWebSiteBg + "/home/login";
+                    string url = DomainUrlHelper.PublicMessagePath + "/Login/Login";
                     //UrlHelper.GenerateUrl("Login", "login", "home", null, RouteTable.Routes, Request.RequestContext, true)
                     Response.Redirect(url);
                 }
