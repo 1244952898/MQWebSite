@@ -1,0 +1,124 @@
+﻿@using System.Web.Optimization
+@using mq.application.webmvc
+@{
+    Layout = null;
+    string errorCode = ViewBag.errorCode ?? "未知原因";
+    string errorMessage = ViewBag.errorMessage ?? "发生未知错误";
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    @Styles.Render("~/css/mainerror", "~/css/ie8", "~/css/tipsy")
+    @Scripts.Render("~/js/jquery", "~/js/custom-scripts", "~/js/jquery.tipsy")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            universalPreloader();
+        });
+
+        $(window).load(function () {
+            universalPreloaderRemove();
+            rotate();
+            dogRun();
+            dogTalk();
+            $('.with-tooltip').tipsy({ gravity: $.fn.tipsy.autoNS });
+
+        });
+    </script>
+    <title>@(errorCode) - @(errorMessage)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+
+    <!-- Universal preloader -->
+    <div id="universal-preloader">
+        <div class="preloader">
+            <img src="@(DomainUrlHelper.SourchPath)/images/universal-preloader.gif" alt="universal-preloader" class="universal-preloader-preloader" />
+        </div>
+    </div>
+    <!-- Universal preloader -->
+
+    <div id="wrapper">
+        <!-- 404 graphic -->
+        <div class="graphic"></div>
+        <!-- 404 graphic -->
+        <!-- Not found text -->
+        <div class="not-found-text">
+            <h1 class="not-found-text">错误代码：@(errorCode)</h1>
+            <h1 class="not-found-text">错误原因：@(errorMessage), sorry!</h1>
+            <a href="#" class="with-tooltip" title="返 回 首 页(Return to the home page)">返回首页</a>
+        </div>
+        <!-- Not found text -->
+        <!-- search form -->
+        @*<div class="search">
+                <form name="search" method="get" action="#" />
+                <input type="text" name="search" value="Search ..." />
+                <input class="with-tooltip" title="Search!" type="submit" name="submit" value="" />
+                </form>
+            </div>*@
+        <!-- search form -->
+        <!-- top menu -->
+        @*<div class="top-menu">
+            <a href="#" class="with-tooltip" title="Return to the home page">Home</a>
+            | <a href="#" class="with-tooltip" title="Navigate through our sitemap">Sitemap</a>
+                | <a href="#" class="with-tooltip" title="Contact us!">Contact</a>
+                | <a href="http://www.cssmoban.com" class="with-tooltip" title="模板之家">模板之家</a>
+                </div>*@
+        <!-- top menu -->
+
+        <div class="dog-wrapper">
+            <!-- dog running -->
+            <div class="dog"></div>
+            <!-- dog running -->
+            <!-- dog bubble talking -->
+            <div class="dog-bubble">
+            </div>
+            <!-- The dog bubble rotates these -->
+            <div class="bubble-options">
+                <p class="dog-bubble">
+                    网页丢失了吗, 兄弟? 别急, I'm an excellent guide!
+                </p>
+                <p class="dog-bubble">
+                    <br />
+                    Arf! Arf!
+                </p>
+                <p class="dog-bubble">
+                    <br />
+                    别急，这个不知道怎么了！
+                </p>
+                <p class="dog-bubble">
+                    I wish I had a cookie<br /><img style="margin-top:8px" src="@(DomainUrlHelper.SourchPath)/images/cookie.png" alt="cookie" />
+                </p>
+                <p class="dog-bubble">
+                    <br />
+                    Geez! This is pretty tiresome!
+                </p>
+                <p class="dog-bubble">
+                    <br />
+                    Am I getting close?
+                </p>
+                <p class="dog-bubble">
+                    Or am I just going in circles? Nah...
+                </p>
+                <p class="dog-bubble">
+                    <br />
+                    OK, I'm officially lost now...
+                </p>
+                <p class="dog-bubble">
+                    老子想要一只猫 <br />
+                    <img style="margin-top:8px" src="@(DomainUrlHelper.SourchPath)/images/cat.png" alt="cat" />
+                </p>
+                <p class="dog-bubble">
+                    What are we supposed to be looking for, anyway?(*_*)
+                </p>
+            </div>
+            <!-- The dog bubble rotates these -->
+            <!-- dog bubble talking -->
+        </div>
+        <div class="planet"></div>
+    </div>
+</body>
+</html>
