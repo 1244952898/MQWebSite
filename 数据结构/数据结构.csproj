@@ -43,9 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="adjListNode.cs" />
+    <Compile Include="DirecNetAdjMatrix.cs" />
     <Compile Include="GraphAdjList.cs" />
     <Compile Include="GraphAdjMatrix.cs" />
     <Compile Include="IGraph.cs" />
+    <Compile Include="NetAdjMatrix.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

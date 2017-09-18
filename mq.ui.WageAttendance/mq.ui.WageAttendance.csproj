@@ -121,7 +121,32 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\mq.application.common\mq.application.common.csproj">
+      <Project>{f5d724ba-554f-4664-b285-e886ba4a80f2}</Project>
+      <Name>mq.application.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mq.application.enumlib\mq.application.enumlib.csproj">
+      <Project>{06342f0f-16ae-43d7-b322-ad139e95df12}</Project>
+      <Name>mq.application.enumlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mq.application.service\mq.application.service.csproj">
+      <Project>{189dca3a-c807-47c3-9aca-d1fd126e9331}</Project>
+      <Name>mq.application.service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mq.model.dbentity\mq.model.dbentity.csproj">
+      <Project>{972e976f-b1c2-4389-93ce-8034470c97a8}</Project>
+      <Name>mq.model.dbentity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mq.model.extendedentity\mq.model.extendedentity.csproj">
+      <Project>{60f20494-7cd6-42de-9976-5ccad7b48143}</Project>
+      <Name>mq.model.extendedentity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mq.model.viewentity\mq.model.viewentity.csproj">
+      <Project>{7267e24e-76e3-407b-976b-75b5a298dc49}</Project>
+      <Name>mq.model.viewentity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
