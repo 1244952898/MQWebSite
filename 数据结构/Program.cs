@@ -11,6 +11,14 @@ namespace 数据结构
         static void Main(string[] args)
         {
 
+
+            Sort sort=new Sort();
+
+            int[] ints1 = new int[] {42, 20, 17, 27, 13, 8, 18, 48};
+            sort.QuickSort(ints1, 0, 7);
+
+            int[] ints = sort.InsertSort(new int[]{1,7,4,2,9,8,6});
+
             #region 普鲁姆算法
             NetAdjMatrix<string> netAdjMatrix = new NetAdjMatrix<string>(5);
             netAdjMatrix.SetNode(0, new Node<string>("A"));
